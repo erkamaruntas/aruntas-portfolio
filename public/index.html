@@ -246,6 +246,13 @@
   .expanded h3 { font-size: 26px; line-height: 1.15; letter-spacing: -.03em; }
   .expanded p { color: var(--muted); font-size: 15px; line-height: 1.6; }
   .expanded.is-project p, .expanded.is-project .ex-label, .expanded.is-project .ex-list li { color: rgba(255,255,255,.85); }
+  .ex-split { display: grid; grid-template-columns: 1fr 34%; gap: 22px; align-items: stretch; }
+  .ex-col { display: grid; gap: 16px; align-content: start; }
+  .ex-col > * { animation: exIn .45s cubic-bezier(.2,.8,.2,1) both; }
+  .ex-col > *:nth-child(2) { animation-delay: .05s; } .ex-col > *:nth-child(3) { animation-delay: .1s; } .ex-col > *:nth-child(n+4) { animation-delay: .15s; }
+  .ex-portrait { width: 100%; height: 100%; min-height: 280px; object-fit: cover; object-position: center 30%; border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,.4); animation: exPhoto .6s .1s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes exPhoto { from { opacity: 0; scale: .92; } }
   .ex-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
   .ex-sub { margin-top: 2px; }
   .ex-head { display: flex; align-items: center; gap: 16px; }
@@ -331,15 +338,21 @@
         <span class="status"><span class="dot"></span> Staj ve junior pozisyonlara açığım</span>
       </div>
       <template class="more">
-        <div class="ex-head"><img class="ex-avatar" width="72" height="72" src="assets/erkam.jpg" alt=""><div><div class="ex-label">👋 Hakkımda</div><h3>Yusuf Erkam Aruntaş</h3><p class="ex-sub">Ürün odaklı Web &amp; Mobil Geliştirici</p></div></div>
-        <p>Fikirleri tasarımdan yayına kadar uçtan uca çalışan ürünlere dönüştürmeyi seviyorum. Bir ürünün yalnızca kodunu değil; kullanıcı deneyimini, ödeme akışını ve yayına alınmasını da üstleniyorum.</p>
-        <div class="ex-grid">
-          <div class="ex-box"><div class="ex-label">🎓 Eğitim</div><strong>OSTİM Teknik Üniversitesi</strong><span>Yazılım Mühendisliği · 4. sınıf · 2023–2027</span></div>
-          <div class="ex-box"><div class="ex-label">💼 Deneyim</div><strong>Barikat Siber Güvenlik</strong><span>Security Operations stajyeri · Haz–Tem 2025</span></div>
-          <div class="ex-box"><div class="ex-label">🎯 Aradığım</div><strong>Staj veya junior pozisyon</strong><span>Web ve mobil ürün geliştirme</span></div>
-          <div class="ex-box"><div class="ex-label">🌍 Diller</div><strong>Türkçe · İngilizce</strong><span>Ana dil · Orta seviye</span></div>
+        <div class="ex-split">
+          <div class="ex-col">
+          <div><div class="ex-label">👋 Hakkımda</div><h3>Yusuf Erkam Aruntaş</h3><p class="ex-sub">Ürün odaklı Web &amp; Mobil Geliştirici</p></div>
+          <p>Fikirleri tasarımdan yayına kadar uçtan uca çalışan ürünlere dönüştürmeyi seviyorum. Bir ürünün yalnızca kodunu değil; kullanıcı deneyimini, ödeme akışını ve yayına alınmasını da üstleniyorum.</p>
+          <div class="ex-grid">
+            <div class="ex-box"><div class="ex-label">🎓 Eğitim</div><strong>OSTİM Teknik Üniversitesi</strong><span>Yazılım Mühendisliği · 4. sınıf · 2023–2027</span></div>
+            <div class="ex-box"><div class="ex-label">💼 Deneyim</div><strong>Barikat Siber Güvenlik</strong><span>Security Operations stajyeri · Haz–Tem 2025</span></div>
+            <div class="ex-box"><div class="ex-label">🎯 Aradığım</div><strong>Staj veya junior pozisyon</strong><span>Web ve mobil ürün geliştirme</span></div>
+            <div class="ex-box"><div class="ex-label">🌍 Diller</div><strong>Türkçe · İngilizce</strong><span>Ana dil · Orta seviye</span></div>
+          </div>
+          <div class="ex-actions"><a href="mailto:erkam@aruntas.com">✉️ E-posta</a><a href="https://linkedin.com/in/yusuferkamaruntas" target="_blank" rel="noopener">LinkedIn</a><a href="https://github.com/erkamaruntas" target="_blank" rel="noopener">GitHub</a></div>
+        
+          </div>
+          <img class="ex-portrait" width="640" height="745" src="assets/erkam.jpg" alt="Yusuf Erkam Aruntaş">
         </div>
-        <div class="ex-actions"><a href="mailto:erkam@aruntas.com">✉️ E-posta</a><a href="https://linkedin.com/in/yusuferkamaruntas" target="_blank" rel="noopener">LinkedIn</a><a href="https://github.com/erkamaruntas" target="_blank" rel="noopener">GitHub</a></div>
       </template>
     </section>
 
@@ -746,7 +759,8 @@ function expandCard(card) {
   panel.innerHTML = `<div class="ex-inner">${tpl.innerHTML}</div>`;
   panel.querySelectorAll('[data-dynamic]').forEach(el => { el.outerHTML = `<div style="display:grid;gap:16px">${dynamic[el.dataset.dynamic]()}</div>`; });
   // Hedef boyut: kartın yaklaşık 3-4 katı alan (kenarlar ~1.9 kat), ekrana sığacak şekilde
-  const w = Math.min(Math.max(r.width * 1.9, 420), Math.max(720, r.width + 60), vw - 2 * m);
+  const maxW = card.classList.contains('intro') ? 920 : 720;
+  const w = Math.min(Math.max(r.width * 1.9, 420), Math.max(maxW, r.width + 60), vw - 2 * m);
   panel.style.cssText += `left:0;top:0;width:${w}px;visibility:hidden`;
   document.body.appendChild(panel);
   const h = Math.min(Math.max(panel.querySelector('.ex-inner').scrollHeight + 2, r.height), vh - 2 * m);
