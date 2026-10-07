@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yusuf Erkam Aruntaş · Web & Mobil Geliştirici</title>
+<meta name="description" content="Yusuf Erkam Aruntaş: ürün odaklı web ve mobil geliştirici. OSTİM Teknik Üniversitesi Yazılım Mühendisliği öğrencisi. Atelify ve Subtification projeleri.">
+<meta property="og:title" content="Yusuf Erkam Aruntaş · Web & Mobil Geliştirici">
+<meta property="og:description" content="Fikirleri tasarımdan yayına kadar uçtan uca çalışan ürünlere dönüştürüyorum.">
+<meta property="og:url" content="https://aruntas.com">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f3ef;
+    --card: rgba(255,255,255,.72);
+    --card-solid: #ffffff;
+    --border: rgba(0,0,0,.07);
+    --text: #141416;
+    --muted: #6b6b72;
+    --accent: #ff5a1f;
+    --violet: #7c3aed;
+    --cyan: #06b6d4;
+    --pink: #ec4899;
+    --green: #16a34a;
+    --spot: rgba(255,90,31,.14);
+    --gh-0: rgba(0,0,0,.06);
+    --blob-o: .55;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #09090b; --card: rgba(24,24,27,.66); --card-solid: #18181b; --border: rgba(255,255,255,.08);
+      --text: #f4f4f5; --muted: #a1a1aa; --accent: #ff7a42; --green: #4ade80;
+      --spot: rgba(255,122,66,.16); --gh-0: rgba(255,255,255,.06); --blob-o: .35;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #09090b; --card: rgba(24,24,27,.66); --card-solid: #18181b; --border: rgba(255,255,255,.08);
+    --text: #f4f4f5; --muted: #a1a1aa; --accent: #ff7a42; --green: #4ade80;
+    --spot: rgba(255,122,66,.16); --gh-0: rgba(255,255,255,.06); --blob-o: .35;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: Inter, system-ui, sans-serif; line-height: 1.5;
+    padding: 40px 16px 60px; overflow-x: hidden; transition: background .4s, color .4s;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ---------- Hareketli arka plan ---------- */
+  .blobs { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+  .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: var(--blob-o); }
+  .b1 { width: 480px; height: 480px; background: var(--accent); top: -120px; left: -80px; animation: float1 18s ease-in-out infinite; }
+  .b2 { width: 420px; height: 420px; background: var(--violet); top: 30%; right: -120px; animation: float2 22s ease-in-out infinite; }
+  .b3 { width: 380px; height: 380px; background: var(--cyan); bottom: -140px; left: 30%; animation: float3 20s ease-in-out infinite; }
+  .cursor-blob { width: 300px; height: 300px; background: var(--pink); opacity: calc(var(--blob-o) * .7); transform: translate(-50%, -50%); transition: left .8s ease-out, top .8s ease-out; left: 50%; top: 40%; }
+  @keyframes float1 { 50% { transform: translate(120px, 80px) scale(1.15); } }
+  @keyframes float2 { 50% { transform: translate(-140px, 60px) scale(.9); } }
+  @keyframes float3 { 50% { transform: translate(80px, -100px) scale(1.1); } }
+  .grain { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+  /* ---------- Grid ---------- */
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  .grid {
+    display: grid; gap: 14px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+      "intro intro p1 p1"
+      "intro intro p2 p2"
+      "stack stack clock now"
+      "stats gh gh gh"
+      "theme contact contact contact";
+  }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 24px;
+    padding: 24px; position: relative; overflow: hidden; min-height: 170px;
+    backdrop-filter: blur(18px) saturate(140%); -webkit-backdrop-filter: blur(18px) saturate(140%);
+    opacity: 0; animation: in .7s cubic-bezier(.2,.8,.2,1) forwards;
+    transition: transform .2s ease-out, border-color .3s, box-shadow .3s;
+    transform-style: preserve-3d; will-change: transform;
+  }
+  @keyframes in { from { opacity: 0; translate: 0 24px; scale: .97; } to { opacity: 1; translate: 0 0; scale: 1; } }
+  /* İmleci takip eden ışık */
+  .card::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: radial-gradient(380px circle at var(--x, 50%) var(--y, 50%), var(--spot), transparent 60%);
+    opacity: 0; transition: opacity .3s;
+  }
+  .card:hover::before { opacity: 1; }
+  .card:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); box-shadow: 0 20px 50px -20px color-mix(in srgb, var(--accent) 40%, transparent); }
+  .label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+
+  /* ---------- Tanıtım ---------- */
+  .intro { grid-area: intro; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+  .avatar-wrap { position: relative; width: 76px; height: 76px; }
+  .avatar-wrap::before { content: ""; position: absolute; inset: -4px; border-radius: 50%;
+    background: conic-gradient(var(--accent), var(--pink), var(--violet), var(--cyan), var(--accent)); animation: spin 4s linear infinite; }
+  .avatar { position: absolute; inset: 0; border-radius: 50%; background: var(--card-solid); display: grid; place-items: center; font-weight: 800; font-size: 26px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .intro h1 { font-size: clamp(32px, 4.4vw, 50px); line-height: 1.05; letter-spacing: -.035em; margin: 22px 0 10px; }
+  .grad {
+    background: linear-gradient(90deg, var(--accent), var(--pink), var(--violet), var(--cyan), var(--accent));
+    background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: shimmer 6s linear infinite;
+  }
+  @keyframes shimmer { to { background-position: 300% 0; } }
+  .wave { display: inline-block; transform-origin: 70% 70%; animation: wave 2.4s ease-in-out infinite; }
+  @keyframes wave { 0%,60%,100% { transform: rotate(0); } 10%,30% { transform: rotate(14deg); } 20% { transform: rotate(-8deg); } 40% { transform: rotate(-4deg); } 50% { transform: rotate(10deg); } }
+  .role { font-family: "JetBrains Mono", monospace; font-size: 17px; color: var(--accent); min-height: 26px; }
+  .caret { display: inline-block; width: 2px; height: 1.1em; background: var(--accent); vertical-align: -3px; margin-left: 2px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .intro p { color: var(--muted); font-size: 16px; max-width: 440px; margin-top: 12px; }
+  .intro-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 999px; font-weight: 600; font-size: 14px; transition: transform .2s, background .2s; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary { background: var(--text); color: var(--bg); }
+  .btn-ghost { border: 1px solid var(--border); background: var(--card-solid); }
+  .status { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--muted); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(74,222,128,.7);} 70% { box-shadow: 0 0 0 10px rgba(74,222,128,0);} 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0);} }
+
+  /* ---------- Projeler ---------- */
+  .project { color: #fff; border: 0; min-height: 250px; padding: 0; display: flex; align-items: flex-end; }
+  .project.p1 { grid-area: p1; background: linear-gradient(135deg, #7c3aed, #db2777); }
+  .project.p2 { grid-area: p2; background: linear-gradient(135deg, #0891b2, #10b981); }
+  .project::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 35%, rgba(0,0,0,.45)); pointer-events: none; }
+  .project::before { --spot: rgba(255,255,255,.25); }
+  .project .info { position: relative; z-index: 2; padding: 22px 24px; width: 100%; display: flex; justify-content: space-between; align-items: flex-end; gap: 14px; }
+  .project h3 { font-size: 24px; letter-spacing: -.02em; }
+  .project p { font-size: 14px; opacity: .85; max-width: min(300px, 62%); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .tag { font-size: 11.5px; padding: 3px 10px; border-radius: 999px; background: rgba(255,255,255,.18); backdrop-filter: blur(6px); }
+  .arrow { width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; background: #fff; color: #111; display: grid; place-items: center; font-size: 18px; transition: transform .35s cubic-bezier(.3,1.6,.5,1); }
+  .project:hover .arrow { transform: rotate(-45deg) scale(1.1); }
+  .live { position: absolute; top: 18px; left: 20px; z-index: 2; font-size: 11px; font-family: "JetBrains Mono", monospace; display: flex; align-items: center; gap: 6px;
+    background: rgba(0,0,0,.25); padding: 4px 10px; border-radius: 999px; backdrop-filter: blur(6px); }
+  .live .dot { width: 6px; height: 6px; }
+
+  /* Mockup: tarayıcı */
+  .mock { position: absolute; z-index: 1; transition: transform .6s cubic-bezier(.2,.8,.2,1); }
+  .browser { right: -20px; top: 18px; width: 56%; height: 112px; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,.25); transform: rotate(-4deg); animation: bob 6s ease-in-out infinite; }
+  .browser .top { height: 20px; border-bottom: 1px solid #eee; display: flex; gap: 5px; align-items: center; padding: 0 10px; background: #f6f6f6; }
+  .browser .top i { width: 7px; height: 7px; border-radius: 50%; background: #ddd; }
+  .shot-img { display: block; width: 100%; object-fit: cover; object-position: top; }
+  .browser .shot-img { height: calc(100% - 20px); }
+  .project:hover .browser { transform: rotate(-1deg) translateY(-14px) scale(1.04); }
+  /* Mockup: telefon */
+  .phone { right: 80px; top: 18px; width: 84px; height: 172px; background: #111; border-radius: 20px; padding: 5px; box-shadow: 0 20px 40px rgba(0,0,0,.3); transform: rotate(8deg); animation: bob 7s ease-in-out infinite reverse; }
+  .phone .scr { width: 100%; height: 100%; border-radius: 15px; overflow: hidden; background: #fff; }
+  .phone .shot-img { height: 100%; }
+  .project:hover .phone { transform: rotate(2deg) translateY(-14px) scale(1.05); }
+  @keyframes bob { 50% { translate: 0 -8px; } }
+
+  /* ---------- Teknolojiler (kayan şerit) ---------- */
+  .stack { grid-area: stack; padding: 24px 0; }
+  .stack .label { padding: 0 24px; }
+  .marquee { display: flex; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); margin-top: 6px; }
+  .track { display: flex; gap: 8px; padding-right: 8px; flex-shrink: 0; animation: marquee 22s linear infinite; }
+  .marquee.rev .track { animation-direction: reverse; animation-duration: 26s; }
+  .stack:hover .track { animation-play-state: paused; }
+  @keyframes marquee { to { transform: translateX(-100%); } }
+  .chip { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; font-family: "JetBrains Mono", monospace; font-size: 13px; padding: 9px 14px; border-radius: 12px; background: var(--card-solid); border: 1px solid var(--border); }
+  .chip i { width: 9px; height: 9px; border-radius: 3px; }
+
+  /* ---------- Saat ---------- */
+  .clock { grid-area: clock; display: flex; flex-direction: column; justify-content: space-between; }
+  .time { font-size: 42px; font-weight: 800; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+  .time .sec { color: var(--accent); }
+  .clock small { color: var(--muted); font-size: 13.5px; }
+  .sky { position: absolute; right: -24px; top: -24px; width: 96px; height: 96px; border-radius: 50%; background: radial-gradient(circle, #ffd166, #ff8c42); box-shadow: 0 0 60px #ffb347; animation: glow 4s ease-in-out infinite; }
+  .sky.night { background: radial-gradient(circle at 35% 35%, #f1f5f9, #94a3b8); box-shadow: 0 0 50px rgba(148,163,184,.6); }
+  @keyframes glow { 50% { transform: scale(1.08); } }
+
+  /* ---------- Şu an üzerinde çalışıyorum ---------- */
+  .now { grid-area: now; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
+  .now h4 { font-size: 18px; letter-spacing: -.02em; display: flex; align-items: center; gap: 8px; }
+  .now p { color: var(--muted); font-size: 13px; line-height: 1.45; margin-top: 4px; }
+  .crane { display: inline-block; animation: tilt 2.4s ease-in-out infinite; transform-origin: bottom center; }
+  @keyframes tilt { 50% { transform: rotate(-12deg); } }
+  .progress-head { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+  .progress-head b { color: var(--text); font-size: 13px; }
+  .bar { height: 10px; border-radius: 999px; background: var(--gh-0); overflow: hidden; }
+  .fill { height: 100%; width: 0; border-radius: inherit; transition: width 1.8s cubic-bezier(.2,.8,.2,1);
+    background: repeating-linear-gradient(-45deg, rgba(255,255,255,.25) 0 6px, transparent 6px 12px), linear-gradient(90deg, var(--accent), var(--pink), var(--violet));
+    background-size: 17px 17px, 100% 100%; animation: stripes .8s linear infinite; }
+  @keyframes stripes { to { background-position: 17px 0, 0 0; } }
+  .now small { font-size: 11.5px; color: var(--muted); display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+  .now small .dot { width: 6px; height: 6px; background: var(--accent); }
+
+  /* ---------- İstatistik ---------- */
+  .stats { grid-area: stats; display: flex; flex-direction: column; justify-content: space-between; gap: 6px; }
+  .stat { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+  .stat b { font-size: 28px; font-weight: 800; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+  .stat span { color: var(--muted); font-size: 13px; }
+
+  /* ---------- GitHub ---------- */
+  .gh { grid-area: gh; }
+  .gh-grid { display: grid; grid-template-rows: repeat(7, 1fr); grid-auto-flow: column; gap: 3px; }
+  .gh-grid i { aspect-ratio: 1; border-radius: 3px; background: var(--gh-0); transform: scale(0); animation: pop .4s cubic-bezier(.3,1.6,.5,1) forwards; transition: transform .15s; }
+  .gh-grid i:hover { transform: scale(1.6) !important; position: relative; z-index: 2; }
+  @keyframes pop { to { transform: scale(1); } }
+  .gh-meta { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 13px; margin-top: 12px; }
+  .legend { display: flex; gap: 3px; align-items: center; }
+  .legend i { width: 10px; height: 10px; border-radius: 2px; }
+
+  /* ---------- Tema ---------- */
+  .theme { grid-area: theme; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; user-select: none; }
+  .toggle { width: 70px; height: 38px; border-radius: 999px; background: linear-gradient(135deg, #7dd3fc, #fde68a); position: relative; transition: background .4s; }
+  .is-dark .toggle { background: linear-gradient(135deg, #1e1b4b, #4c1d95); }
+  .toggle::after { content: "☀️"; position: absolute; top: 4px; left: 4px; width: 30px; height: 30px; border-radius: 50%; background: #fff; display: grid; place-items: center; font-size: 15px; transition: left .45s cubic-bezier(.3,1.6,.5,1); box-shadow: 0 2px 6px rgba(0,0,0,.2); }
+  .is-dark .toggle::after { content: "🌙"; left: 36px; background: #e2e8f0; }
+  .theme strong { font-size: 18px; }
+
+  /* ---------- İletişim ---------- */
+  .contact { grid-area: contact; color: #fff; border: 0; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    background: linear-gradient(120deg, #ff5a1f, #ec4899, #7c3aed, #ff5a1f); background-size: 300% 300%; animation: in .7s cubic-bezier(.2,.8,.2,1) forwards, flow 10s ease infinite; }
+  @keyframes flow { 50% { background-position: 100% 50%; } }
+  .contact .label { color: rgba(255,255,255,.8); }
+  .contact h3 { font-size: clamp(24px, 3vw, 34px); line-height: 1.1; letter-spacing: -.03em; }
+  .contact-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .contact .btn { background: #fff; color: #111; border: 0; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer; }
+  .contact .btn.soft { background: rgba(255,255,255,.18); color: #fff; }
+  .badge { width: 120px; height: 120px; flex-shrink: 0; position: relative; display: grid; place-items: center; }
+  .badge svg { position: absolute; inset: 0; animation: spin 14s linear infinite; }
+  .badge text { fill: #fff; font-size: 9.6px; font-weight: 700; letter-spacing: 1.4px; }
+  .badge span { width: 52px; height: 52px; border-radius: 50%; background: #fff; color: #111; display: grid; place-items: center; font-size: 22px; transition: transform .4s cubic-bezier(.3,1.6,.5,1); }
+  .contact:hover .badge span { transform: rotate(-45deg) scale(1.1); }
+  .toast { position: fixed; left: 50%; bottom: 28px; translate: -50% 120px; background: var(--text); color: var(--bg); padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; transition: translate .4s cubic-bezier(.3,1.6,.5,1); z-index: 10; }
+  .toast.show { translate: -50% 0; }
+
+  footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 36px; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 880px) {
+    .grid { grid-template-columns: repeat(2, 1fr);
+      grid-template-areas: "intro intro" "p1 p1" "p2 p2" "stack stack" "clock now" "stats theme" "gh gh" "contact contact"; }
+  }
+  @media (max-width: 560px) {
+    body { padding-top: 16px; }
+    .grid { grid-template-columns: 1fr;
+      grid-template-areas: "intro" "p1" "p2" "stack" "clock" "now" "stats" "gh" "theme" "contact"; }
+    .contact { flex-direction: column; align-items: flex-start; }
+    .badge { width: 96px; height: 96px; align-self: flex-end; margin-top: -40px; }
+    .project { min-height: 400px; }
+    .project p { max-width: none; }
+    .browser { top: 56px; right: -16px; width: 86%; height: 150px; }
+    .phone { top: 52px; right: auto; left: 50%; margin-left: -42px; height: 168px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="blobs" aria-hidden="true">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="blob cursor-blob" id="cursorBlob"></div>
+</div>
+<div class="grain" aria-hidden="true"></div>
+
+<div class="wrap">
+  <div class="grid">
+
+    <section class="card intro" style="animation-delay:0s">
+      <div>
+        <div class="avatar-wrap"><div class="avatar">YA</div></div>
+        <h1>Merhaba, ben<br><span class="grad">Yusuf Erkam</span> <span class="wave">👋</span></h1>
+        <div class="role"><span id="role"></span><span class="caret"></span></div>
+        <p>OSTİM Teknik Üniversitesi Yazılım Mühendisliği 4. sınıf öğrencisiyim. React Native, TypeScript, Node.js ve PostgreSQL ile fikirleri tasarımdan yayına kadar uçtan uca çalışan ürünlere dönüştürüyorum.</p>
+      </div>
+      <div class="intro-foot">
+        <a class="btn btn-primary" href="#projeler">Projelerim ↓</a>
+        <a class="btn btn-ghost" href="https://github.com/erkamaruntas" target="_blank" rel="noopener">GitHub</a>
+        <span class="status"><span class="dot"></span> Staj ve junior pozisyonlara açığım</span>
+      </div>
+    </section>
+
+    <a class="card project p1" id="projeler" href="https://atelify.aruntas.com" target="_blank" rel="noopener" style="animation-delay:.08s">
+      <span class="live"><span class="dot"></span>atelify.aruntas.com</span>
+      <div class="mock browser">
+        <div class="top"><i></i><i></i><i></i></div>
+        <img class="shot-img" src="assets/atelify.jpg" alt="Atelify ana sayfası" loading="lazy">
+      </div>
+      <div class="info">
+        <div>
+          <h3>Atelify</h3>
+          <p>Fotoğrafları yapay zekâ ile kişiye özel mücevher tasarımlarına dönüştüren platform.</p>
+          <div class="tags"><span class="tag">Node.js</span><span class="tag">JavaScript</span><span class="tag">PostgreSQL</span><span class="tag">iyzico</span></div>
+        </div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card project p2" href="https://subtification.aruntas.com" target="_blank" rel="noopener" style="animation-delay:.16s">
+      <span class="live"><span class="dot"></span>subtification.aruntas.com</span>
+      <div class="mock phone">
+        <div class="scr"><img class="shot-img" src="assets/subtification.webp" alt="Subtification ana ekranı" loading="lazy"></div>
+      </div>
+      <div class="info">
+        <div>
+          <h3>Subtification</h3>
+          <p>Abonelik ve taksitleri takip eden iOS uygulaması. App Store onay sürecinde.</p>
+          <div class="tags"><span class="tag">React Native</span><span class="tag">TypeScript</span><span class="tag">PostgreSQL</span></div>
+        </div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <section class="card stack" style="animation-delay:.24s">
+      <div class="label">⚡ Teknolojiler</div>
+      <div class="marquee" id="m1"></div>
+      <div class="marquee rev" id="m2" style="margin-top:8px"></div>
+    </section>
+
+    <section class="card clock" style="animation-delay:.32s">
+      <div class="sky" id="sky"></div>
+      <div class="label">📍 Ankara</div>
+      <div class="time" id="time">--:--</div>
+      <small id="greet">Türkiye saati</small>
+    </section>
+
+    <section class="card now" style="animation-delay:.4s">
+      <div class="label"><span class="crane">🚧</span> Şu an yapıyorum</div>
+      <div>
+        <h4>Giderim: Ranvu</h4>
+        <p>İşletmeler için WhatsApp ve yapay zekâ asistanlı randevu platformu. 3 kişilik ekip.</p>
+      </div>
+      <div>
+        <div class="progress-head"><span>İlerleme</span><b><span data-count="80">0</span>%</b></div>
+        <div class="bar"><div class="fill" data-progress="80"></div></div>
+        <small><span class="dot"></span>Next.js · TypeScript · Prisma</small>
+      </div>
+    </section>
+
+    <section class="card stats" style="animation-delay:.48s">
+      <div class="label">📊 Sayılarla</div>
+      <div class="stat"><b data-count="3">0</b><span>proje</span></div>
+      <div class="stat"><b data-count="172">0</b><span>birim testi</span></div>
+      <div class="stat"><b data-count="999" data-suffix="+">0</b><span>kahve ☕</span></div>
+    </section>
+
+    <section class="card gh" style="animation-delay:.56s">
+      <div class="label">🟩 GitHub aktivitesi</div>
+      <div class="gh-grid" id="gh"></div>
+      <div class="gh-meta">
+        <a href="https://github.com/erkamaruntas" target="_blank" rel="noopener" id="ghTotal">@erkamaruntas →</a>
+        <span class="legend">Az <i style="background:var(--gh-0)"></i><i id="l1"></i><i id="l2"></i><i id="l3"></i><i id="l4"></i> Çok</span>
+      </div>
+    </section>
+
+    <section class="card theme" id="themeCard" style="animation-delay:.64s">
+      <div class="label">🎨 Tema</div>
+      <div class="toggle"></div>
+      <strong id="themeText">Açık mod</strong>
+    </section>
+
+    <section class="card contact" style="animation-delay:.72s">
+      <div>
+        <div class="label">✉️ İletişim</div>
+        <h3>Bir fikrin mi var?<br>Hadi konuşalım.</h3>
+        <div class="contact-actions">
+          <button class="btn" id="copyMail">erkam@aruntas.com kopyala</button>
+          <a class="btn soft" href="https://github.com/erkamaruntas" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn soft" href="https://linkedin.com/in/yusuferkamaruntas" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+      <a class="badge" href="mailto:erkam@aruntas.com" aria-label="E-posta gönder">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <defs><path id="circ" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs>
+          <text><textPath href="#circ">YENİ PROJELERE AÇIĞIM • MERHABA DE • </textPath></text>
+        </svg>
+        <span>→</span>
+      </a>
+    </section>
+
+  </div>
+  <footer>© 2026 aruntas.com · sevgiyle kodlandı</footer>
+</div>
+<div class="toast" id="toast">E-posta kopyalandı ✓</div>
+
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// İmleci takip eden ışık + 3D eğim
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    card.style.setProperty('--x', x + 'px'); card.style.setProperty('--y', y + 'px');
+    if (reduce) return;
+    const rx = ((y / r.height) - .5) * -6, ry = ((x / r.width) - .5) * 6;
+    card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+  });
+  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+});
+const blob = document.getElementById('cursorBlob');
+addEventListener('mousemove', e => { blob.style.left = e.clientX + 'px'; blob.style.top = e.clientY + 'px'; });
+
+// Daktilo efekti
+const roles = ['ürün odaklı geliştiriciyim.', 'web uygulamaları yapıyorum.', 'iOS uygulamaları yapıyorum.', 'fikirleri ürüne dönüştürüyorum.'];
+const roleEl = document.getElementById('role');
+(async function type() {
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  for (let i = 0; ; i = (i + 1) % roles.length) {
+    for (const ch of roles[i]) { roleEl.textContent += ch; await wait(55); }
+    await wait(1600);
+    while (roleEl.textContent) { roleEl.textContent = roleEl.textContent.slice(0, -1); await wait(28); }
+    await wait(300);
+  }
+})();
+
+// Kayan teknoloji şeritleri
+const tech1 = [['TypeScript', '#3178c6'], ['JavaScript', '#f7df1e'], ['Python', '#3776ab'], ['React Native', '#61dafb'], ['Expo', '#a855f7'], ['React', '#61dafb'], ['Next.js', '#888'], ['Tailwind CSS', '#38bdf8']];
+const tech2 = [['Node.js', '#3c873a'], ['PostgreSQL', '#336791'], ['Supabase', '#3ecf8e'], ['Prisma', '#5a67d8'], ['REST API', '#ff7a42'], ['Git', '#f05032'], ['Vercel', '#888'], ['Vitest', '#729b1b']];
+function fill(id, list) {
+  const html = list.map(([n, c]) => `<span class="chip"><i style="background:${c}"></i>${n}</span>`).join('');
+  document.getElementById(id).innerHTML = `<div class="track">${html}</div><div class="track" aria-hidden="true">${html}</div>`;
+}
+fill('m1', tech1); fill('m2', tech2);
+
+// Saat
+const timeEl = document.getElementById('time'), greetEl = document.getElementById('greet'), sky = document.getElementById('sky');
+function tick() {
+  const now = new Date(), opt = { timeZone: 'Europe/Istanbul', hour12: false };
+  const [h, m, s] = now.toLocaleTimeString('tr-TR', opt).split(':');
+  timeEl.innerHTML = `${h}:${m}<span class="sec">:${s}</span>`;
+  const hr = +h;
+  sky.classList.toggle('night', hr < 6 || hr >= 19);
+  greetEl.textContent = hr < 6 ? 'Muhtemelen uyuyorum 😴' : hr < 12 ? 'Günaydın, kahve hazır ☕' : hr < 18 ? 'Şu an kod yazıyorum 💻' : 'İyi akşamlar 🌙';
+}
+tick(); setInterval(tick, 1000);
+
+// GitHub ızgarası: gerçek katkı verisi (herkese açık katkı API'si)
+const ghColors = ['#ffd2bf', '#ffa47e', '#ff7a42', '#e14a10'];
+ghColors.forEach((c, i) => document.getElementById('l' + (i + 1)).style.background = c);
+const gh = document.getElementById('gh');
+const weeks = innerWidth < 560 ? 22 : innerWidth < 880 ? 30 : 40;
+function drawGrid(levels) {
+  gh.innerHTML = '';
+  levels.forEach((lvl, i) => {
+    const c = document.createElement('i'), w = Math.floor(i / 7), d = i % 7;
+    if (lvl) c.style.background = ghColors[lvl - 1];
+    c.style.animationDelay = (0.2 + w * 0.025 + d * 0.01) + 's';
+    gh.appendChild(c);
+  });
+}
+drawGrid(new Array(weeks * 7).fill(0));
+fetch('https://github-contributions-api.jogruber.de/v4/erkamaruntas?y=last')
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(data => {
+    const days = data.contributions;
+    // Izgara pazartesi değil pazar başlar; son haftayı tamamlayıp son N haftayı al
+    const start = days.length - (weeks - 1) * 7 - (new Date(days[days.length - 1].date).getUTCDay() + 1);
+    drawGrid(days.slice(Math.max(start, 0)).map(d => d.level));
+    const total = data.total && data.total.lastYear;
+    if (total != null) document.getElementById('ghTotal').textContent = `Son 1 yılda ${total.toLocaleString('tr-TR')} katkı · @erkamaruntas →`;
+  })
+  .catch(() => {});
+
+// Sayaçlar
+const io = new IntersectionObserver(entries => entries.forEach(en => {
+  if (!en.isIntersecting) return;
+  const el = en.target, end = +el.dataset.count, suf = el.dataset.suffix || '', t0 = performance.now();
+  (function step(t) {
+    const p = Math.min((t - t0) / 1600, 1), v = Math.round(end * (1 - Math.pow(1 - p, 3)));
+    el.textContent = v.toLocaleString('tr-TR') + (p === 1 ? suf : '');
+    if (p < 1) requestAnimationFrame(step);
+  })(t0);
+  io.unobserve(el);
+}), { threshold: .5 });
+document.querySelectorAll('[data-count]').forEach(el => io.observe(el));
+
+// İlerleme çubuğu
+setTimeout(() => document.querySelectorAll('[data-progress]').forEach(el => el.style.width = el.dataset.progress + '%'), 700);
+
+// Tema
+const root = document.documentElement, themeCard = document.getElementById('themeCard'), themeText = document.getElementById('themeText');
+const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+function renderTheme() { themeCard.classList.toggle('is-dark', isDark()); themeText.textContent = isDark() ? 'Koyu mod' : 'Açık mod'; }
+try { const s = localStorage.getItem('theme'); if (s) root.dataset.theme = s; } catch (e) {}
+themeCard.addEventListener('click', () => {
+  root.dataset.theme = isDark() ? 'light' : 'dark';
+  try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+  renderTheme();
+});
+renderTheme();
+
+// E-posta kopyala
+const toast = document.getElementById('toast');
+document.getElementById('copyMail').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText('erkam@aruntas.com'); } catch (e) {}
+  toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 1800);
+});
+</script>
+</body>
+</html>
