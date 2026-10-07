@@ -232,6 +232,59 @@
   .toast { position: fixed; left: 50%; bottom: 28px; translate: -50% 120px; background: var(--text); color: var(--bg); padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; transition: translate .4s cubic-bezier(.3,1.6,.5,1); z-index: 10; }
   .toast.show { translate: -50% 0; }
 
+  /* ---------- Üzerinde bekleyince büyüyen kart ---------- */
+  .dwell { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; z-index: 4; pointer-events: none;
+    background: linear-gradient(90deg, var(--accent), var(--pink), var(--violet)); border-radius: 0 3px 3px 0; opacity: 0; }
+  .card.dwelling .dwell { opacity: 1; width: 100%; transition: width var(--dwell) linear, opacity .2s; }
+  .ex-backdrop { position: fixed; inset: 0; z-index: 40; background: rgba(0,0,0,.45); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); pointer-events: none; }
+  .expanded { position: fixed; z-index: 50; border-radius: 26px; overflow: hidden; color: var(--text);
+    background: rgba(20,20,23,.94); border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 40px 120px -20px rgba(0,0,0,.8), 0 0 0 1px rgba(255,90,31,.15); }
+  .expanded.is-project { color: #fff; border-color: rgba(255,255,255,.2); }
+  .ex-inner { height: 100%; overflow-y: auto; overscroll-behavior: contain; padding: 28px 30px 30px; display: grid; gap: 16px; align-content: start; }
+  .ex-inner::-webkit-scrollbar { width: 6px; } .ex-inner::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 3px; }
+  .expanded h3 { font-size: 26px; line-height: 1.15; letter-spacing: -.03em; }
+  .expanded p { color: var(--muted); font-size: 15px; line-height: 1.6; }
+  .expanded.is-project p, .expanded.is-project .ex-label, .expanded.is-project .ex-list li { color: rgba(255,255,255,.85); }
+  .ex-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+  .ex-sub { margin-top: 2px; }
+  .ex-head { display: flex; align-items: center; gap: 16px; }
+  .ex-avatar { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; object-position: center 30%; border: 3px solid var(--accent); }
+  .ex-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ex-box { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 14px 16px; display: grid; gap: 4px; }
+  .ex-box strong { font-size: 15px; } .ex-box span { color: var(--muted); font-size: 13px; line-height: 1.4; }
+  .ex-big { font-size: 34px; font-weight: 800; letter-spacing: -.04em; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .ex-list { padding-left: 18px; display: grid; gap: 7px; font-size: 14.5px; line-height: 1.5; }
+  .ex-list li::marker { color: var(--accent); }
+  .ex-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ex-tags span { font-family: "JetBrains Mono", monospace; font-size: 12px; padding: 5px 10px; border-radius: 8px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1); }
+  .ex-rows { display: grid; gap: 12px; } .ex-rows b { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .ex-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ex-actions a { padding: 10px 16px; border-radius: 999px; font-weight: 600; font-size: 14px; background: #fff; color: #111; transition: transform .2s; }
+  .ex-actions a + a { background: rgba(255,255,255,.12); color: #fff; }
+  .ex-actions a:hover { transform: translateY(-2px); }
+  .ex-wide { width: 100%; height: auto; border-radius: 14px; display: block; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+  .ex-steps { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; counter-reset: s; }
+  .ex-steps li { counter-increment: s; background: rgba(0,0,0,.2); border-radius: 12px; padding: 10px 12px; font-size: 12.5px; line-height: 1.35; color: rgba(255,255,255,.85); }
+  .ex-steps b { display: block; color: #fff; font-size: 14px; margin-bottom: 2px; }
+  .ex-steps b::before { content: counter(s) " · "; opacity: .6; }
+  .ex-phones { display: flex; justify-content: center; gap: 14px; }
+  .ex-phones img { width: 30%; max-width: 150px; height: auto; border-radius: 18px; border: 4px solid #111; box-shadow: 0 14px 30px rgba(0,0,0,.35); }
+  .ex-phones img:nth-child(2) { translate: 0 -10px; }
+  .ex-contact { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ex-contact a { display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 16px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); font-size: 13.5px; color: var(--muted); transition: border-color .2s, transform .2s; }
+  .ex-contact a:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .is-project .ex-contact a, .is-project .ex-box { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.22); color: rgba(255,255,255,.85); }
+  .is-project .ex-contact b, .is-project .ex-box span { color: #fff; }
+  .is-project .ex-contact a:hover { border-color: #fff; }
+  .ex-contact span { font-size: 22px; } .ex-contact b { display: block; color: var(--text); font-size: 14.5px; }
+  .ex-gh { display: grid; grid-template-rows: repeat(7, 1fr); grid-auto-flow: column; gap: 3px; }
+  .ex-gh i { aspect-ratio: 1; border-radius: 3px; background: var(--gh-0); }
+  .ex-inner > * { animation: exIn .45s cubic-bezier(.2,.8,.2,1) both; }
+  .ex-inner > *:nth-child(2) { animation-delay: .05s; } .ex-inner > *:nth-child(3) { animation-delay: .1s; }
+  .ex-inner > *:nth-child(4) { animation-delay: .15s; } .ex-inner > *:nth-child(n+5) { animation-delay: .2s; }
+  @keyframes exIn { from { opacity: 0; translate: 0 10px; } }
+
   footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 36px; }
 
   /* ---------- Responsive ---------- */
@@ -277,6 +330,17 @@
         <a class="btn btn-ghost" href="https://github.com/erkamaruntas" target="_blank" rel="noopener">GitHub</a>
         <span class="status"><span class="dot"></span> Staj ve junior pozisyonlara açığım</span>
       </div>
+      <template class="more">
+        <div class="ex-head"><img class="ex-avatar" width="72" height="72" src="assets/erkam.jpg" alt=""><div><div class="ex-label">👋 Hakkımda</div><h3>Yusuf Erkam Aruntaş</h3><p class="ex-sub">Ürün odaklı Web &amp; Mobil Geliştirici</p></div></div>
+        <p>Fikirleri tasarımdan yayına kadar uçtan uca çalışan ürünlere dönüştürmeyi seviyorum. Bir ürünün yalnızca kodunu değil; kullanıcı deneyimini, ödeme akışını ve yayına alınmasını da üstleniyorum.</p>
+        <div class="ex-grid">
+          <div class="ex-box"><div class="ex-label">🎓 Eğitim</div><strong>OSTİM Teknik Üniversitesi</strong><span>Yazılım Mühendisliği · 4. sınıf · 2023–2027</span></div>
+          <div class="ex-box"><div class="ex-label">💼 Deneyim</div><strong>Barikat Siber Güvenlik</strong><span>Security Operations stajyeri · Haz–Tem 2025</span></div>
+          <div class="ex-box"><div class="ex-label">🎯 Aradığım</div><strong>Staj veya junior pozisyon</strong><span>Web ve mobil ürün geliştirme</span></div>
+          <div class="ex-box"><div class="ex-label">🌍 Diller</div><strong>Türkçe · İngilizce</strong><span>Ana dil · Orta seviye</span></div>
+        </div>
+        <div class="ex-actions"><a href="mailto:erkam@aruntas.com">✉️ E-posta</a><a href="https://linkedin.com/in/yusuferkamaruntas" target="_blank" rel="noopener">LinkedIn</a><a href="https://github.com/erkamaruntas" target="_blank" rel="noopener">GitHub</a></div>
+      </template>
     </section>
 
     <a class="card project p1" id="projeler" href="https://atelify.aruntas.com" target="_blank" rel="noopener" style="animation-delay:.08s">
@@ -293,6 +357,20 @@
         </div>
         <span class="arrow">→</span>
       </div>
+      <template class="more">
+        <div class="ex-label">💎 Atelify · yapay zekâ destekli mücevher tasarım stüdyosu</div>
+        <h3>Bir fotoğraf, dört adımda kişiye özel mücevher.</h3>
+        <img class="ex-wide" width="1584" height="488" src="assets/atelify-stages.jpg" alt="Atelify'ın dört aşaması: taslak, ürün, mockup, manken">
+        <ol class="ex-steps"><li><b>Taslak</b>Fotoğraf gravür çizimine dönüşür</li><li><b>Ürün</b>Çizim yüzük ya da kolyeye oturur</li><li><b>Mockup</b>Satışa hazır stüdyo fotoğrafı</li><li><b>Manken</b>Elde ya da boyunda görünüm</li></ol>
+        <ul class="ex-list">
+          <li>Üyelik, kredi sistemi, iyzico ile abonelik paketleri, fiziksel sipariş ve yönetim paneli</li>
+          <li>Kredi düşen, tekrar denemede iki kez ücretlendirmeyen ve hata olursa otomatik iade eden üretim hattı</li>
+          <li>Yapay zekâ kullanmadan, görüntü işlemeyle anında ve ücretsiz çalışan ürün aşaması</li>
+          <li>Satır düzeyi güvenlikli PostgreSQL şeması ve 172 birim testi</li>
+        </ul>
+        <div class="ex-tags"><span>Node.js</span><span>JavaScript</span><span>PostgreSQL (Supabase)</span><span>Vercel</span><span>fal.ai</span><span>sharp</span><span>iyzico</span><span>Vitest</span></div>
+        <div class="ex-actions"><a href="https://atelify.aruntas.com" target="_blank" rel="noopener">Siteyi aç ↗</a><a href="https://github.com/erkamaruntas/atelify" target="_blank" rel="noopener">Kaynak kod</a></div>
+      </template>
     </a>
 
     <a class="card project p2" href="https://subtification.aruntas.com" target="_blank" rel="noopener" style="animation-delay:.16s">
@@ -308,12 +386,38 @@
         </div>
         <span class="arrow">→</span>
       </div>
+      <template class="more">
+        <div class="ex-label">📱 Subtification · iOS · App Store onay sürecinde</div>
+        <h3>Aboneliklerin ve taksitlerin, tek bir yerde.</h3>
+        <div class="ex-phones"><img width="780" height="1688" src="assets/subtification.webp" alt="Ana ekran"><img width="780" height="1688" src="assets/subtification-analytics.webp" alt="Analizler"><img width="780" height="1688" src="assets/subtification-installments.webp" alt="Taksitler"></div>
+        <ul class="ex-list">
+          <li>Popüler servisler güncel planları ve fiyatlarıyla hazır; toplu ekleme</li>
+          <li>Ay sonuna denk gelen tarihleri doğru hesaplayan ödeme takvimi ve taksit takibi</li>
+          <li>Bütçe limiti, kategori analizi ve ödeme öncesi hatırlatma bildirimleri</li>
+          <li>Çevrimdışı çalışma: değişiklikler kuyruğa alınıp bağlantı gelince gönderilir</li>
+          <li>Misafir modu, çoklu para birimi, Türkçe ve İngilizce arayüz</li>
+        </ul>
+        <div class="ex-tags"><span>React Native (Expo)</span><span>TypeScript</span><span>Zustand</span><span>PostgreSQL (Supabase)</span><span>i18next</span><span>EAS</span></div>
+        <div class="ex-actions"><a href="https://subtification.aruntas.com" target="_blank" rel="noopener">Tanıtım sitesi ↗</a><a href="https://github.com/erkamaruntas/subtification" target="_blank" rel="noopener">Kaynak kod</a></div>
+      </template>
     </a>
 
     <section class="card stack" style="animation-delay:.24s">
       <div class="label">⚡ Teknolojiler</div>
       <div class="marquee" id="m1"></div>
       <div class="marquee rev" id="m2" style="margin-top:8px"></div>
+      <template class="more">
+        <div class="ex-label">⚡ Teknolojiler</div>
+        <h3>Kullandığım araçlar</h3>
+        <div class="ex-rows">
+          <div><b>Diller</b><div class="ex-tags"><span>JavaScript</span><span>TypeScript</span><span>Python</span><span>SQL</span><span>HTML</span><span>CSS</span></div></div>
+          <div><b>Mobil</b><div class="ex-tags"><span>React Native</span><span>Expo</span><span>Expo Router</span><span>Zustand</span><span>Reanimated</span></div></div>
+          <div><b>Web</b><div class="ex-tags"><span>React</span><span>Next.js</span><span>Tailwind CSS</span><span>Node.js</span><span>REST API</span></div></div>
+          <div><b>Veritabanı</b><div class="ex-tags"><span>PostgreSQL</span><span>Supabase</span><span>Prisma</span><span>RLS</span></div></div>
+          <div><b>Entegrasyon</b><div class="ex-tags"><span>iyzico</span><span>fal.ai</span><span>Resend</span><span>WhatsApp Cloud API</span></div></div>
+          <div><b>Araçlar</b><div class="ex-tags"><span>Git</span><span>GitHub</span><span>Vercel</span><span>Cloudflare</span><span>EAS Build</span><span>Vitest</span></div></div>
+        </div>
+      </template>
     </section>
 
     <section class="card clock" style="animation-delay:.32s">
@@ -321,6 +425,10 @@
       <div class="label">📍 Ankara</div>
       <div class="time" id="time">--:--</div>
       <small id="greet">Türkiye saati</small>
+      <template class="more">
+        <div class="ex-label">📍 Ankara, Türkiye</div>
+        <div data-dynamic="clock"></div>
+      </template>
     </section>
 
     <section class="card now" style="animation-delay:.4s">
@@ -334,6 +442,21 @@
         <div class="bar"><div class="fill" data-progress="80"></div></div>
         <small><span class="dot"></span>Next.js · TypeScript · Prisma</small>
       </div>
+      <template class="more">
+        <div class="ex-label">🚧 Şu an yapıyorum · geliştirme aşamasında</div>
+        <h3>Giderim: Ranvu</h3>
+        <p>Berber, kuaför, güzellik salonu ve veteriner gibi randevu bazlı işletmeler için uçtan uca randevu platformu. İşletme sahibi mobil uygulama ve web panelinden yönetir; müşteriler WhatsApp veya telefondaki yapay zekâ asistanı üzerinden randevu alır.</p>
+        <div class="ex-grid">
+          <div class="ex-box"><div class="ex-label">👥 Ekip</div><strong>3 kişi</strong><span>Web, mobil, WhatsApp botu ve telefon asistanı</span></div>
+          <div class="ex-box"><div class="ex-label">🛠️ Benim rolüm</div><strong>Web paneli</strong><span>İşletme ve yönetici panelleri, tanıtım sitesi, ödeme sayfası</span></div>
+        </div>
+        <ul class="ex-list">
+          <li>Haftalık randevu takvimi, filtreleme ve müşteri yönetimi</li>
+          <li>Fiyat ve paketlerin yönetici panelinden değiştirilebilmesi</li>
+          <li>Telefonda da kullanılabilen panel arayüzü</li>
+        </ul>
+        <div class="ex-tags"><span>Next.js</span><span>React</span><span>TypeScript</span><span>Tailwind CSS</span><span>Prisma</span><span>PostgreSQL</span><span>iyzico</span></div>
+      </template>
     </section>
 
     <section class="card stats" style="animation-delay:.48s">
@@ -341,6 +464,10 @@
       <div class="stat"><b data-count="3">0</b><span>proje</span></div>
       <div class="stat"><b id="allTime">0</b><span>GitHub katkısı</span></div>
       <div class="stat"><b data-count="999" data-suffix="+">0</b><span>çay 🍵</span></div>
+      <template class="more">
+        <div class="ex-label">📊 Sayılarla</div>
+        <div data-dynamic="stats"></div>
+      </template>
     </section>
 
     <section class="card gh" style="animation-delay:.56s">
@@ -350,12 +477,21 @@
         <a href="https://github.com/erkamaruntas" target="_blank" rel="noopener" id="ghTotal">@erkamaruntas →</a>
         <span class="legend">Az <i style="background:var(--gh-0)"></i><i id="l1"></i><i id="l2"></i><i id="l3"></i><i id="l4"></i> Çok</span>
       </div>
+      <template class="more">
+        <div class="ex-label">🟩 GitHub aktivitesi</div>
+        <div data-dynamic="gh"></div>
+        <div class="ex-actions"><a href="https://github.com/erkamaruntas" target="_blank" rel="noopener">GitHub profilim ↗</a></div>
+      </template>
     </section>
 
     <section class="card hello" id="waveCard" style="animation-delay:.64s">
       <div class="label">👋 Selam ver</div>
       <button class="wave-btn" id="waveBtn" type="button" aria-label="Selam ver"><span>👋</span></button>
       <div class="wave-count"><b id="waveCount">–</b><span id="waveText">kişi selam verdi</span></div>
+      <template class="more">
+        <div class="ex-label">👋 Selam ver</div>
+        <div data-dynamic="hello"></div>
+      </template>
     </section>
 
     <section class="card contact" style="animation-delay:.72s">
@@ -375,6 +511,17 @@
         </svg>
         <span>→</span>
       </a>
+      <template class="more">
+        <div class="ex-label">✉️ İletişim</div>
+        <h3>Bir fikrin mi var? Hadi konuşalım.</h3>
+        <p>Staj ve junior pozisyonlara açığım. Bir projen, bir sorun ya da sadece merhaba demek için yazabilirsin.</p>
+        <div class="ex-contact">
+          <a href="mailto:erkam@aruntas.com"><span>✉️</span><div><b>E-posta</b>erkam@aruntas.com</div></a>
+          <a href="https://linkedin.com/in/yusuferkamaruntas" target="_blank" rel="noopener"><span>💼</span><div><b>LinkedIn</b>yusuferkamaruntas</div></a>
+          <a href="https://github.com/erkamaruntas" target="_blank" rel="noopener"><span>🐙</span><div><b>GitHub</b>erkamaruntas</div></a>
+          <a href="https://aruntas.com"><span>📍</span><div><b>Konum</b>Ankara, Türkiye</div></a>
+        </div>
+      </template>
     </section>
 
   </div>
@@ -453,6 +600,7 @@ fetch('https://github-contributions-api.jogruber.de/v4/erkamaruntas?y=last')
   .then(r => r.ok ? r.json() : Promise.reject())
   .then(data => {
     const days = data.contributions;
+    ghDaysAll = days;
     // Izgara pazartesi değil pazar başlar; son haftayı tamamlayıp son N haftayı al
     const start = days.length - (weeks - 1) * 7 - (new Date(days[days.length - 1].date).getUTCDay() + 1);
     const shown = days.slice(Math.max(start, 0));
@@ -527,6 +675,131 @@ document.getElementById('copyMail').addEventListener('click', async () => {
   try { await navigator.clipboard.writeText('erkam@aruntas.com'); } catch (e) {}
   toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 1800);
 });
+
+// ---------- Üzerinde bekleyince büyüyen kartlar ----------
+// Yalnızca fare olan cihazlarda: kartın üstünde DWELL ms bekleyince kart
+// yerinden büyüyerek ekstra bilgileri gösterir; fare çıkınca küçülür.
+const DWELL = 1500;
+let ghDaysAll = null;
+const canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
+const dynamic = {
+  clock() {
+    const now = new Date(), tz = 'Europe/Istanbul';
+    const date = now.toLocaleDateString('tr-TR', { timeZone: tz, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    const time = now.toLocaleTimeString('tr-TR', { timeZone: tz, hour: '2-digit', minute: '2-digit' });
+    const mine = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+    const diff = Math.round((new Date(now.toLocaleString('en-US', { timeZone: tz })) - new Date(now.toLocaleString('en-US'))) / 36e5);
+    const rel = diff === 0 ? 'Seninle aynı saat dilimindeyiz 🤝' : `Benim saatim seninkinden ${Math.abs(diff)} saat ${diff > 0 ? 'ileride' : 'geride'}.`;
+    return `<div class="ex-big">${time}</div><p>${date} · GMT+3</p>
+      <div class="ex-grid"><div class="ex-box"><div class="ex-label">🕒 Senin saatin</div><strong>${mine}</strong><span>${rel}</span></div>
+      <div class="ex-box"><div class="ex-label">🎓 Okul</div><strong>OSTİM Teknik Üniversitesi</strong><span>Ankara</span></div></div>
+`;
+  },
+  stats() {
+    return `<div class="ex-grid">
+      <div class="ex-box"><div class="ex-big">3</div><strong>Proje</strong><span>Atelify, Subtification ve geliştirilmekte olan Giderim: Ranvu</span></div>
+      <div class="ex-box"><div class="ex-big">${allTime.textContent}</div><strong>GitHub katkısı</strong><span>Commit, depo ve PR'lar dahil; gizli depolardaki çalışmalar da sayılıyor</span></div>
+      <div class="ex-box"><div class="ex-big">2</div><strong>Yayında ürün</strong><span>atelify.aruntas.com ve subtification.aruntas.com</span></div>
+      <div class="ex-box"><div class="ex-big">999+</div><strong>Çay 🍵</strong><span>Kesin sayı bilinmiyor; demlik hiç boş kalmadı</span></div></div>`;
+  },
+  gh() {
+    if (!ghDaysAll) return '<p>Katkı verisi şu an alınamadı.</p>';
+    const days = ghDaysAll, active = days.filter(d => d.count > 0);
+    const total = days.reduce((a, d) => a + d.count, 0);
+    const best = days.reduce((a, d) => (d.count > a.count ? d : a), days[0]);
+    let run = 0, longest = 0;
+    days.forEach(d => { run = d.count ? run + 1 : 0; longest = Math.max(longest, run); });
+    let current = 0;
+    for (let i = days.length - 1; i >= 0 && (days[i].count || i === days.length - 1); i--) if (days[i].count) current++;
+    const fmt = d => new Date(d + 'T12:00:00').toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' });
+    const start = days.length - 25 * 7 - (new Date(days[days.length - 1].date).getUTCDay() + 1);
+    const cells = days.slice(Math.max(start, 0))
+      .map(d => `<i title="${fmt(d.date)}: ${d.count} katkı"${d.level ? ` style="background:${ghColors[d.level - 1]}"` : ''}></i>`).join('');
+    return `<div class="ex-gh">${cells}</div>
+      <div class="ex-grid">
+        <div class="ex-box"><div class="ex-big">${total.toLocaleString('tr-TR')}</div><span>son 1 yılda katkı</span></div>
+        <div class="ex-box"><div class="ex-big">${active.length}</div><span>aktif gün</span></div>
+        <div class="ex-box"><div class="ex-big">${longest} gün</div><span>en uzun seri</span></div>
+        <div class="ex-box"><div class="ex-big">${best.count}</div><span>en yoğun gün · ${fmt(best.date)}</span></div>
+      </div>${current ? `<p>🔥 Şu an ${current} günlük serideyim.</p>` : ''}`;
+  },
+  hello() {
+    const done = waveBtn.classList.contains('done');
+    return `<div class="ex-big">${waveCount.textContent} 👋</div>
+      <p>${done ? 'Selamın alındı, teşekkürler! 🙌' : 'Henüz selam vermedin. Kartın üzerindeki 👋 butonuna tıklaman yeterli.'}</p>
+      <ul class="ex-list"><li>Sayaç bu sitenin kendi sunucusunda tutuluyor ve herkes için ortak.</li>
+      <li>Aynı kişi günde bir kez sayılıyor.</li><li>IP adresin saklanmıyor; yalnızca geri çevrilemeyen bir özeti bir günlüğüne tutuluyor.</li></ul>`;
+  },
+};
+
+let openPanel = null;
+function expandCard(card) {
+  const tpl = card.querySelector('template.more');
+  if (!tpl || openPanel) return;
+  const r = card.getBoundingClientRect(), m = 16, vw = innerWidth, vh = innerHeight;
+  const panel = document.createElement('div');
+  panel.className = 'expanded' + (card.classList.contains('project') ? ' is-project' : '');
+  if (card.classList.contains('project') || card.classList.contains('contact')) {
+    panel.classList.add('is-project');
+    panel.style.background = getComputedStyle(card).backgroundImage;
+  }
+  panel.innerHTML = `<div class="ex-inner">${tpl.innerHTML}</div>`;
+  panel.querySelectorAll('[data-dynamic]').forEach(el => { el.outerHTML = `<div style="display:grid;gap:16px">${dynamic[el.dataset.dynamic]()}</div>`; });
+  // Hedef boyut: kartın yaklaşık 3-4 katı alan (kenarlar ~1.9 kat), ekrana sığacak şekilde
+  const w = Math.min(Math.max(r.width * 1.9, 420), Math.max(720, r.width + 60), vw - 2 * m);
+  panel.style.cssText += `left:0;top:0;width:${w}px;visibility:hidden`;
+  document.body.appendChild(panel);
+  const h = Math.min(Math.max(panel.querySelector('.ex-inner').scrollHeight + 2, r.height), vh - 2 * m);
+  const left = Math.min(Math.max(r.left + r.width / 2 - w / 2, m), vw - w - m);
+  const top = Math.min(Math.max(r.top + r.height / 2 - h / 2, m), vh - h - m);
+  panel.style.visibility = '';
+  const backdrop = document.createElement('div');
+  backdrop.className = 'ex-backdrop';
+  document.body.insertBefore(backdrop, panel);
+  card.style.visibility = 'hidden';
+  const from = { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' };
+  const to = { left: left + 'px', top: top + 'px', width: w + 'px', height: h + 'px' };
+  Object.assign(panel.style, to);
+  const dur = reduce ? 0 : 420;
+  panel.animate([from, to], { duration: dur, easing: 'cubic-bezier(.2,.8,.2,1)' });
+  backdrop.animate([{ opacity: 0 }, { opacity: 1 }], { duration: dur });
+  openPanel = { panel, backdrop, card };
+}
+function collapseCard() {
+  if (!openPanel || openPanel.closing) return;
+  const { panel, backdrop, card } = openPanel;
+  openPanel.closing = true;
+  const r = card.getBoundingClientRect(), dur = reduce ? 0 : 300;
+  panel.querySelector('.ex-inner').animate([{ opacity: 1 }, { opacity: 0 }], { duration: dur * .5, fill: 'forwards' });
+  panel.animate([{}, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' }],
+    { duration: dur, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' });
+  backdrop.animate([{ opacity: 1 }, { opacity: 0 }], { duration: dur, fill: 'forwards' }).onfinish = () => {
+    panel.remove(); backdrop.remove(); card.style.visibility = ''; openPanel = null;
+  };
+}
+if (canHover) {
+  document.documentElement.style.setProperty('--dwell', DWELL + 'ms');
+  document.querySelectorAll('.card').forEach(card => {
+    if (!card.querySelector('template.more')) return;
+    card.insertAdjacentHTML('beforeend', '<i class="dwell" aria-hidden="true"></i>');
+    let timer;
+    card.addEventListener('mouseenter', () => {
+      if (openPanel) return;
+      card.classList.add('dwelling');
+      timer = setTimeout(() => { card.classList.remove('dwelling'); expandCard(card); }, DWELL);
+    });
+    card.addEventListener('mouseleave', () => { clearTimeout(timer); card.classList.remove('dwelling'); });
+  });
+  // Fare büyümüş kartın dışına çıkınca, sayfa kayınca ya da Esc'ye basınca kapat
+  addEventListener('mousemove', e => {
+    if (!openPanel || openPanel.closing) return;
+    const r = openPanel.panel.getBoundingClientRect();
+    if (e.clientX < r.left - 8 || e.clientX > r.right + 8 || e.clientY < r.top - 8 || e.clientY > r.bottom + 8) collapseCard();
+  });
+  addEventListener('wheel', e => { if (openPanel && !openPanel.panel.contains(e.target)) collapseCard(); }, { passive: true });
+  addEventListener('scroll', () => { if (openPanel) collapseCard(); }, { passive: true });
+  addEventListener('keydown', e => { if (e.key === 'Escape') collapseCard(); });
+}
 </script>
 </body>
 </html>
