@@ -191,10 +191,25 @@
   .now small .dot { width: 6px; height: 6px; background: var(--accent); }
 
   /* ---------- İstatistik ---------- */
-  .stats { grid-area: stats; display: flex; flex-direction: column; justify-content: space-between; gap: 6px; }
-  .stat { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
-  .stat b { font-size: 28px; font-weight: 800; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-  .stat span { color: var(--muted); font-size: 13px; }
+  /* ---------- Yolculuk (zaman çizelgesi) ---------- */
+  .journey { grid-area: stats; }
+  .timeline { list-style: none; padding: 0 0 0 26px; position: relative; display: grid; gap: 16px; margin-top: 4px; }
+  .timeline::before { content: ""; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 2px; border-radius: 2px;
+    background: linear-gradient(var(--accent), var(--pink), var(--green)); transform: scaleY(0); transform-origin: top; transition: transform 1.2s cubic-bezier(.2,.8,.2,1); }
+  .timeline li { position: relative; opacity: 0; translate: -8px 0; transition: opacity .5s, translate .5s; }
+  .timeline li::before { content: ""; position: absolute; left: -26px; top: 4px; width: 14px; height: 14px; border-radius: 50%;
+    background: var(--card-solid); border: 3px solid var(--accent); box-sizing: border-box; scale: 0; transition: scale .4s cubic-bezier(.3,1.6,.5,1); }
+  .timeline li:nth-child(2)::before { border-color: var(--pink); }
+  .timeline li.current::before { border-color: var(--green); background: var(--green); }
+  .timeline.in::before { transform: scaleY(1); }
+  .timeline.in li { opacity: 1; translate: 0 0; }
+  .timeline.in li::before { scale: 1; }
+  .timeline.in li:nth-child(2), .timeline.in li:nth-child(2)::before { transition-delay: .35s; }
+  .timeline.in li:nth-child(3), .timeline.in li:nth-child(3)::before { transition-delay: .7s; }
+  .timeline.in li.current::before { animation: pulse 2s 1.2s infinite; }
+  .timeline time { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--accent); font-weight: 500; }
+  .timeline strong { display: block; font-size: 14.5px; line-height: 1.3; letter-spacing: -.01em; }
+  .timeline span { display: block; color: var(--muted); font-size: 12.5px; line-height: 1.35; margin-top: 2px; }
 
   /* ---------- GitHub ---------- */
   .gh { grid-area: gh; }
@@ -335,11 +350,13 @@
       </div>
     </section>
 
-    <section class="card stats" style="animation-delay:.48s">
-      <div class="label">📊 Sayılarla</div>
-      <div class="stat"><b data-count="3">0</b><span>proje</span></div>
-      <div class="stat"><b data-count="172">0</b><span>birim testi</span></div>
-      <div class="stat"><b data-count="999" data-suffix="+">0</b><span>kahve ☕</span></div>
+    <section class="card journey" style="animation-delay:.48s">
+      <div class="label">🧭 Yolculuk</div>
+      <ol class="timeline" id="timeline">
+        <li><time>2023</time><strong>OSTİM Teknik Üniversitesi</strong><span>Yazılım Mühendisliği</span></li>
+        <li><time>2025</time><strong>Barikat Siber Güvenlik</strong><span>Security Operations stajyeri</span></li>
+        <li class="current"><time>2026</time><strong>Atelify ve Subtification yayında 🚀</strong><span>Ürün geliştirmeye odaklandım</span></li>
+      </ol>
     </section>
 
     <section class="card gh" style="animation-delay:.56s">
@@ -436,7 +453,8 @@ tick(); setInterval(tick, 1000);
 const ghColors = ['#ffd2bf', '#ffa47e', '#ff7a42', '#e14a10'];
 ghColors.forEach((c, i) => document.getElementById('l' + (i + 1)).style.background = c);
 const gh = document.getElementById('gh');
-const weeks = innerWidth < 560 ? 22 : innerWidth < 880 ? 30 : 40;
+// Katkıların çoğu son aylarda; uzun bir pencere ızgarayı boş gösteriyor
+const weeks = 26;
 function drawGrid(levels) {
   gh.innerHTML = '';
   levels.forEach((lvl, i) => {
@@ -453,9 +471,10 @@ fetch('https://github-contributions-api.jogruber.de/v4/erkamaruntas?y=last')
     const days = data.contributions;
     // Izgara pazartesi değil pazar başlar; son haftayı tamamlayıp son N haftayı al
     const start = days.length - (weeks - 1) * 7 - (new Date(days[days.length - 1].date).getUTCDay() + 1);
-    drawGrid(days.slice(Math.max(start, 0)).map(d => d.level));
-    const total = data.total && data.total.lastYear;
-    if (total != null) document.getElementById('ghTotal').textContent = `Son 1 yılda ${total.toLocaleString('tr-TR')} katkı · @erkamaruntas →`;
+    const shown = days.slice(Math.max(start, 0));
+    drawGrid(shown.map(d => d.level));
+    const total = shown.reduce((sum, d) => sum + d.count, 0);
+    document.getElementById('ghTotal').textContent = `Son 6 ayda ${total.toLocaleString('tr-TR')} katkı · @erkamaruntas →`;
   })
   .catch(() => {});
 
@@ -471,6 +490,12 @@ const io = new IntersectionObserver(entries => entries.forEach(en => {
   io.unobserve(el);
 }), { threshold: .5 });
 document.querySelectorAll('[data-count]').forEach(el => io.observe(el));
+
+// Zaman çizelgesi görününce çizilsin
+const tl = document.getElementById('timeline');
+new IntersectionObserver(([en], obs) => {
+  if (en.isIntersecting) { tl.classList.add('in'); obs.disconnect(); }
+}, { threshold: .4 }).observe(tl);
 
 // İlerleme çubuğu
 setTimeout(() => document.querySelectorAll('[data-progress]').forEach(el => el.style.width = el.dataset.progress + '%'), 700);
