@@ -9,9 +9,13 @@
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
-    // www yönlendirmesi statik dosyalardan önce çalışsın diye
+    // www yönlendirmesi ve /api statik dosyalardan önce çalışsın diye
     "run_worker_first": true
   },
+  // "Selam ver" sayacı
+  "kv_namespaces": [
+    { "binding": "WAVES", "id": "e7b5d3faa22945daa0101e27cef9d929" }
+  ],
   "routes": [
     { "pattern": "aruntas.com", "custom_domain": true },
     { "pattern": "www.aruntas.com", "custom_domain": true }
