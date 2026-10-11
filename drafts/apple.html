@@ -169,7 +169,7 @@
   @keyframes slide { to { transform: translateX(-50%); } }
 
   /* ---------- 8. İletişim ---------- */
-  .contact { text-align: center; padding: 16vh 24px 0; }
+  .contact { text-align: center; padding: 26vh 24px 0; }
   .contact h2 { font-size: clamp(64px, 13vw, 190px); font-weight: 800; letter-spacing: -.06em; line-height: .9; }
   .contact p { font-size: clamp(19px, 2.2vw, 26px); color: var(--muted); margin: 26px auto 40px; max-width: 640px; line-height: 1.35; }
   .btn-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; }
@@ -192,38 +192,50 @@
   footer nav { all: unset; display: flex; gap: 18px; } footer a:hover { color: var(--text); }
 
 
-  /* ================= HALI ================= */
-  :root { --kok: #b3361e; --safran: #e0a526; --civit: #1f3a6b; --krem: #e9dcc3; --koyu: #3a1512; }
+  /* ================= HALI (gerçek Anadolu halılarından yamalar) ================= */
+  :root { --krem: #e9dcc3; }
+  /* Yama: hafif eğik, dikiş izli, gölgeli halı parçası */
+  .patch { position: absolute; display: block; border-radius: 3px; box-shadow: 0 18px 40px -10px rgba(0,0,0,.8), 0 2px 0 rgba(255,255,255,.04);
+    transform: rotate(var(--r, 0deg)); transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+  .patch::after { content: ""; position: absolute; inset: 5px; border: 1.5px dashed rgba(255,240,220,.45); border-radius: 2px; pointer-events: none; }
+  .patch img { display: block; width: 100%; height: auto; border-radius: 3px; }
+  .patch:hover { transform: rotate(0deg) scale(1.06); z-index: 3; }
 
-  /* 4. Açılışta tezgâhta dokunan halı */
-  .loom { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .2; z-index: 0; pointer-events: none;
-    -webkit-mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, #000 30%, transparent 75%); mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, #000 30%, transparent 75%); }
+  /* 1. Açılış: ismin çevresine dikilmiş yamalar */
+  .patches { position: absolute; inset: 0; z-index: 0; }
+  .patches .patch { opacity: 0; animation: patchIn .9s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: var(--d, 0s); }
+  @keyframes patchIn { from { opacity: 0; translate: 0 30px; scale: .85; } to { opacity: 1; translate: 0 0; scale: 1; } }
   .hero-title, .hero-info, .scroll-hint { z-index: 1; }
+  .hero-title p, .hero-title .eyebrow { text-shadow: 0 2px 20px rgba(0,0,0,.9); }
+  .hero-title h1 { filter: drop-shadow(0 6px 28px rgba(0,0,0,.85)); }
 
-  /* 2. Bölüm ayraçları: soldan sağa dokunarak beliren kilim şeridi */
-  .band { position: relative; width: min(1100px, calc(100% - 48px)); height: 20px; margin: 0 auto; }
-  .band::after { content: ""; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2220%22%20viewBox%3D%220%200%2040%2020%22%20shape-rendering%3D%22crispEdges%22%3E%3Crect%20width%3D%2240%22%20height%3D%222%22%20fill%3D%22%23b3361e%22%2F%3E%3Crect%20y%3D%2218%22%20width%3D%2240%22%20height%3D%222%22%20fill%3D%22%23b3361e%22%2F%3E%3Crect%20y%3D%223%22%20width%3D%2240%22%20height%3D%221%22%20fill%3D%22%23e0a526%22%20opacity%3D%22.5%22%2F%3E%3Crect%20y%3D%2216%22%20width%3D%2240%22%20height%3D%221%22%20fill%3D%22%23e0a526%22%20opacity%3D%22.5%22%2F%3E%3Cpath%20d%3D%22M20%204L28%2010L20%2016L12%2010Z%22%20fill%3D%22%23e0a526%22%2F%3E%3Cpath%20d%3D%22M20%207L23%2010L20%2013L17%2010Z%22%20fill%3D%22%231f3a6b%22%2F%3E%3Crect%20x%3D%2219%22%20y%3D%229%22%20width%3D%222%22%20height%3D%222%22%20fill%3D%22%23e9dcc3%22%2F%3E%3Cpath%20d%3D%22M0%205L5%2010L0%2015ZM40%205L35%2010L40%2015Z%22%20fill%3D%22%23b3361e%22%2F%3E%3C%2Fsvg%3E") repeat-x center / 40px 20px;
-    clip-path: inset(0 100% 0 0); transition: clip-path 1.8s steps(28, end); }
+  /* 2. Bölüm ayraçları: gerçek halı bordürleri, soldan sağa dokunarak */
+  .band { position: relative; width: min(1100px, calc(100% - 48px)); height: 30px; margin: 0 auto; }
+  .band::after { content: ""; position: absolute; inset: 0; border-radius: 2px; background: url(../public/assets/rugs/s-kilim.webp) repeat-x left center / auto 100%;
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,.8); clip-path: inset(0 100% 0 0); transition: clip-path 1.8s steps(30, end); }
   .band.in::after { clip-path: inset(0 0 0 0); }
+  .band:nth-of-type(3n+2)::after { background-image: url(../public/assets/rugs/s-kazak.webp); }
+  .band:nth-of-type(3n)::after { background-image: url(../public/assets/rugs/s-seccade.webp); }
 
-  /* 1. GitHub ızgarası: kenar bordürlü, saçaklı bir kilim */
-  .kilim { position: relative; padding: 14px; border-radius: 6px; background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20shape-rendering%3D%22crispEdges%22%3E%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%233a1512%22%2F%3E%3Cpath%20d%3D%22M8%201L15%208L8%2015L1%208Z%22%20fill%3D%22%23b3361e%22%2F%3E%3Cpath%20d%3D%22M8%204L12%208L8%2012L4%208Z%22%20fill%3D%22%23e0a526%22%2F%3E%3Crect%20x%3D%227%22%20y%3D%227%22%20width%3D%222%22%20height%3D%222%22%20fill%3D%22%231f3a6b%22%2F%3E%3C%2Fsvg%3E") repeat 0 0 / 16px 16px; box-shadow: 0 40px 80px -30px rgba(179,54,30,.45); }
-  .kilim-in { background: #0d1220; padding: 12px; border-radius: 2px; box-shadow: inset 0 0 0 2px var(--safran); }
-  .kilim::before, .kilim::after { content: ""; position: absolute; top: 10px; bottom: 10px; width: 16px;
-    background: repeating-linear-gradient(180deg, var(--krem) 0 2px, transparent 2px 6px); opacity: .75; }
-  .kilim::before { right: 100%; -webkit-mask-image: linear-gradient(90deg, transparent, #000); mask-image: linear-gradient(90deg, transparent, #000); }
-  .kilim::after { left: 100%; -webkit-mask-image: linear-gradient(270deg, transparent, #000); mask-image: linear-gradient(270deg, transparent, #000); }
+  /* Bölümlerin yanındaki yamalar */
+  .section-head { position: relative; }
+  .head-patch { position: relative; display: inline-block; width: clamp(90px, 11vw, 140px); margin-bottom: 26px; }
+  .head-patch .patch { position: relative; }
+  .wip .patch { width: clamp(110px, 14vw, 190px); right: clamp(16px, 4vw, 48px); top: clamp(16px, 4vw, 48px); }
+  @media (max-width: 680px) { .wip .patch { position: relative; right: auto; top: auto; margin-bottom: 20px; } }
+  .contact { position: relative; }
+  @media (max-width: 680px) { .contact .patch { display: none; } }
+
+  /* 3. GitHub ızgarası gerçek bir kilimin bordürüyle çevrili */
+  .kilim { position: relative; border: 30px solid transparent; border-image: url(../public/assets/rugs/frame-kilim.webp) 64 round;
+    box-shadow: 0 40px 80px -30px rgba(179,54,30,.5); }
+  .kilim-in { background: #0d1220; padding: 12px; }
   .gh-grid i { border-radius: 2px; background-color: #182038;
     background-image: linear-gradient(135deg, rgba(255,255,255,.09) 25%, transparent 25% 50%, rgba(255,255,255,.09) 50% 75%, transparent 75%); background-size: 5px 5px; }
 
-  /* 3. Sayfanın sonu: halının ucu ve sallanan saçaklar */
-  .rug-end { margin-top: 10vh; }
-  .rug-end .band { width: 100%; height: 26px; }
-  .rug-end .band::after { background-size: 52px 26px; }
-  .fringe { display: flex; justify-content: space-between; padding: 0 6px; height: 46px; overflow: visible; }
-  .fringe i { width: 2px; height: calc(30px + var(--l, 0px)); background: linear-gradient(var(--krem), rgba(233,220,195,.55)); border-radius: 0 0 2px 2px;
-    transform-origin: top center; transition: transform .9s cubic-bezier(.2,.8,.2,1); }
-  .fringe i:nth-child(4n+1) { background: linear-gradient(var(--safran), rgba(224,165,38,.5)); }
+  /* 4. Sayfanın sonu: gerçek bir halının saçaklı ucu */
+  .rug-end { margin-top: 12vh; height: 150px; background: url(../public/assets/rugs/end-sacak.webp) repeat-x center top / auto 100%; }
+  @media (max-width: 680px) { .rug-end { height: 100px; } }
 
   /* ---------- Telefon ---------- */
   @media (max-width: 860px) {
@@ -252,7 +264,14 @@
 <!-- 1. Açılış: isim büyüyüp kaybolur, yerine fotoğraf gelir -->
 <section class="scene" id="hero">
   <div class="sticky">
-    <canvas class="loom" id="loom" aria-hidden="true"></canvas>
+    <div class="patches" id="patches" aria-hidden="true">
+      <span class="patch" style="--r:-8deg;--d:.15s;left:4%;top:9%;width:clamp(80px,10vw,150px)"><img src="../public/assets/rugs/p-madalyon.webp" alt=""></span>
+      <span class="patch" style="--r:6deg;--d:.3s;right:4%;top:10%;width:clamp(100px,14vw,210px)"><img src="../public/assets/rugs/p-turkuaz.webp" alt=""></span>
+      <span class="patch" style="--r:7deg;--d:.45s;left:7%;bottom:6%;width:clamp(70px,9vw,130px)"><img src="../public/assets/rugs/p-kilim.webp" alt=""></span>
+      <span class="patch" style="--r:-5deg;--d:.6s;right:6%;bottom:9%;width:clamp(100px,14vw,210px)"><img src="../public/assets/rugs/p-kazak.webp" alt=""></span>
+      <span class="patch" style="--r:11deg;--d:.75s;left:31%;top:9%;width:clamp(60px,7vw,110px)"><img src="../public/assets/rugs/p-yildiz.webp" alt=""></span>
+      <span class="patch" style="--r:-12deg;--d:.9s;right:29%;bottom:7%;width:clamp(70px,8vw,120px)"><img src="../public/assets/rugs/p-lacivert.webp" alt=""></span>
+    </div>
     <div class="hero-title" id="heroTitle">
       <div class="eyebrow">Ürün odaklı Web &amp; Mobil Geliştirici</div>
       <h1>Yusuf <span class="grad">Erkam.</span></h1>
@@ -281,6 +300,7 @@
 <div class="band" aria-hidden="true"></div>
 <section id="atelify">
   <header class="section-head reveal">
+    <div class="head-patch" aria-hidden="true"><span class="patch" style="--r:-6deg;width:100%"><img src="../public/assets/rugs/p-usak.webp" alt=""></span></div><br>
     <div class="tag"><i></i>Yayında · atelify.aruntas.com</div>
     <h2>Atelify.</h2>
     <p>Bir fotoğraf. Dört adım. Kişiye özel bir mücevher. Yapay zekâ destekli mücevher tasarım stüdyosu.</p>
@@ -322,6 +342,7 @@
 <!-- 4. Subtification -->
 <section id="subtification">
   <header class="section-head reveal">
+    <div class="head-patch" aria-hidden="true"><span class="patch" style="--r:7deg;width:100%"><img src="../public/assets/rugs/p-seccade.webp" alt=""></span></div><br>
     <div class="tag"><i style="background:#ffd60a;box-shadow:0 0 12px #ffd60a"></i>App Store onay sürecinde</div>
     <h2>Subtification.</h2>
     <p>Aboneliklerin ve taksitlerin, tek bir yerde. Ne kadar harcadığını ve sıradaki ödemenin ne zaman olduğunu bilen iOS uygulaması.</p>
@@ -355,6 +376,7 @@
 <div class="band" aria-hidden="true" style="margin-top:14vh"></div>
 <section id="ranvu" style="padding: 14vh 0 0">
   <div class="wip reveal">
+    <span class="patch" aria-hidden="true" style="--r:8deg"><img src="../public/assets/rugs/p-lacivert.webp" alt=""></span>
     <div class="tag">Şu an üzerinde çalışıyorum · 3 kişilik ekip</div>
     <h3>Giderim: <span class="grad">Ranvu.</span></h3>
     <p>Berber, kuaför ve veterinerler için randevu platformu. Müşteriler WhatsApp'tan ya da telefondaki yapay zekâ asistanından randevu alıyor. Ben işletme ve yönetici panellerini geliştiriyorum.</p>
@@ -390,6 +412,8 @@
 <div class="band" aria-hidden="true" style="margin-top:18vh"></div>
 <!-- 8. İletişim -->
 <section class="contact" id="iletisim">
+  <span class="patch" aria-hidden="true" style="--r:-9deg;left:max(16px,10%);top:3vh;width:clamp(70px,7vw,110px)"><img src="../public/assets/rugs/p-kilim.webp" alt=""></span>
+  <span class="patch" aria-hidden="true" style="--r:8deg;right:max(16px,10%);top:5vh;width:clamp(70px,7vw,110px)"><img src="../public/assets/rugs/p-madalyon.webp" alt=""></span>
   <h2 class="reveal">Merhaba <span class="grad">de.</span></h2>
   <p class="reveal">Staj ve junior pozisyonlara açığım. Bir fikrin, bir projen ya da sadece bir sorun varsa yaz.</p>
   <div class="btn-row reveal">
@@ -400,9 +424,9 @@
   <button class="wave reveal" id="wave" type="button" hidden><span>👋</span><b id="waveCount">0</b><small id="waveText">kişi selam verdi</small></button>
 </section>
 
-<div class="rug-end" aria-hidden="true"><div class="band"></div><div class="fringe" id="fringe"></div></div>
+<div class="rug-end" aria-hidden="true"></div>
 
-<footer><span>© 2026 Yusuf Erkam Aruntaş · Kendim tasarlayıp kodladım</span><nav><a href="#atelify">Atelify</a><a href="#subtification">Subtification</a><a href="#ranvu">Ranvu</a><a href="https://github.com/erkamaruntas" target="_blank" rel="noopener">GitHub</a></nav></footer>
+<footer><span>© 2026 Yusuf Erkam Aruntaş · Kendim tasarlayıp kodladım · Halılar: <a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access" target="_blank" rel="noopener">The Met</a> ve <a href="https://www.clevelandart.org/open-access" target="_blank" rel="noopener">Cleveland Museum of Art</a> açık erişim koleksiyonları</span><nav><a href="#atelify">Atelify</a><a href="#subtification">Subtification</a><a href="#ranvu">Ranvu</a><a href="https://github.com/erkamaruntas" target="_blank" rel="noopener">GitHub</a></nav></footer>
 
 <script>
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -418,7 +442,7 @@ man.innerHTML = man.innerHTML.replace(/<em class="hl">(.*?)<\/em>|([^<\s]+)/g, (
 const words = [...man.querySelectorAll('span')];
 
 const hero = document.getElementById('hero'), heroTitle = document.getElementById('heroTitle'), heroInfo = document.getElementById('heroInfo'),
-      hint = document.getElementById('scrollHint'), loom = document.getElementById('loom');
+      hint = document.getElementById('scrollHint'), patchWrap = document.getElementById('patches');
 const manifesto = document.getElementById('manifesto');
 const atel = document.getElementById('atelify-steps'), steps = atel.querySelectorAll('.step'), frames = atel.querySelectorAll('.frame img'), dots = atel.querySelectorAll('.dots i');
 const sub = document.getElementById('subtification-phone'), shots = sub.querySelectorAll('.screen img'), feats = sub.querySelectorAll('.feat');
@@ -432,7 +456,9 @@ function frame() {
   heroTitle.style.transform = `scale(${1 + t1 * .5})`;
   heroTitle.style.opacity = 1 - t1;
   heroTitle.style.filter = `blur(${t1 * 8}px)`;
-  loom.style.opacity = .2 * (1 - t2 * .6);
+  // Yamalar kaydırınca dışarı doğru açılıp solar
+  patchWrap.style.transform = `scale(${1 + t1 * .35})`;
+  patchWrap.style.opacity = 1 - ease(clamp(p / .55));
   heroInfo.style.opacity = t2;
   heroInfo.style.transform = `scale(${.94 + t2 * .06}) translateY(${(1 - t2) * 30}px)`;
   heroInfo.style.pointerEvents = t2 > .5 ? 'auto' : 'none';
@@ -488,7 +514,7 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 // GitHub: tüm zamanların katkı sayısı ve son 6 ayın ızgarası.
 // Kareler veri gelmeden yerleştirilir ki ızgaranın yüksekliği baştan belli olsun
 // ve veri gelince altındaki bölümler kaymasın; veri gelince yalnızca renkler değişir.
-const ghColors = ['#5a1a14', '#8f2a1a', '#b3361e', '#e0a526'];
+const ghColors = ['#5a1a14', '#8f2a1a', '#c0392b', '#e0a526'];
 const ghSection = document.getElementById('gh'), ghGrid = document.getElementById('ghGrid');
 const cellCount = 25 * 7 + new Date().getDay() + 1;
 ghGrid.innerHTML = Array.from({ length: cellCount }, (_, i) => `<i style="transition-delay:${(6 - i % 7) * 160 + Math.floor(i / 7) * 10}ms"></i>`).join('');
@@ -534,56 +560,13 @@ wave.addEventListener('click', async () => {
 
 
 // ================= HALI =================
-// 4. Açılış: tezgâhta aşağıdan yukarı, satır satır dokunan halı deseni
-function weave() {
-  const cell = innerWidth < 680 ? 8 : 10, dpr = Math.min(devicePixelRatio || 1, 2);
-  const cols = Math.ceil(innerWidth / cell), rows = Math.ceil(innerHeight / cell);
-  loom.width = cols * cell * dpr; loom.height = rows * cell * dpr;
-  const ctx = loom.getContext('2d'); ctx.scale(dpr, dpr);
-  const pal = ['#2a0f0d', '#7a2418', '#b3361e', '#e0a526', '#1f3a6b', '#e9dcc3'];
-  const cx = (cols - 1) / 2, cy = (rows - 1) / 2;
-  const color = (x, y) => {
-    const edge = Math.min(x, y, cols - 1 - x, rows - 1 - y);
-    if (edge < 2) return pal[1];                                  // dış kenar
-    if (edge < 6) return (x + y) % 4 < 2 ? pal[3] : pal[0];       // bordür zinciri
-    if (edge === 6) return pal[5];
-    const d = Math.abs(x - cx) / 1.4 + Math.abs(y - cy);          // ortadaki madalyon
-    const ring = Math.floor(d / 3) % 6;
-    if (d < 4) return pal[5];
-    return [pal[2], pal[0], pal[3], pal[4], pal[0], pal[1]][ring];
-  };
-  let row = rows - 1;
-  const step = () => {
-    const perFrame = reduce ? rows : Math.max(1, Math.ceil(rows / 90));
-    for (let k = 0; k < perFrame && row >= 0; k++, row--)
-      for (let x = 0; x < cols; x++) { ctx.fillStyle = color(x, row); ctx.fillRect(x * cell, row * cell, cell - 1, cell - 1); }
-    if (row >= 0) requestAnimationFrame(step);
-  };
-  step();
-}
-weave();
-let weaveTimer;
-addEventListener('resize', () => { clearTimeout(weaveTimer); weaveTimer = setTimeout(weave, 300); });
+
 
 // 2. Ayraçlar görününce dokunsun
 const bandObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); bandObs.unobserve(e.target); } }), { threshold: .6 });
 document.querySelectorAll('.band').forEach(b => bandObs.observe(b));
 
-// 3. Saçaklar: fare yaklaşınca dalgalansın
-const fringe = document.getElementById('fringe');
-const threadCount = Math.round(innerWidth / 9);
-fringe.innerHTML = Array.from({ length: threadCount }, () => `<i style="--l:${Math.round(Math.random() * 10)}px"></i>`).join('');
-const threads = [...fringe.children];
-let calm;
-fringe.parentElement.addEventListener('mousemove', e => {
-  threads.forEach(t => {
-    const r = t.getBoundingClientRect(), dx = r.left - e.clientX;
-    const f = Math.max(0, 1 - Math.abs(dx) / 120);
-    t.style.transform = f ? `rotate(${Math.sign(dx) * f * 28}deg)` : '';
-  });
-  clearTimeout(calm);
-  calm = setTimeout(() => threads.forEach(t => (t.style.transform = '')), 250);
-});
+
 
 // Dev teknoloji şeritleri
 const t1 = ['React Native', 'TypeScript', 'Node.js', 'PostgreSQL', 'Next.js', 'Expo'];
