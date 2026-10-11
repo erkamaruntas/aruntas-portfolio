@@ -118,12 +118,14 @@
   /* Atelify tanıtım videosu: ekran görüntüsünün altında, görününce sessiz başlar */
   .video { margin: 0; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); background: #000; box-shadow: 0 60px 120px -40px rgba(0,0,0,.9); }
   .video video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; }
-  #atelify-show { height: 300vh; }
+  #atelify-show { height: 240vh; }
   /* İki kart aynı yerde üst üste durur; hangisinin görüneceğini ve kaymayı kaydırma ilerlemesi belirler */
   .show-stage { position: relative; width: min(1100px, calc(100% - 48px), 150vh); height: 82vh; }
-  .show-card { position: absolute; left: 0; right: 0; top: 50%; translate: 0 -50%; will-change: transform, opacity; }
+  /* Geçiş Subtification ekranlarıyla aynı: aynı yerde solarak ve hafifçe küçülerek yer değiştirir */
+  .show-card { position: absolute; left: 0; right: 0; top: 50%; translate: 0 -50%; opacity: 0; transform: scale(1.04); pointer-events: none;
+    transition: opacity .6s, transform .8s cubic-bezier(.2,.8,.2,1); }
+  .show-card.active { opacity: 1; transform: none; pointer-events: auto; }
   #showShot > img { max-height: calc(82vh - 38px); }
-  #showVideo { opacity: 0; visibility: hidden; }
   .video figcaption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .links-row { display: flex; justify-content: center; gap: 28px; margin-top: 44px; font-size: 19px; }
   .links-row a { color: #2997ff; } .links-row a:hover { text-decoration: underline; }
@@ -444,16 +446,11 @@ function frame() {
   const lit = Math.round(pm * words.length);
   words.forEach((w, i) => w.classList.toggle('on', i < lit));
 
-  // 3. Atelify: önce ekran görüntüsü yukarı çıkar, tamamen gidince video aşağıdan gelir
-  const ps = progress(showScene), inView = showScene.getBoundingClientRect();
-  const out = ease(clamp((ps - .3) / .18)), inn = ease(clamp((ps - .5) / .18));
-  showShot.style.transform = `translateY(${-out * 70}vh) scale(${1 - out * .06})`;
-  showShot.style.opacity = 1 - out;
-  showShot.style.visibility = out >= 1 ? 'hidden' : 'visible';
-  showVideo.style.transform = `translateY(${(1 - inn) * 70}vh) scale(${.94 + inn * .06})`;
-  showVideo.style.opacity = inn;
-  showVideo.style.visibility = inn <= 0 ? 'hidden' : 'visible';
-  videoWanted(inn > .95 && inView.top < innerHeight && inView.bottom > 0);
+  // 3. Atelify: sahnenin ilk yarısında ekran görüntüsü, ikinci yarısında video (Subtification ekranlarıyla aynı geçiş)
+  const ps = progress(showScene), sceneBox = showScene.getBoundingClientRect(), showingVideo = ps >= .5;
+  showShot.classList.toggle('active', !showingVideo);
+  showVideo.classList.toggle('active', showingVideo);
+  videoWanted(showingVideo && sceneBox.top < innerHeight && sceneBox.bottom > 0);
 
   // 4. Subtification: telefon ekranları
   const is = Math.min(3, Math.floor(progress(sub) * 4));
