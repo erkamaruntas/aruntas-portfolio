@@ -4,821 +4,591 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Yusuf Erkam Aruntaş · Web & Mobil Geliştirici</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="description" content="Yusuf Erkam Aruntaş: arayüz ve kullanıcı deneyimine önem veren, ürün odaklı web ve mobil geliştirici. OSTİM Teknik Üniversitesi Yazılım Mühendisliği öğrencisi. Atelify ve Subtification projeleri.">
+<meta name="description" content="Yusuf Erkam Aruntaş: arayüz ve kullanıcı deneyimine önem veren, ürün odaklı web ve mobil geliştirici. Atelify ve Subtification.">
 <meta property="og:title" content="Yusuf Erkam Aruntaş · Web & Mobil Geliştirici">
-<meta property="og:description" content="Fikirleri tasarımdan yayına kadar uçtan uca çalışan ürünlere dönüştürüyorum.">
-<meta property="og:url" content="https://aruntas.com">
-<meta property="og:type" content="website">
+<meta property="og:description" content="Fikirden yayına. Uçtan uca.">
+<meta name="theme-color" content="#000000">
+<!-- ?v=2: tarayıcılar (özellikle Safari) eski sekme ikonunu önbellekte tutmasın -->
+<link rel="icon" href="logo-hali.ico?v=2" sizes="any">
+<link rel="icon" href="logo-hali-16.png?v=2" sizes="16x16" type="image/png">
+<link rel="icon" href="logo-hali-32.png?v=2" sizes="32x32" type="image/png">
+<link rel="icon" href="logo-hali-64.png?v=2" sizes="64x64" type="image/png">
+<link rel="apple-touch-icon" href="logo-hali-180.png?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
     color-scheme: dark;
-    --bg: #09090b;
-    --card: rgba(24,24,27,.66);
-    --card-solid: #18181b;
-    --border: rgba(255,255,255,.08);
-    --text: #f4f4f5;
-    --muted: #a1a1aa;
+    --bg: #000;
+    --text: #f5f5f7;
+    --muted: #a1a1a6;
+    --line: rgba(255,255,255,.12);
     --accent: #ff7a42;
-    --violet: #7c3aed;
-    --cyan: #06b6d4;
     --pink: #ec4899;
-    --green: #4ade80;
-    --spot: rgba(255,122,66,.16);
-    --gh-0: rgba(255,255,255,.06);
-    --blob-o: .35;
+    --violet: #8b5cf6;
+    --teal: #2dd4bf;
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, system-ui, sans-serif;
   }
-  * { box-sizing: border-box; margin: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg); color: var(--text);
-    font-family: Inter, system-ui, sans-serif; line-height: 1.5;
-    padding: 40px 16px 60px; overflow-x: hidden;
-  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 48px; }
+  ::selection { background: rgba(255,122,66,.35); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
   a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  .grad { background: linear-gradient(90deg, var(--accent), var(--pink), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; padding-bottom: .1em; }
 
-  /* ---------- Hareketli arka plan ---------- */
-  .blobs { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-  .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: var(--blob-o); }
-  .b1 { width: 480px; height: 480px; background: var(--accent); top: -120px; left: -80px; animation: float1 18s ease-in-out infinite; }
-  .b2 { width: 420px; height: 420px; background: var(--violet); top: 30%; right: -120px; animation: float2 22s ease-in-out infinite; }
-  .b3 { width: 380px; height: 380px; background: var(--cyan); bottom: -140px; left: 30%; animation: float3 20s ease-in-out infinite; }
-  .cursor-blob { width: 300px; height: 300px; background: var(--pink); opacity: calc(var(--blob-o) * .7); transform: translate(-50%, -50%); transition: left .8s ease-out, top .8s ease-out; left: 50%; top: 40%; }
-  @keyframes float1 { 50% { transform: translate(120px, 80px) scale(1.15); } }
-  @keyframes float2 { 50% { transform: translate(-140px, 60px) scale(.9); } }
-  @keyframes float3 { 50% { transform: translate(80px, -100px) scale(1.1); } }
-  .grain { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .05;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  /* ---------- Üst menü (Apple tarzı cam çubuk) ---------- */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 48px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 max(16px, calc((100vw - 1000px) / 2)); background: rgba(0,0,0,.6); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--line); font-size: 12.5px; }
+  nav .brand { font-weight: 700; font-size: 14px; letter-spacing: -.01em; display: flex; align-items: center; gap: 8px; }
+  nav .brand img { width: 20px; height: 20px; border-radius: 6px; }
+  nav .links { display: flex; gap: 26px; color: rgba(245,245,247,.8); }
+  nav .links a { transition: color .2s; }
+  nav .links a:hover, nav .links a.active { color: #fff; }
+  nav .links a.active { font-weight: 600; }
+  nav .cta { background: #f5f5f7; color: #000; padding: 5px 12px; border-radius: 999px; font-weight: 600; transition: transform .2s; }
+  nav .cta:hover { transform: scale(1.05); }
+  @media (max-width: 680px) { nav .links { display: none; } }
 
-  /* ---------- Grid ---------- */
-  .wrap { max-width: 1100px; margin: 0 auto; }
-  .grid {
-    display: grid; gap: 14px;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-areas:
-      "intro intro p1 p1"
-      "intro intro p2 p2"
-      "stack stack clock now"
-      "stats gh gh gh"
-      "hello contact contact contact";
-  }
-  .card {
-    background: var(--card); border: 1px solid var(--border); border-radius: 24px;
-    padding: 24px; position: relative; overflow: hidden; min-height: 170px;
-    backdrop-filter: blur(18px) saturate(140%); -webkit-backdrop-filter: blur(18px) saturate(140%);
-    opacity: 0; animation: in .7s cubic-bezier(.2,.8,.2,1) forwards;
-    transition: transform .2s ease-out, border-color .3s, box-shadow .3s;
-    transform-style: preserve-3d; will-change: transform;
-  }
-  @keyframes in { from { opacity: 0; translate: 0 24px; scale: .97; } to { opacity: 1; translate: 0 0; scale: 1; } }
-  /* İmleci takip eden ışık */
-  .card::before {
-    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
-    background: radial-gradient(380px circle at var(--x, 50%) var(--y, 50%), var(--spot), transparent 60%);
-    opacity: 0; transition: opacity .3s;
-  }
-  .card:hover::before { opacity: 1; }
-  .card:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); box-shadow: 0 20px 50px -20px color-mix(in srgb, var(--accent) 40%, transparent); }
-  .label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  /* ---------- Yapışkan sahneler ---------- */
+  .scene { position: relative; }
+  .sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; place-items: center; }
 
-  /* ---------- Tanıtım ---------- */
-  .intro { grid-area: intro; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
-  .avatar-wrap { position: relative; width: 84px; height: 84px; }
-  .avatar-wrap::before { content: ""; position: absolute; inset: -4px; border-radius: 50%;
-    background: conic-gradient(var(--accent), var(--pink), var(--violet), var(--cyan), var(--accent)); animation: spin 4s linear infinite; }
-  .avatar { position: absolute; inset: 0; border-radius: 50%; background: var(--card-solid); overflow: hidden; border: 3px solid var(--card-solid); }
-  .avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .intro h1 { font-size: clamp(32px, 4.4vw, 50px); line-height: 1.05; letter-spacing: -.035em; margin: 22px 0 10px; }
-  .grad {
-    background: linear-gradient(90deg, var(--accent), var(--pink), var(--violet), var(--cyan), var(--accent));
-    background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
-    animation: shimmer 6s linear infinite;
-  }
-  @keyframes shimmer { to { background-position: 300% 0; } }
-  .wave { display: inline-block; transform-origin: 70% 70%; animation: wave 2.4s ease-in-out infinite; }
-  @keyframes wave { 0%,60%,100% { transform: rotate(0); } 10%,30% { transform: rotate(14deg); } 20% { transform: rotate(-8deg); } 40% { transform: rotate(-4deg); } 50% { transform: rotate(10deg); } }
-  .role { font-family: "JetBrains Mono", monospace; font-size: 17px; color: var(--accent); min-height: 26px; }
-  .caret { display: inline-block; width: 2px; height: 1.1em; background: var(--accent); vertical-align: -3px; margin-left: 2px; animation: blink 1s steps(1) infinite; }
-  @keyframes blink { 50% { opacity: 0; } }
-  .intro p { color: var(--muted); font-size: 16px; max-width: 440px; margin-top: 12px; }
-  .intro-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 999px; font-weight: 600; font-size: 14px; transition: transform .2s, background .2s; }
-  .btn:hover { transform: translateY(-2px); }
-  .btn-primary { background: var(--text); color: var(--bg); }
-  .btn-ghost { border: 1px solid var(--border); background: var(--card-solid); }
-  .status { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--muted); }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
-  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(74,222,128,.7);} 70% { box-shadow: 0 0 0 10px rgba(74,222,128,0);} 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0);} }
+  /* ---------- 1. Açılış ---------- */
+  .hero-title { text-align: center; will-change: transform, opacity; }
+  .hero-title .eyebrow { font-size: clamp(17px, 2vw, 24px); font-weight: 600; color: var(--muted); margin-bottom: 10px; }
+  .hero-title h1 { font-size: clamp(60px, 13vw, 190px); font-weight: 800; letter-spacing: -.025em; line-height: .9; }   /* daha sıkı aralıkta r-k ve f-u birbirine giriyordu */
+  .hero-title h1 { filter: drop-shadow(0 6px 28px rgba(0,0,0,.85)); color: #e8e4dc; }
+  /* İsmin arkasında yumuşak koyu hale: halı kenarlarda kalır, "Erkam." koyu zemine oturur */
+  .hero-title { position: relative; }
+  .hero-title::before { content: ""; position: absolute; inset: -12% -8%; z-index: -1; pointer-events: none;
+    background: radial-gradient(closest-side, rgba(0,0,0,.92), rgba(0,0,0,.75) 55%, transparent); }
+  /* "Erkam." harflerinin içi gerçek bir Yıldızlı Uşak halısından; desen yavaşça kayar */
+  /* Desen yalnızca kutunun içine boyanır; sondaki noktanın kutudan taşan kısmı boyanmasın diye yanlara pay (negatif margin ile yer değişmez) */
+  .rug-text { padding: 0 .12em; margin: 0 -.12em; background: url(assets/rugs/text-usak.webp) 0 50% / auto 120%; -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: rugDrift 18s ease-in-out infinite alternate; }
+  /* Kontur harf harf değil, kelimenin dış çevresine çizilir: sıkı harf aralığında üst üste binen
+     harflerin (k-a, a-m) içinde çizgi kalmasın diye text-stroke yerine dış katmanda drop-shadow.
+     Filtre ayrı katmanda, çünkü Safari desenle doldurulmuş yazıya doğrudan filtreyi düzgün çizmiyor. */
+  .rug-outline { display: inline-block; filter: drop-shadow(2px 0 0 rgba(255,240,220,.85)) drop-shadow(-2px 0 0 rgba(255,240,220,.85))
+    drop-shadow(0 2px 0 rgba(255,240,220,.85)) drop-shadow(0 -2px 0 rgba(255,240,220,.85)); }
+  /* İletişimdeki "de.": arka plan Uşak olduğu için harflerin içi madalyonlu halıdan (karışmasınlar) */
+  .rug-text.madalyon { background-image: url(assets/rugs/text-madalyon.webp); background-size: auto 65%; background-repeat: repeat; }
+  @keyframes rugDrift { to { background-position: 100% 50%; } }
+  .hero-title p { font-size: clamp(20px, 2.6vw, 32px); font-weight: 600; letter-spacing: -.02em; margin-top: 22px; color: var(--muted); }
+  #hero { height: 230vh; }
+  .hero-info { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 28px; padding: 0 24px; opacity: 0; pointer-events: none; }
+  /* Renk geçişi yalnız kutunun içine boyanır: ç'nin kuyruğu kesilmesin diye alttan pay (negatif margin ile yer değişmez) */
+  .hero-info h2 { font-size: clamp(36px, 6vw, 80px); font-weight: 800; letter-spacing: -.025em; line-height: 1.05; padding-bottom: .14em; margin-bottom: -.14em; }
+  @media (max-width: 680px) { .hero-info br.wide { display: none; } }
+  .hero-info .facts { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px 40px; font-size: clamp(16px, 1.6vw, 19px); color: var(--muted); }
+  .hero-info .facts b { display: block; color: var(--text); font-weight: 600; font-size: clamp(18px, 1.9vw, 22px); margin-bottom: 2px; }
+  .scroll-hint { position: absolute; bottom: 30px; left: 50%; translate: -50% 0; color: var(--muted); font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .scroll-hint i { width: 22px; height: 36px; border: 2px solid var(--muted); border-radius: 12px; position: relative; }
+  .scroll-hint i::after { content: ""; position: absolute; left: 50%; top: 6px; width: 4px; height: 8px; margin-left: -2px; border-radius: 2px; background: var(--muted); animation: wheel 1.6s infinite; }
+  @keyframes wheel { 60% { transform: translateY(10px); opacity: 0; } 100% { opacity: 0; } }
 
-  /* ---------- Projeler ---------- */
-  .project { color: #fff; border: 0; min-height: 250px; padding: 0; display: flex; align-items: flex-end; }
-  .project.p1 { grid-area: p1; background: linear-gradient(135deg, #7c3aed, #db2777); }
-  .project.p2 { grid-area: p2; background: linear-gradient(135deg, #0891b2, #10b981); }
-  .project::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 35%, rgba(0,0,0,.45)); pointer-events: none; }
-  .project::before { --spot: rgba(255,255,255,.25); }
-  .project .info { position: relative; z-index: 2; padding: 22px 24px; width: 100%; display: flex; justify-content: space-between; align-items: flex-end; gap: 14px; }
-  .project h3 { font-size: 24px; letter-spacing: -.02em; }
-  .project p { font-size: 14px; opacity: .85; max-width: min(300px, 62%); }
-  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-  .tag { font-size: 11.5px; padding: 3px 10px; border-radius: 999px; background: rgba(255,255,255,.18); backdrop-filter: blur(6px); }
-  .arrow { width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; background: #fff; color: #111; display: grid; place-items: center; font-size: 18px; transition: transform .35s cubic-bezier(.3,1.6,.5,1); }
-  .project:hover .arrow { transform: rotate(-45deg) scale(1.1); }
-  .live { position: absolute; top: 18px; left: 20px; z-index: 2; font-size: 11px; font-family: "JetBrains Mono", monospace; display: flex; align-items: center; gap: 6px;
-    background: rgba(0,0,0,.25); padding: 4px 10px; border-radius: 999px; backdrop-filter: blur(6px); }
-  .live .dot { width: 6px; height: 6px; }
+  /* ---------- 2. Kelime kelime aydınlanan manifesto ---------- */
+  #manifesto { height: 220vh; }
+  .manifesto { max-width: 980px; padding: 0 24px; font-size: clamp(30px, 4.6vw, 60px); font-weight: 700; letter-spacing: -.035em; line-height: 1.12; }
+  .manifesto span { color: rgba(255,255,255,.16); transition: color .15s; }
+  .manifesto span.on { color: var(--text); }
+  .manifesto span.hl.on { color: var(--accent); }
 
-  /* Mockup: tarayıcı */
-  .mock { position: absolute; z-index: 1; transition: transform .6s cubic-bezier(.2,.8,.2,1); }
-  .browser { right: -20px; top: 18px; width: 56%; height: 112px; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,.25); transform: rotate(-4deg); animation: bob 6s ease-in-out infinite; }
-  .browser .top { height: 20px; border-bottom: 1px solid #eee; display: flex; gap: 5px; align-items: center; padding: 0 10px; background: #f6f6f6; }
-  .browser .top i { width: 7px; height: 7px; border-radius: 50%; background: #ddd; }
-  .shot-img { display: block; width: 100%; object-fit: cover; object-position: top; }
-  .browser .shot-img { height: calc(100% - 20px); }
-  .project:hover .browser { transform: rotate(-1deg) translateY(-14px) scale(1.04); }
-  /* Mockup: telefon */
-  .phone { right: 80px; top: 18px; width: 84px; height: 172px; background: #111; border-radius: 20px; padding: 5px; box-shadow: 0 20px 40px rgba(0,0,0,.3); transform: rotate(8deg); animation: bob 7s ease-in-out infinite reverse; }
-  .phone .scr { width: 100%; height: 100%; border-radius: 15px; overflow: hidden; background: #fff; }
-  .phone .shot-img { height: 100%; }
-  .project:hover .phone { transform: rotate(2deg) translateY(-14px) scale(1.05); }
-  @keyframes bob { 50% { translate: 0 -8px; } }
+  /* ---------- Bölüm başlıkları ---------- */
+  .section-head { text-align: center; padding: 18vh 24px 8vh; }
+  .section-head .tag { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--muted); margin-bottom: 16px; }
+  .section-head .tag i { width: 8px; height: 8px; border-radius: 50%; background: #30d158; box-shadow: 0 0 12px #30d158; }
+  .section-head h2 { font-size: clamp(44px, 8vw, 104px); font-weight: 800; letter-spacing: -.03em; line-height: .95; }
+  .section-head p { font-size: clamp(19px, 2.2vw, 26px); color: var(--muted); font-weight: 500; max-width: 720px; margin: 22px auto 0; letter-spacing: -.01em; line-height: 1.35; }
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s cubic-bezier(.2,.8,.2,1), transform 1s cubic-bezier(.2,.8,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
 
-  /* ---------- Teknolojiler (kayan şerit) ---------- */
-  .stack { grid-area: stack; padding: 24px 0; }
-  .stack .label { padding: 0 24px; }
-  .marquee { display: flex; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); margin-top: 6px; }
-  .track { display: flex; gap: 8px; padding-right: 8px; flex-shrink: 0; animation: marquee 22s linear infinite; }
-  .marquee.rev .track { animation-direction: reverse; animation-duration: 26s; }
-  .stack:hover .track { animation-play-state: paused; }
-  @keyframes marquee { to { transform: translateX(-100%); } }
-  .chip { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; font-family: "JetBrains Mono", monospace; font-size: 13px; padding: 9px 14px; border-radius: 12px; background: var(--card-solid); border: 1px solid var(--border); }
-  .chip i { width: 9px; height: 9px; border-radius: 3px; }
+  /* ---------- 3. Atelify: 4 aşama ---------- */
+  #atelify-steps { height: 420vh; }
+  .atelify-stage { width: min(1100px, 100%); padding: 0 24px; display: grid; grid-template-columns: 1fr 1.25fr; gap: 56px; align-items: center; }
+  .steps { position: relative; height: 260px; }
+  .step { position: absolute; inset: 0; opacity: 0; transform: translateY(30px); transition: opacity .6s, transform .6s cubic-bezier(.2,.8,.2,1); }
+  .step.active { opacity: 1; transform: none; }
+  .step .num { font-size: 15px; font-weight: 700; color: var(--accent); letter-spacing: .02em; }
+  .step h3 { font-size: clamp(36px, 4.4vw, 58px); font-weight: 800; letter-spacing: -.03em; line-height: 1; margin: 12px 0 16px; }
+  .step p { font-size: 19px; color: var(--muted); line-height: 1.45; max-width: 420px; }
+  .dots { display: flex; gap: 8px; margin-top: 26px; }
+  .dots i { width: 8px; height: 8px; border-radius: 4px; background: #333; transition: width .4s, background .4s; }
+  .dots i.active { width: 28px; background: var(--text); }
+  .frame { position: relative; aspect-ratio: 1; width: min(100%, 68vh, 560px); justify-self: center; border-radius: 32px; overflow: hidden; background: #111; box-shadow: 0 50px 100px -30px rgba(255,122,66,.35); }
+  .frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.06); transition: opacity .7s, transform 1.2s cubic-bezier(.2,.8,.2,1); }
+  .frame img.active { opacity: 1; transform: none; }
 
-  /* ---------- Saat ---------- */
-  .clock { grid-area: clock; display: flex; flex-direction: column; justify-content: space-between; }
-  .time { font-size: 42px; font-weight: 800; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
-  .time .sec { color: var(--accent); }
-  .clock small { color: var(--muted); font-size: 13.5px; }
-  .sky { position: absolute; right: -24px; top: -24px; width: 96px; height: 96px; border-radius: 50%; background: radial-gradient(circle, #ffd166, #ff8c42); box-shadow: 0 0 60px #ffb347; animation: glow 4s ease-in-out infinite; }
-  .sky.night { background: radial-gradient(circle at 35% 35%, #f1f5f9, #94a3b8); box-shadow: 0 0 50px rgba(148,163,184,.6); }
-  @keyframes glow { 50% { transform: scale(1.08); } }
+  /* Atelify ekran görüntüsü + özellik kartları */
+  .showcase { width: min(1100px, calc(100% - 48px)); margin: 0 auto; }
+  .browser { border-radius: 20px; overflow: hidden; border: 1px solid var(--line); background: #1c1c1e; box-shadow: 0 60px 120px -40px rgba(0,0,0,.9); }
+  .browser .bar { height: 38px; display: flex; align-items: center; gap: 8px; padding: 0 16px; background: #1c1c1e; border-bottom: 1px solid var(--line); }
+  .browser .bar i { width: 11px; height: 11px; border-radius: 50%; background: #3a3a3c; }
+  .browser > img { width: 100%; max-height: 72vh; object-fit: cover; object-position: top; }
+  .browser .bar span { margin: 0 auto; font-size: 12px; color: var(--muted); background: #2c2c2e; padding: 4px 40px; border-radius: 6px; }
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+  .tile { background: #111113; border: 1px solid var(--line); border-radius: 24px; padding: 30px; min-height: 220px; display: flex; flex-direction: column; justify-content: space-between; }
+  .tile b { font-size: clamp(36px, 4.4vw, 56px); font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+  .tile p { color: var(--muted); font-size: 17px; line-height: 1.4; }
+  .tile p strong { color: var(--text); font-weight: 600; }
+  .tile.wide { grid-column: span 2; }
+  .links-row { display: flex; justify-content: center; gap: 28px; margin-top: 44px; font-size: 19px; }
+  .links-row a { color: #2997ff; } .links-row a:hover { text-decoration: underline; }
 
-  /* ---------- Şu an üzerinde çalışıyorum ---------- */
-  .now { grid-area: now; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
-  .now h4 { font-size: 18px; letter-spacing: -.02em; display: flex; align-items: center; gap: 8px; }
-  .now p { color: var(--muted); font-size: 13px; line-height: 1.45; margin-top: 4px; }
-  .crane { display: inline-block; animation: tilt 2.4s ease-in-out infinite; transform-origin: bottom center; }
-  @keyframes tilt { 50% { transform: rotate(-12deg); } }
-  .progress-head { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 6px; font-variant-numeric: tabular-nums; }
-  .progress-head b { color: var(--text); font-size: 13px; }
-  .bar { height: 10px; border-radius: 999px; background: var(--gh-0); overflow: hidden; }
-  .fill { height: 100%; width: 0; border-radius: inherit; transition: width 1.8s cubic-bezier(.2,.8,.2,1);
-    background: repeating-linear-gradient(-45deg, rgba(255,255,255,.25) 0 6px, transparent 6px 12px), linear-gradient(90deg, var(--accent), var(--pink), var(--violet));
-    background-size: 17px 17px, 100% 100%; animation: stripes .8s linear infinite; }
-  @keyframes stripes { to { background-position: 17px 0, 0 0; } }
-  .now small { font-size: 11.5px; color: var(--muted); display: flex; align-items: center; gap: 6px; margin-top: 8px; }
-  .now small .dot { width: 6px; height: 6px; background: var(--accent); }
+  /* ---------- 4. Subtification: telefon ---------- */
+  #subtification-phone { height: 440vh; }
+  .phone-stage { width: min(1100px, 100%); padding: 0 24px; display: grid; grid-template-columns: 1fr auto 1fr; gap: 48px; align-items: center; }
+  .feat { opacity: .18; transform: translateY(10px); transition: opacity .5s, transform .5s; margin: 26px 0; }
+  .feat.active { opacity: 1; transform: none; }
+  .feat h4 { font-size: 24px; font-weight: 700; letter-spacing: -.02em; margin-bottom: 6px; }
+  .feat p { color: var(--muted); font-size: 16.5px; line-height: 1.45; }
+  .left .feat { text-align: right; }
+  /* Telefon çerçevesi subtification.aruntas.com'dakinin aynısı (koyu tema hali) */
+  .phone { position: relative; width: min(300px, 62vw, 34vh); padding: 9px; border-radius: 48px; background: #0f1113;
+    box-shadow: 0 0 0 1.5px #3a4147 inset, 0 30px 70px rgba(0, 0, 0, 0.5); }
+  .screen { position: relative; width: 100%; aspect-ratio: 1170 / 2532; border-radius: 39px; overflow: hidden; background: #fff; }
+  .screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.04); transition: opacity .6s, transform .8s cubic-bezier(.2,.8,.2,1); }
+  .screen img.active { opacity: 1; transform: none; }
 
-  /* ---------- Sayılarla ---------- */
-  .stats { grid-area: stats; display: flex; flex-direction: column; justify-content: space-between; gap: 6px; }
-  .stat { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
-  .stat b { font-size: 28px; font-weight: 800; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-  .stat span { color: var(--muted); font-size: 13px; }
+  /* ---------- 5. Ranvu ---------- */
+  .wip { width: min(1100px, calc(100% - 48px)); margin: 0 auto; border-radius: 32px; padding: clamp(32px, 6vw, 72px); position: relative; overflow: hidden;
+    background: radial-gradient(120% 140% at 100% 0%, rgba(139,92,246,.35), transparent 50%), radial-gradient(100% 120% at 0% 100%, rgba(255,122,66,.25), transparent 55%), #0b0b0d;
+    border: 1px solid var(--line); }
+  .wip .tag { font-size: 14px; font-weight: 600; color: var(--muted); }
+  .wip h3 { font-size: clamp(40px, 6vw, 76px); font-weight: 800; letter-spacing: -.03em; line-height: 1; margin: 14px 0 18px; }
+  .wip p { font-size: clamp(18px, 2vw, 22px); color: var(--muted); max-width: 640px; line-height: 1.45; }
+  .meter { margin-top: 40px; max-width: 640px; }
+  .meter-head { display: flex; justify-content: space-between; font-size: 15px; color: var(--muted); margin-bottom: 10px; }
+  .meter-head b { color: var(--text); font-size: 17px; font-variant-numeric: tabular-nums; }
+  .meter-bar { height: 8px; border-radius: 4px; background: #1f1f22; overflow: hidden; }
+  .meter-bar i { display: block; height: 100%; width: 0; border-radius: 4px; background: linear-gradient(90deg, var(--accent), var(--pink), var(--violet)); transition: width 2s cubic-bezier(.2,.8,.2,1); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 30px; }
+  .chips span { font-size: 14px; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line); color: rgba(245,245,247,.85); }
+
+  /* ---------- 6. Sayılar ---------- */
+  .numbers { width: min(1100px, calc(100% - 48px)); margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; }
+  .numbers div { padding: 20px; }
+  .numbers b { display: block; font-size: clamp(56px, 8vw, 112px); font-weight: 800; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .numbers span { display: block; color: var(--muted); font-size: 19px; margin-top: 12px; }
 
   /* ---------- GitHub ---------- */
-  .gh { grid-area: gh; }
-  .gh-grid { display: grid; grid-template-rows: repeat(7, 1fr); grid-auto-flow: column; gap: 3px; }
-  .gh-grid i { aspect-ratio: 1; border-radius: 3px; background: var(--gh-0); transform: scale(0); animation: pop .4s cubic-bezier(.3,1.6,.5,1) forwards; transition: transform .15s; }
-  .gh-grid i:hover { transform: scale(1.6) !important; position: relative; z-index: 2; }
-  @keyframes pop { to { transform: scale(1); } }
-  .gh-meta { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 13px; margin-top: 12px; }
-  .legend { display: flex; gap: 3px; align-items: center; }
-  .legend i { width: 10px; height: 10px; border-radius: 2px; }
+  .gh { width: min(1100px, calc(100% - 48px)); margin: 12vh auto 0; }
+  .gh-grid { display: grid; grid-template-rows: repeat(7, 1fr); grid-auto-flow: column; gap: 4px; }
+  .gh-grid i { aspect-ratio: 1; border-radius: 2px; background-color: #182038; opacity: 0; transform: scaleY(.2);
+    background-image: linear-gradient(135deg, rgba(255,255,255,.09) 25%, transparent 25% 50%, rgba(255,255,255,.09) 50% 75%, transparent 75%); background-size: 5px 5px;
+    transition: opacity .35s ease, transform .35s cubic-bezier(.2,.8,.2,1), background-color .4s; }
+  /* Dalga, hem veri hazır hem bölüm görünür olunca başlar */
+  .gh.in.ready .gh-grid i { opacity: 1; transform: none; }
+  .gh-meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; color: var(--muted); font-size: 15px; margin-top: 16px; }
+  .gh-meta a { color: #2997ff; } .gh-meta a:hover { text-decoration: underline; }
 
-  /* ---------- Selam ver ---------- */
-  .hello { grid-area: hello; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; }
-  .wave-btn { width: 76px; height: 76px; border-radius: 50%; cursor: pointer; font-size: 36px; line-height: 1; color: inherit;
-    display: grid; place-items: center; border: 3px solid transparent;
-    background: linear-gradient(var(--card-solid), var(--card-solid)) padding-box,
-                conic-gradient(from var(--ring, 0deg), var(--accent), var(--pink), var(--violet), var(--accent)) border-box;
-    animation: ring 5s linear infinite; transition: transform .3s cubic-bezier(.3,1.6,.5,1); }
-  @property --ring { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
-  @keyframes ring { to { --ring: 360deg; } }
-  .wave-btn:hover { transform: scale(1.08); }
-  .wave-btn:active { transform: scale(.94); }
-  .wave-btn span { display: inline-block; transform-origin: 70% 70%; }
-  .wave-btn:hover span, .wave-btn.go span { animation: wave 1.2s ease-in-out; }
-  .wave-btn.done { background: linear-gradient(var(--card-solid), var(--card-solid)) padding-box, linear-gradient(var(--green), var(--green)) border-box; animation: none; }
-  .wave-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
-  .wave-count b { font-size: 28px; font-weight: 800; letter-spacing: -.03em; font-variant-numeric: tabular-nums; display: block; line-height: 1.1; }
-  .wave-count span { color: var(--muted); font-size: 13px; }
-  .confetti { position: absolute; width: 8px; height: 8px; border-radius: 2px; pointer-events: none; z-index: 3; }
+  /* ---------- 7. Dev teknoloji şeridi ---------- */
+  .marquee { overflow: hidden; padding: 6px 0; }
+  .marquee .track { display: flex; width: max-content; animation: slide 40s linear infinite; font-size: clamp(48px, 8vw, 110px); font-weight: 800; letter-spacing: -.03em; white-space: nowrap; }
+  .marquee.rev .track { animation-direction: reverse; }
+  .marquee .track span { padding-right: 60px; }
+  .marquee .track span:nth-child(odd) { color: rgba(255,255,255,.18); }
+  @keyframes slide { to { transform: translateX(-50%); } }
 
-  /* ---------- İletişim ---------- */
-  .contact { grid-area: contact; color: #fff; border: 0; display: flex; align-items: center; justify-content: space-between; gap: 20px;
-    background: linear-gradient(120deg, #ff5a1f, #ec4899, #7c3aed, #ff5a1f); background-size: 300% 300%; animation: in .7s cubic-bezier(.2,.8,.2,1) forwards, flow 10s ease infinite; }
-  @keyframes flow { 50% { background-position: 100% 50%; } }
-  .contact .label { color: rgba(255,255,255,.8); }
-  .contact h3 { font-size: clamp(24px, 3vw, 34px); line-height: 1.1; letter-spacing: -.03em; }
-  .contact-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-  .contact .btn { background: #fff; color: #111; border: 0; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer; }
-  .contact .btn.soft { background: rgba(255,255,255,.18); color: #fff; }
-  .badge { width: 120px; height: 120px; flex-shrink: 0; position: relative; display: grid; place-items: center; }
-  .badge svg { position: absolute; inset: 0; animation: spin 14s linear infinite; }
-  .badge text { fill: #fff; font-size: 9.6px; font-weight: 700; letter-spacing: 1.4px; }
-  .badge span { width: 52px; height: 52px; border-radius: 50%; background: #fff; color: #111; display: grid; place-items: center; font-size: 22px; transition: transform .4s cubic-bezier(.3,1.6,.5,1); }
-  .contact:hover .badge span { transform: rotate(-45deg) scale(1.1); }
-  .toast { position: fixed; left: 50%; bottom: 28px; translate: -50% 120px; background: var(--text); color: var(--bg); padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; transition: translate .4s cubic-bezier(.3,1.6,.5,1); z-index: 10; }
-  .toast.show { translate: -50% 0; }
+  /* ---------- 8. İletişim ---------- */
+  .contact { text-align: center; padding: 22vh 24px 0; }
+  .contact h2 { font-size: clamp(64px, 13vw, 190px); font-weight: 800; letter-spacing: -.03em; line-height: .9; }
+  .contact p { font-size: clamp(19px, 2.2vw, 26px); color: var(--muted); margin: 26px auto 40px; max-width: 640px; line-height: 1.35; }
+  .btn-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; }
+  .btn { padding: 15px 28px; border-radius: 999px; font-size: 17px; font-weight: 600; transition: transform .2s; }
+  .btn:hover { transform: scale(1.04); }
+  .btn.primary { background: #f5f5f7; color: #000; }
+  .btn.ghost { border: 1px solid rgba(255,255,255,.3); }
+  .wave { margin-top: 40px; display: inline-flex; align-items: center; gap: 12px; padding: 12px 22px 12px 14px; border-radius: 999px; cursor: pointer;
+    background: #111113; border: 1px solid var(--line); color: var(--text); font: 600 16px var(--font); transition: transform .2s, border-color .3s; position: relative; }
+  .wave[hidden] { display: none; }
+  .wave:hover { transform: scale(1.04); border-color: rgba(255,255,255,.3); }
+  .wave span { font-size: 26px; display: inline-block; transform-origin: 70% 70%; }
+  .wave:hover span, .wave.go span { animation: hand 1.2s ease-in-out; }
+  .wave b { font-variant-numeric: tabular-nums; }
+  .wave.done { border-color: rgba(48,209,88,.5); }
+  .wave small { color: var(--muted); font-weight: 500; font-size: 15px; }
+  @keyframes hand { 10%, 30% { transform: rotate(14deg); } 20% { transform: rotate(-8deg); } 40% { transform: rotate(-4deg); } 50% { transform: rotate(10deg); } 60% { transform: none; } }
+  .confetti { position: fixed; width: 8px; height: 8px; border-radius: 2px; pointer-events: none; z-index: 200; }
+  footer { border-top: 1px solid var(--line); padding: 22px max(16px, calc((100vw - 1000px) / 2)); font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  footer nav { all: unset; display: flex; gap: 18px; } footer a:hover { color: var(--text); }
 
-  /* ---------- Üzerinde bekleyince büyüyen kart ---------- */
-  .dwell { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; z-index: 4; pointer-events: none;
-    background: linear-gradient(90deg, var(--accent), var(--pink), var(--violet)); border-radius: 0 3px 3px 0; opacity: 0; }
-  .card.dwelling .dwell { opacity: 1; width: 100%; transition: width var(--dwell) linear, opacity .2s; }
-  .ex-backdrop { position: fixed; inset: 0; z-index: 40; background: rgba(0,0,0,.45); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); pointer-events: none; }
-  .expanded { position: fixed; z-index: 50; border-radius: 26px; overflow: hidden; color: var(--text);
-    background: rgba(20,20,23,.94); border: 1px solid rgba(255,255,255,.12);
-    box-shadow: 0 40px 120px -20px rgba(0,0,0,.8), 0 0 0 1px rgba(255,90,31,.15); }
-  .expanded.is-project { color: #fff; border-color: rgba(255,255,255,.2); }
-  .ex-inner { height: 100%; overflow-y: auto; overscroll-behavior: contain; padding: 28px 30px 30px; display: grid; gap: 16px; align-content: start; }
-  .ex-inner::-webkit-scrollbar { width: 6px; } .ex-inner::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 3px; }
-  .expanded h3 { font-size: 26px; line-height: 1.15; letter-spacing: -.03em; }
-  .expanded p { color: var(--muted); font-size: 15px; line-height: 1.6; }
-  .expanded.is-project p, .expanded.is-project .ex-label, .expanded.is-project .ex-list li { color: rgba(255,255,255,.85); }
-  .ex-split { display: grid; grid-template-columns: 1fr 34%; gap: 22px; align-items: stretch; }
-  .ex-col { display: grid; gap: 16px; align-content: start; }
-  .ex-col > * { animation: exIn .45s cubic-bezier(.2,.8,.2,1) both; }
-  .ex-col > *:nth-child(2) { animation-delay: .05s; } .ex-col > *:nth-child(3) { animation-delay: .1s; } .ex-col > *:nth-child(n+4) { animation-delay: .15s; }
-  .ex-portrait { width: 100%; height: 100%; min-height: 280px; object-fit: cover; object-position: center 30%; border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,.4); animation: exPhoto .6s .1s cubic-bezier(.2,.8,.2,1) both; }
-  @keyframes exPhoto { from { opacity: 0; scale: .92; } }
-  .ex-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
-  .ex-sub { margin-top: 2px; }
-  .ex-head { display: flex; align-items: center; gap: 16px; }
-  .ex-avatar { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; object-position: center 30%; border: 3px solid var(--accent); }
-  .ex-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .ex-box { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 14px 16px; display: grid; gap: 4px; }
-  .ex-box strong { font-size: 15px; } .ex-box span { color: var(--muted); font-size: 13px; line-height: 1.4; }
-  .ex-big { font-size: 34px; font-weight: 800; letter-spacing: -.04em; font-variant-numeric: tabular-nums; line-height: 1.1; }
-  .ex-list { padding-left: 18px; display: grid; gap: 7px; font-size: 14.5px; line-height: 1.5; }
-  .ex-list li::marker { color: var(--accent); }
-  .ex-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .ex-tags span { font-family: "JetBrains Mono", monospace; font-size: 12px; padding: 5px 10px; border-radius: 8px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1); }
-  .ex-rows { display: grid; gap: 12px; } .ex-rows b { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
-  .ex-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-  .ex-actions a { padding: 10px 16px; border-radius: 999px; font-weight: 600; font-size: 14px; background: #fff; color: #111; transition: transform .2s; }
-  .ex-actions a + a { background: rgba(255,255,255,.12); color: #fff; }
-  .ex-actions a:hover { transform: translateY(-2px); }
-  .ex-wide { width: 100%; height: auto; border-radius: 14px; display: block; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
-  .ex-steps { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; counter-reset: s; }
-  .ex-steps li { counter-increment: s; background: rgba(0,0,0,.2); border-radius: 12px; padding: 10px 12px; font-size: 12.5px; line-height: 1.35; color: rgba(255,255,255,.85); }
-  .ex-steps b { display: block; color: #fff; font-size: 14px; margin-bottom: 2px; }
-  .ex-steps b::before { content: counter(s) " · "; opacity: .6; }
-  .ex-phones { display: flex; justify-content: center; gap: 14px; }
-  .ex-phones img { width: 30%; max-width: 150px; height: auto; border-radius: 18px; border: 4px solid #111; box-shadow: 0 14px 30px rgba(0,0,0,.35); }
-  .ex-phones img:nth-child(2) { translate: 0 -10px; }
-  .ex-contact { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .ex-contact a { display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 16px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); font-size: 13.5px; color: var(--muted); transition: border-color .2s, transform .2s; }
-  .ex-contact a:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .is-project .ex-contact a, .is-project .ex-box { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.22); color: rgba(255,255,255,.85); }
-  .is-project .ex-contact b, .is-project .ex-box span { color: #fff; }
-  .is-project .ex-contact a:hover { border-color: #fff; }
-  .ex-contact span { font-size: 22px; } .ex-contact b { display: block; color: var(--text); font-size: 14.5px; }
-  .ex-gh { display: grid; grid-template-rows: repeat(7, 1fr); grid-auto-flow: column; gap: 3px; }
-  .ex-gh i { aspect-ratio: 1; border-radius: 3px; background: var(--gh-0); }
-  .ex-inner > * { animation: exIn .45s cubic-bezier(.2,.8,.2,1) both; }
-  .ex-inner > *:nth-child(2) { animation-delay: .05s; } .ex-inner > *:nth-child(3) { animation-delay: .1s; }
-  .ex-inner > *:nth-child(4) { animation-delay: .15s; } .ex-inner > *:nth-child(n+5) { animation-delay: .2s; }
-  @keyframes exIn { from { opacity: 0; translate: 0 10px; } }
 
-  footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 36px; }
+  /* ================= HALI ================= */
+  /* Sitenin arka planı: gerçek bir Yıldızlı Uşak halısının zemini (aynalanarak dikişsiz),
+     ortası yazılar okunsun diye daha koyu, kenarlara doğru halı daha belirgin */
+  body { background: #000; }
+  /* Her bölümün kendi halısı var; ekranın ortasındaki bölüm değişince desenler yavaşça birbirine geçer */
+  .rug-bg { position: fixed; inset: 0; z-index: -2; pointer-events: none; background: #000; }
+  .rug-bg div { position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s ease; background-repeat: repeat; background-position: center top; background-size: var(--s, 640px) auto; }
+  .rug-bg div.on { opacity: 1; }
+  body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1; }
+  body::after { background: radial-gradient(ellipse 75% 70% at 50% 50%, rgba(0,0,0,.9) 0%, rgba(0,0,0,.82) 55%, rgba(0,0,0,.64) 100%); }
 
-  /* ---------- Responsive ---------- */
-  @media (max-width: 880px) {
-    .grid { grid-template-columns: repeat(2, 1fr);
-      grid-template-areas: "intro intro" "p1 p1" "p2 p2" "stack stack" "clock now" "stats hello" "gh gh" "contact contact"; }
+  /* GitHub ızgarası gerçek bir Anadolu kiliminin bordürüyle çevrili */
+  .kilim { border: 30px solid transparent; border-image: url(assets/rugs/frame-kilim.webp) 64 round; box-shadow: 0 40px 80px -30px rgba(179,54,30,.6); }
+  .kilim-in { background: #0d1220; padding: 12px; }
+  @media (max-width: 680px) { .kilim { border-width: 18px; } .kilim-in { padding: 8px; } }
+
+  /* Sayfanın sonu: gerçek bir halının saçaklı ucu */
+  /* Halı burada biter: saçaklar düz siyaha sarkar, altı (footer) da siyah */
+  .rug-end { margin-top: 12vh; height: 150px; background: url(assets/rugs/end-sacak.webp) repeat-x center top / auto 100%, #000; }
+  footer { background: #000; }
+  @media (max-width: 680px) { .rug-end { height: 100px; } }
+
+  /* ---------- Telefon ---------- */
+  @media (max-width: 860px) {
+    .atelify-stage { grid-template-columns: 1fr; gap: 28px; text-align: center; }
+    .atelify-stage .frame { width: min(300px, 70vw, 42vh); margin: 0 auto; order: -1; }
+    .steps { height: 200px; } .step p { margin: 0 auto; font-size: 17px; } .dots { justify-content: center; }
+    .phone-stage { grid-template-columns: 1fr; gap: 0; justify-items: center; }
+    .phone-stage .left, .phone-stage .right { display: none; }
+    .phone-caption { display: block !important; }
+    .tiles { grid-template-columns: 1fr; } .tile.wide { grid-column: auto; }
+    .numbers { grid-template-columns: 1fr; }
   }
-  @media (max-width: 560px) {
-    body { padding-top: 16px; }
-    .grid { grid-template-columns: 1fr;
-      grid-template-areas: "intro" "p1" "p2" "stack" "clock" "now" "stats" "gh" "hello" "contact"; }
-    .contact { flex-direction: column; align-items: flex-start; }
-    .badge { width: 96px; height: 96px; align-self: flex-end; margin-top: -40px; }
-    .project { min-height: 400px; }
-    .project p { max-width: none; }
-    .browser { top: 56px; right: -16px; width: 86%; height: 150px; }
-    .phone { top: 52px; right: auto; left: 50%; margin-left: -42px; height: 168px; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition: none !important; }
-  }
+  .phone-caption { display: none; position: absolute; bottom: 5vh; left: 24px; right: 24px; text-align: center; }
+  .phone-caption h4 { font-size: 22px; font-weight: 700; } .phone-caption p { color: var(--muted); font-size: 15px; margin-top: 4px; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
-<div class="blobs" aria-hidden="true">
-  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
-  <div class="blob cursor-blob" id="cursorBlob"></div>
+<div class="rug-bg" id="rugBg" aria-hidden="true">
+  <div data-rug="usak" data-src="assets/rugs/bg-usak.webp" style="--s:720px"></div>
+  <div data-rug="madalyon" data-src="assets/rugs/bg-madalyon.webp" style="--s:560px"></div>
+  <div data-rug="turkuaz" data-src="assets/rugs/bg-turkuaz.webp" style="--s:560px"></div>
+  <div data-rug="kazak" data-src="assets/rugs/bg-kazak.webp" style="--s:600px"></div>
+  <div data-rug="kilim" data-src="assets/rugs/bg-kilim.webp" style="--s:520px"></div>
+  <div data-rug="lacivert" data-src="assets/rugs/bg-lacivert.webp" style="--s:560px"></div>
 </div>
-<div class="grain" aria-hidden="true"></div>
 
-<div class="wrap">
-  <div class="grid">
+<nav>
+  <a class="brand" href="#hero"><img src="logo-hali-64.png" alt="">Yusuf Erkam</a>
+  <div class="links"><a href="#atelify">Atelify</a><a href="#subtification">Subtification</a><a href="#ranvu">Ranvu</a><a href="#iletisim">İletişim</a></div>
+  <a class="cta" href="mailto:erkam@aruntas.com">Merhaba de</a>
+</nav>
 
-    <section class="card intro" style="animation-delay:0s">
-      <div>
-        <div class="avatar-wrap"><div class="avatar"><img src="assets/erkam.jpg" alt="Yusuf Erkam Aruntaş"></div></div>
-        <h1>Merhaba, ben<br><span class="grad">Yusuf Erkam</span> <span class="wave">👋</span></h1>
-        <div class="role"><span id="role"></span><span class="caret"></span></div>
-        <p>OSTİM Teknik Üniversitesi Yazılım Mühendisliği 4. sınıf öğrencisiyim. React Native, TypeScript, Node.js ve PostgreSQL ile fikirleri tasarımdan yayına kadar uçtan uca çalışan ürünlere dönüştürüyorum. Arayüz tasarlamayı ve kullanıcı deneyimini her kararın merkezine koymayı seviyorum.</p>
+<!-- 1. Açılış: isim büyüyüp kaybolur, yerine fotoğraf gelir -->
+<section class="scene" id="hero" data-rug="lacivert">
+  <div class="sticky">
+    <div class="hero-title" id="heroTitle">
+      <div class="eyebrow">Ürün ve kullanıcı deneyimi odaklı Web &amp; Mobil Geliştirici</div>
+      <h1>Yusuf <span class="rug-outline"><span class="rug-text">Erkam.</span></span></h1>
+      <p>Fikirden yayına. Uçtan uca.</p>
+    </div>
+    <div class="hero-info" id="heroInfo">
+      <h2 class="grad">Kullanıcı deneyimi odaklı<br class="wide"> ürün çıkarırım.</h2>
+      <div class="facts">
+        <div><b>OSTİM Teknik Üniversitesi</b>Yazılım Mühendisliği · 4. sınıf</div>
+        <div><b>Barikat Siber Güvenlik</b>Security Operations stajı · 2025</div>
+        <div><b>Ankara</b>Türkiye</div>
       </div>
-      <div class="intro-foot">
-        <a class="btn btn-primary" href="#projeler">Projelerim ↓</a>
-        <a class="btn btn-ghost" href="https://github.com/erkamaruntas" target="_blank" rel="noopener">GitHub</a>
-        <span class="status"><span class="dot"></span> Staj ve junior pozisyonlara açığım</span>
-      </div>
-      <template class="more">
-        <div class="ex-split">
-          <div class="ex-col">
-          <div><div class="ex-label">👋 Hakkımda</div><h3>Yusuf Erkam Aruntaş</h3><p class="ex-sub">Ürün odaklı Web &amp; Mobil Geliştirici</p></div>
-          <p>Fikirleri tasarımdan yayına kadar uçtan uca çalışan ürünlere dönüştürmeyi seviyorum. Arayüz tasarlamayı ve kullanıcının ürünü nasıl deneyimlediğini düşünmeyi seviyorum; bir ürünün yalnızca kodunu değil, tasarımını, ödeme akışını ve yayına alınmasını da üstleniyorum.</p>
-          <div class="ex-grid">
-            <div class="ex-box"><div class="ex-label">🎓 Eğitim</div><strong>OSTİM Teknik Üniversitesi</strong><span>Yazılım Mühendisliği · 4. sınıf · 2023–2027</span></div>
-            <div class="ex-box"><div class="ex-label">💼 Deneyim</div><strong>Barikat Siber Güvenlik</strong><span>Security Operations stajyeri · Haz–Tem 2025</span></div>
-            <div class="ex-box"><div class="ex-label">🎯 Aradığım</div><strong>Staj veya junior pozisyon</strong><span>Web ve mobil ürün geliştirme</span></div>
-            <div class="ex-box"><div class="ex-label">🌍 Diller</div><strong>Türkçe · İngilizce</strong><span>Ana dil · Orta seviye</span></div>
-          </div>
-          <div class="ex-actions"><a href="mailto:erkam@aruntas.com">✉️ E-posta</a><a href="https://linkedin.com/in/yusuferkamaruntas" target="_blank" rel="noopener">LinkedIn</a><a href="https://github.com/erkamaruntas" target="_blank" rel="noopener">GitHub</a></div>
-        
-          </div>
-          <img class="ex-portrait" width="640" height="745" src="assets/erkam.jpg" alt="Yusuf Erkam Aruntaş">
-        </div>
-      </template>
-    </section>
-
-    <a class="card project p1" id="projeler" href="https://atelify.aruntas.com" target="_blank" rel="noopener" style="animation-delay:.08s">
-      <span class="live"><span class="dot"></span>atelify.aruntas.com</span>
-      <div class="mock browser">
-        <div class="top"><i></i><i></i><i></i></div>
-        <img class="shot-img" src="assets/atelify.jpg" alt="Atelify ana sayfası" loading="lazy">
-      </div>
-      <div class="info">
-        <div>
-          <h3>Atelify</h3>
-          <p>Fotoğrafları yapay zekâ ile kişiye özel mücevher tasarımlarına dönüştüren platform.</p>
-          <div class="tags"><span class="tag">Node.js</span><span class="tag">JavaScript</span><span class="tag">PostgreSQL</span><span class="tag">iyzico</span></div>
-        </div>
-        <span class="arrow">→</span>
-      </div>
-      <template class="more">
-        <div class="ex-label">💎 Atelify · yapay zekâ destekli mücevher tasarım stüdyosu</div>
-        <h3>Bir fotoğraf, dört adımda kişiye özel mücevher.</h3>
-        <img class="ex-wide" width="1584" height="488" src="assets/atelify-stages.jpg" alt="Atelify'ın dört aşaması: taslak, ürün, mockup, manken">
-        <ol class="ex-steps"><li><b>Taslak</b>Fotoğraf gravür çizimine dönüşür</li><li><b>Ürün</b>Çizim yüzük ya da kolyeye oturur</li><li><b>Mockup</b>Satışa hazır stüdyo fotoğrafı</li><li><b>Manken</b>Elde ya da boyunda görünüm</li></ol>
-        <ul class="ex-list">
-          <li>Üyelik, kredi sistemi, iyzico ile abonelik paketleri, fiziksel sipariş ve yönetim paneli</li>
-          <li>Kredi düşen, tekrar denemede iki kez ücretlendirmeyen ve hata olursa otomatik iade eden üretim hattı</li>
-          <li>Yapay zekâ kullanmadan, görüntü işlemeyle anında ve ücretsiz çalışan ürün aşaması</li>
-          <li>Satır düzeyi güvenlikli PostgreSQL şeması ve 172 birim testi</li>
-        </ul>
-        <div class="ex-tags"><span>Node.js</span><span>JavaScript</span><span>PostgreSQL (Supabase)</span><span>Vercel</span><span>fal.ai</span><span>sharp</span><span>iyzico</span><span>Vitest</span></div>
-        <div class="ex-actions"><a href="https://atelify.aruntas.com" target="_blank" rel="noopener">Siteyi aç ↗</a><a href="https://github.com/erkamaruntas/atelify" target="_blank" rel="noopener">Kaynak kod</a></div>
-      </template>
-    </a>
-
-    <a class="card project p2" href="https://subtification.aruntas.com" target="_blank" rel="noopener" style="animation-delay:.16s">
-      <span class="live"><span class="dot"></span>subtification.aruntas.com</span>
-      <div class="mock phone">
-        <div class="scr"><img class="shot-img" src="assets/subtification.webp" alt="Subtification ana ekranı" loading="lazy"></div>
-      </div>
-      <div class="info">
-        <div>
-          <h3>Subtification</h3>
-          <p>Abonelik ve taksitleri takip eden iOS uygulaması. App Store onay sürecinde.</p>
-          <div class="tags"><span class="tag">React Native</span><span class="tag">TypeScript</span><span class="tag">PostgreSQL</span></div>
-        </div>
-        <span class="arrow">→</span>
-      </div>
-      <template class="more">
-        <div class="ex-label">📱 Subtification · iOS · App Store onay sürecinde</div>
-        <h3>Aboneliklerin ve taksitlerin, tek bir yerde.</h3>
-        <div class="ex-phones"><img width="780" height="1688" src="assets/subtification.webp" alt="Ana ekran"><img width="780" height="1688" src="assets/subtification-analytics.webp" alt="Analizler"><img width="780" height="1688" src="assets/subtification-installments.webp" alt="Taksitler"></div>
-        <ul class="ex-list">
-          <li>Popüler servisler güncel planları ve fiyatlarıyla hazır; toplu ekleme</li>
-          <li>Ay sonuna denk gelen tarihleri doğru hesaplayan ödeme takvimi ve taksit takibi</li>
-          <li>Bütçe limiti, kategori analizi ve ödeme öncesi hatırlatma bildirimleri</li>
-          <li>Çevrimdışı çalışma: değişiklikler kuyruğa alınıp bağlantı gelince gönderilir</li>
-          <li>Misafir modu, çoklu para birimi, Türkçe ve İngilizce arayüz</li>
-          <li>Açık/koyu tema ve akıcı animasyonlarla kullanıcı deneyimini ön planda tutan arayüz</li>
-        </ul>
-        <div class="ex-tags"><span>React Native (Expo)</span><span>TypeScript</span><span>Zustand</span><span>PostgreSQL (Supabase)</span><span>i18next</span><span>EAS</span></div>
-        <div class="ex-actions"><a href="https://subtification.aruntas.com" target="_blank" rel="noopener">Tanıtım sitesi ↗</a><a href="https://github.com/erkamaruntas/subtification" target="_blank" rel="noopener">Kaynak kod</a></div>
-      </template>
-    </a>
-
-    <section class="card stack" style="animation-delay:.24s">
-      <div class="label">⚡ Teknolojiler</div>
-      <div class="marquee" id="m1"></div>
-      <div class="marquee rev" id="m2" style="margin-top:8px"></div>
-      <template class="more">
-        <div class="ex-label">⚡ Teknolojiler</div>
-        <h3>Kullandığım araçlar</h3>
-        <div class="ex-rows">
-          <div><b>Diller</b><div class="ex-tags"><span>JavaScript</span><span>TypeScript</span><span>Python</span><span>SQL</span><span>HTML</span><span>CSS</span></div></div>
-          <div><b>Mobil</b><div class="ex-tags"><span>React Native</span><span>Expo</span><span>Expo Router</span><span>Zustand</span><span>Reanimated</span></div></div>
-          <div><b>Web</b><div class="ex-tags"><span>React</span><span>Next.js</span><span>Tailwind CSS</span><span>Node.js</span><span>REST API</span></div></div>
-          <div><b>Tasarım</b><div class="ex-tags"><span>UI/UX tasarımı</span><span>Kullanıcı deneyimi</span><span>Responsive arayüz</span><span>Animasyon</span></div></div>
-          <div><b>Veritabanı</b><div class="ex-tags"><span>PostgreSQL</span><span>Supabase</span><span>Prisma</span><span>RLS</span></div></div>
-          <div><b>Entegrasyon</b><div class="ex-tags"><span>iyzico</span><span>fal.ai</span><span>Resend</span><span>WhatsApp Cloud API</span></div></div>
-          <div><b>Araçlar</b><div class="ex-tags"><span>Git</span><span>GitHub</span><span>Vercel</span><span>Cloudflare</span><span>EAS Build</span><span>Vitest</span></div></div>
-        </div>
-      </template>
-    </section>
-
-    <section class="card clock" style="animation-delay:.32s">
-      <div class="sky" id="sky"></div>
-      <div class="label">📍 Ankara</div>
-      <div class="time" id="time">--:--</div>
-      <small id="greet">Türkiye saati</small>
-      <template class="more">
-        <div class="ex-label">📍 Ankara, Türkiye</div>
-        <div data-dynamic="clock"></div>
-      </template>
-    </section>
-
-    <section class="card now" style="animation-delay:.4s">
-      <div class="label"><span class="crane">🚧</span> Şu an yapıyorum</div>
-      <div>
-        <h4>Giderim: Ranvu</h4>
-        <p>İşletmeler için WhatsApp ve yapay zekâ asistanlı randevu platformu. 3 kişilik ekip.</p>
-      </div>
-      <div>
-        <div class="progress-head"><span>İlerleme</span><b><span data-count="80">0</span>%</b></div>
-        <div class="bar"><div class="fill" data-progress="80"></div></div>
-        <small><span class="dot"></span>Next.js · TypeScript · Prisma</small>
-      </div>
-      <template class="more">
-        <div class="ex-label">🚧 Şu an yapıyorum · geliştirme aşamasında</div>
-        <h3>Giderim: Ranvu</h3>
-        <p>Berber, kuaför, güzellik salonu ve veteriner gibi randevu bazlı işletmeler için uçtan uca randevu platformu. İşletme sahibi mobil uygulama ve web panelinden yönetir; müşteriler WhatsApp veya telefondaki yapay zekâ asistanı üzerinden randevu alır.</p>
-        <div class="ex-grid">
-          <div class="ex-box"><div class="ex-label">👥 Ekip</div><strong>3 kişi</strong><span>Web, mobil, WhatsApp botu ve telefon asistanı</span></div>
-          <div class="ex-box"><div class="ex-label">🛠️ Benim rolüm</div><strong>Web paneli</strong><span>İşletme ve yönetici panelleri, tanıtım sitesi, ödeme sayfası</span></div>
-        </div>
-        <ul class="ex-list">
-          <li>Haftalık randevu takvimi, filtreleme ve müşteri yönetimi</li>
-          <li>Fiyat ve paketlerin yönetici panelinden değiştirilebilmesi</li>
-          <li>Telefonda da kullanılabilen panel arayüzü</li>
-        </ul>
-        <div class="ex-tags"><span>Next.js</span><span>React</span><span>TypeScript</span><span>Tailwind CSS</span><span>Prisma</span><span>PostgreSQL</span><span>iyzico</span></div>
-      </template>
-    </section>
-
-    <section class="card stats" style="animation-delay:.48s">
-      <div class="label">📊 Sayılarla</div>
-      <div class="stat"><b data-count="3">0</b><span>proje</span></div>
-      <div class="stat"><b id="allTime">0</b><span>GitHub katkısı</span></div>
-      <div class="stat"><b data-count="999" data-suffix="+">0</b><span>çay 🍵</span></div>
-      <template class="more">
-        <div class="ex-label">📊 Sayılarla</div>
-        <div data-dynamic="stats"></div>
-      </template>
-    </section>
-
-    <section class="card gh" style="animation-delay:.56s">
-      <div class="label">🟩 GitHub aktivitesi</div>
-      <div class="gh-grid" id="gh"></div>
-      <div class="gh-meta">
-        <a href="https://github.com/erkamaruntas" target="_blank" rel="noopener" id="ghTotal">@erkamaruntas →</a>
-        <span class="legend">Az <i style="background:var(--gh-0)"></i><i id="l1"></i><i id="l2"></i><i id="l3"></i><i id="l4"></i> Çok</span>
-      </div>
-      <template class="more">
-        <div class="ex-label">🟩 GitHub aktivitesi</div>
-        <div data-dynamic="gh"></div>
-        <div class="ex-actions"><a href="https://github.com/erkamaruntas" target="_blank" rel="noopener">GitHub profilim ↗</a></div>
-      </template>
-    </section>
-
-    <section class="card hello" id="waveCard" style="animation-delay:.64s">
-      <div class="label">👋 Selam ver</div>
-      <button class="wave-btn" id="waveBtn" type="button" aria-label="Selam ver"><span>👋</span></button>
-      <div class="wave-count"><b id="waveCount">–</b><span id="waveText">kişi selam verdi</span></div>
-      <template class="more">
-        <div class="ex-label">👋 Selam ver</div>
-        <div data-dynamic="hello"></div>
-      </template>
-    </section>
-
-    <section class="card contact" style="animation-delay:.72s">
-      <div>
-        <div class="label">✉️ İletişim</div>
-        <h3>Bir fikrin mi var?<br>Hadi konuşalım.</h3>
-        <div class="contact-actions">
-          <button class="btn" id="copyMail">erkam@aruntas.com kopyala</button>
-          <a class="btn soft" href="https://github.com/erkamaruntas" target="_blank" rel="noopener">GitHub</a>
-          <a class="btn soft" href="https://linkedin.com/in/yusuferkamaruntas" target="_blank" rel="noopener">LinkedIn</a>
-        </div>
-      </div>
-      <a class="badge" href="mailto:erkam@aruntas.com" aria-label="E-posta gönder">
-        <svg viewBox="0 0 100 100" aria-hidden="true">
-          <defs><path id="circ" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs>
-          <text><textPath href="#circ">YENİ PROJELERE AÇIĞIM • MERHABA DE • </textPath></text>
-        </svg>
-        <span>→</span>
-      </a>
-      <template class="more">
-        <div class="ex-label">✉️ İletişim</div>
-        <h3>Bir fikrin mi var? Hadi konuşalım.</h3>
-        <p>Staj ve junior pozisyonlara açığım. Bir projen, bir sorun ya da sadece merhaba demek için yazabilirsin.</p>
-        <div class="ex-contact">
-          <a href="mailto:erkam@aruntas.com"><span>✉️</span><div><b>E-posta</b>erkam@aruntas.com</div></a>
-          <a href="https://linkedin.com/in/yusuferkamaruntas" target="_blank" rel="noopener"><span>💼</span><div><b>LinkedIn</b>yusuferkamaruntas</div></a>
-          <a href="https://github.com/erkamaruntas" target="_blank" rel="noopener"><span>🐙</span><div><b>GitHub</b>erkamaruntas</div></a>
-          <a href="https://aruntas.com"><span>📍</span><div><b>Konum</b>Ankara, Türkiye</div></a>
-        </div>
-      </template>
-    </section>
-
+    </div>
+    <div class="scroll-hint" id="scrollHint"><i></i>Kaydır</div>
   </div>
-  <footer>© 2026 aruntas.com · kendim tasarlayıp kodladım</footer>
-</div>
-<div class="toast" id="toast">E-posta kopyalandı ✓</div>
+</section>
+
+<!-- 2. Manifesto: kaydırdıkça kelimeler aydınlanır -->
+<section class="scene" id="manifesto" data-rug="lacivert">
+  <div class="sticky">
+    <p class="manifesto" id="manifestoText">Fikirleri, insanların gerçekten kullandığı <em class="hl">ürünlere</em> dönüştürüyorum. Bir ürünün neye ihtiyaç duyduğunu düşünüyor, <em class="hl">arayüzünü tasarlıyor</em>, kullanıcının onu nasıl hissettiğini önemsiyor ve her şeyi <em class="hl">yayına alıyorum.</em></p>
+  </div>
+</section>
+
+<!-- 3. Atelify -->
+<section id="atelify" data-rug="madalyon">
+  <header class="section-head reveal">
+    <div class="tag"><i></i>Yayında · atelify.aruntas.com</div>
+    <h2>Atelify.</h2>
+    <p>Bir fotoğraf. Dört adım. Kişiye özel bir mücevher. Yapay zekâ destekli mücevher tasarım stüdyosu.</p>
+    <div class="chips" style="justify-content:center"><span>Node.js</span><span>JavaScript</span><span>PostgreSQL</span><span>fal.ai</span><span>iyzico</span></div>
+  </header>
+</section>
+<section class="scene" id="atelify-steps" data-rug="madalyon">
+  <div class="sticky">
+    <div class="atelify-stage">
+      <div>
+        <div class="steps">
+          <div class="step" data-i="0"><div class="num">01 · Taslak</div><h3>Fotoğraf,<br>gravüre dönüşür.</h3><p>Portre, logo ya da evcil hayvan. Yapay zekâ onu kazımaya hazır bir çizime çevirir.</p></div>
+          <div class="step" data-i="1"><div class="num">02 · Ürün</div><h3>Çizim,<br>yüzüğe oturur.</h3><p>Metal, şekil ve yüzey seçilir. Bu adım yapay zekâ kullanmaz; anında ve ücretsizdir.</p></div>
+          <div class="step" data-i="2"><div class="num">03 · Mockup</div><h3>Satışa hazır<br>bir stüdyo çekimi.</h3><p>Etsy, Instagram ya da katalog için profesyonel ürün fotoğrafı.</p></div>
+          <div class="step" data-i="3"><div class="num">04 · Manken</div><h3>Elde.<br>Boyunda. Gerçek.</h3><p>Mücevherin takıldığında nasıl göründüğü, tek tıkla.</p></div>
+        </div>
+        <div class="dots" id="atelifyDots"><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="frame" id="atelifyFrame">
+        <img src="assets/atelify-step1.jpg" alt="Taslak: gravür çizimi"><img src="assets/atelify-step2.jpg" alt="Ürün: çizim yüzükte">
+        <img src="assets/atelify-step3.jpg" alt="Mockup: stüdyo çekimi"><img src="assets/atelify-step4.jpg" alt="Manken: elde görünüm">
+      </div>
+    </div>
+  </div>
+</section>
+<section style="padding: 10vh 0 6vh" data-rug="madalyon">
+  <div class="showcase">
+    <div class="browser reveal"><div class="bar"><i></i><i></i><i></i><span>atelify.aruntas.com</span></div><img src="assets/atelify.jpg" alt="Atelify ana sayfası"></div>
+    <div class="tiles">
+      <div class="tile reveal"><b class="grad">0₺</b><p><strong>Sıfır maliyetli adım.</strong> Ürün aşaması görüntü işlemeyle çalışır, yapay zekâya hiç para ödemez.</p></div>
+      <div class="tile reveal"><b>1×</b><p><strong>Asla iki kez ücret yok.</strong> Tekrar denenen istekler bir kez sayılır; hata olursa kredi otomatik iade edilir.</p></div>
+      <div class="tile reveal"><b>172</b><p><strong>Birim testi.</strong> Ödeme, kredi ve üretim akışlarının her biri testlerle korunuyor.</p></div>
+    </div>
+    <div class="links-row reveal"><a href="https://atelify.aruntas.com" target="_blank" rel="noopener">Siteyi ziyaret et ›</a><a href="https://github.com/erkamaruntas/atelify" target="_blank" rel="noopener">Kaynak kodu incele ›</a></div>
+  </div>
+</section>
+
+<!-- 4. Subtification -->
+<section id="subtification" data-rug="turkuaz">
+  <header class="section-head reveal">
+    <div class="tag"><i style="background:#ffd60a;box-shadow:0 0 12px #ffd60a"></i>App Store onay sürecinde</div>
+    <h2>Subtification.</h2>
+    <p>Aboneliklerin ve taksitlerin, tek bir yerde. Ne kadar harcadığını ve sıradaki ödemenin ne zaman olduğunu bilen iOS uygulaması.</p>
+    <div class="chips" style="justify-content:center"><span>React Native</span><span>TypeScript</span><span>Expo</span><span>Zustand</span><span>Supabase</span></div>
+  </header>
+</section>
+<section class="scene" id="subtification-phone" data-rug="turkuaz">
+  <div class="sticky">
+    <div class="phone-stage">
+      <div class="left">
+        <div class="feat" data-i="0"><h4>Her şey bir bakışta.</h4><p>Aylık toplam, takvim şeridi ve yaklaşan ödemeler ana ekranda.</p></div>
+        <div class="feat" data-i="1"><h4>Paran nereye gidiyor?</h4><p>Kategori dağılımı, en pahalılar ve bütçe limiti.</p></div>
+      </div>
+      <div class="phone"><div class="screen" id="phoneScreen">
+        <img src="assets/subtification.webp" alt="Ana ekran">
+        <img src="assets/subtification-analytics.webp" alt="Analizler">
+        <img src="assets/subtification-installments.webp" alt="Taksitler">
+        <img src="assets/subtification-notifications.webp" alt="Hatırlatmalar">
+      </div></div>
+      <div class="right">
+        <div class="feat" data-i="2"><h4>Taksitler, çözüldü.</h4><p>Kaç taksit ödendi, kaç ay kaldı. 31 Ocak'tan 28 Şubat'a doğru hesap.</p></div>
+        <div class="feat" data-i="3"><h4>Ödemeden önce haber verir.</h4><p>Gün ve saati sen seç; hatırlatma tam zamanında gelsin.</p></div>
+      </div>
+      <div class="phone-caption" id="phoneCaption"><h4></h4><p></p></div>
+    </div>
+  </div>
+</section>
+<div class="links-row reveal" style="margin: 4vh 0 0"><a href="https://subtification.aruntas.com" target="_blank" rel="noopener">Tanıtım sitesi ›</a><a href="https://github.com/erkamaruntas/subtification" target="_blank" rel="noopener">Kaynak kodu incele ›</a></div>
+
+<!-- 5. Ranvu -->
+<section id="ranvu" style="padding: 14vh 0 0" data-rug="kazak">
+  <div class="wip reveal">
+    <div class="tag">Şu an üzerinde çalışıyorum · 3 kişilik ekip</div>
+    <h3>Giderim: <span class="grad">Ranvu.</span></h3>
+    <p>Berber, kuaför ve veterinerler için randevu platformu. Müşteriler WhatsApp'tan ya da telefondaki yapay zekâ asistanından randevu alıyor. Ben işletme ve yönetici panellerini geliştiriyorum.</p>
+    <div class="meter"><div class="meter-head"><span>İlerleme</span><b id="meterNum">0%</b></div><div class="meter-bar"><i id="meterBar"></i></div></div>
+    <div class="chips"><span>Next.js</span><span>TypeScript</span><span>Tailwind CSS</span><span>Prisma</span><span>PostgreSQL</span></div>
+  </div>
+</section>
+
+<!-- 6. Sayılar -->
+<section style="padding: 14vh 0 0" data-rug="kazak">
+  <div class="numbers">
+    <div class="reveal"><b class="grad" data-count="3">0</b><span>proje</span></div>
+    <div class="reveal"><b data-count="707" id="allTime">0</b><span>GitHub katkısı</span></div>
+    <div class="reveal"><b data-count="2">0</b><span>yayında ürün</span></div>
+  </div>
+</section>
+
+<!-- GitHub -->
+<section data-rug="kilim">
+  <div class="gh reveal" id="gh">
+    <div class="kilim"><div class="kilim-in"><div class="gh-grid" id="ghGrid"></div></div></div>
+    <div class="gh-meta"><span><b style="color:var(--text)">Her gün bir ilmek.</b> <span id="ghText">Son 6 aydaki GitHub katkılarım</span></span><a href="https://github.com/erkamaruntas" target="_blank" rel="noopener">@erkamaruntas ›</a></div>
+  </div>
+</section>
+
+<!-- 7. Teknolojiler -->
+<section style="padding-top: 22vh" data-rug="kilim">
+  <div class="marquee"><div class="track" id="t1"></div></div>
+  <div class="marquee rev"><div class="track" id="t2"></div></div>
+</section>
+
+<!-- 8. İletişim -->
+<section class="contact" id="iletisim" data-rug="usak">
+  <h2 class="reveal">Merhaba <span class="rug-outline"><span class="rug-text madalyon">de.</span></span></h2>
+  <p class="reveal">Bir fikrin, bir projen ya da sadece bir sorun varsa yaz.</p>
+  <div class="btn-row reveal">
+    <a class="btn primary" href="mailto:erkam@aruntas.com">erkam@aruntas.com</a>
+    <a class="btn ghost" href="https://linkedin.com/in/yusuferkamaruntas" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn ghost" href="https://github.com/erkamaruntas" target="_blank" rel="noopener">GitHub</a>
+  </div>
+  <button class="wave reveal" id="wave" type="button" hidden><span>👋</span><b id="waveCount">0</b><small id="waveText">kişi selam verdi</small></button>
+</section>
+
+<div class="rug-end" aria-hidden="true"></div>
+
+<footer><span>© 2026 Yusuf Erkam Aruntaş · Kendim tasarladım · Halılar: <a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access" target="_blank" rel="noopener">The Met</a> ve <a href="https://www.clevelandart.org/open-access" target="_blank" rel="noopener">Cleveland Museum of Art</a> açık erişim koleksiyonları</span><nav><a href="#atelify">Atelify</a><a href="#subtification">Subtification</a><a href="#ranvu">Ranvu</a><a href="https://github.com/erkamaruntas" target="_blank" rel="noopener">GitHub</a></nav></footer>
 
 <script>
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp = (v, a = 0, b = 1) => Math.min(Math.max(v, a), b);
+const ease = t => 1 - Math.pow(1 - t, 3);
+// Yapışkan sahnenin ilerlemesi: 0 (sahne başı) → 1 (sahne sonu)
+const progress = el => { const r = el.getBoundingClientRect(); return clamp(-r.top / (r.height - innerHeight)); };
 
-// İmleci takip eden ışık + 3D eğim
-document.querySelectorAll('.card').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const r = card.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
-    card.style.setProperty('--x', x + 'px'); card.style.setProperty('--y', y + 'px');
-    if (reduce) return;
-    const rx = ((y / r.height) - .5) * -6, ry = ((x / r.width) - .5) * 6;
-    card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-  });
-  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
-});
-const blob = document.getElementById('cursorBlob');
-addEventListener('mousemove', e => { blob.style.left = e.clientX + 'px'; blob.style.top = e.clientY + 'px'; });
+// Manifesto kelimelerini tek tek span'lere böl
+const man = document.getElementById('manifestoText');
+man.innerHTML = man.innerHTML.replace(/<em class="hl">(.*?)<\/em>|([^<\s]+)/g, (m, hl, w) =>
+  hl ? hl.split(' ').map(x => `<span class="hl">${x}</span>`).join(' ') : `<span>${w}</span>`);
+const words = [...man.querySelectorAll('span')];
 
-// Daktilo efekti
-const roles = ['ürün odaklı geliştiriciyim.', 'arayüz tasarlamayı seviyorum.', 'web uygulamaları yapıyorum.', 'iOS uygulamaları yapıyorum.', 'kullanıcı deneyimine takılırım.'];
-const roleEl = document.getElementById('role');
-(async function type() {
-  const wait = ms => new Promise(r => setTimeout(r, ms));
-  for (let i = 0; ; i = (i + 1) % roles.length) {
-    for (const ch of roles[i]) { roleEl.textContent += ch; await wait(55); }
-    await wait(1600);
-    while (roleEl.textContent) { roleEl.textContent = roleEl.textContent.slice(0, -1); await wait(28); }
-    await wait(300);
-  }
-})();
+const hero = document.getElementById('hero'), heroTitle = document.getElementById('heroTitle'), heroInfo = document.getElementById('heroInfo'),
+      hint = document.getElementById('scrollHint');
+const manifesto = document.getElementById('manifesto');
+const atel = document.getElementById('atelify-steps'), steps = atel.querySelectorAll('.step'), frames = atel.querySelectorAll('.frame img'), dots = atel.querySelectorAll('.dots i');
+const sub = document.getElementById('subtification-phone'), shots = sub.querySelectorAll('.screen img'), feats = sub.querySelectorAll('.feat');
+const caption = document.getElementById('phoneCaption');
+const captions = [...feats].map(f => [f.querySelector('h4').textContent, f.querySelector('p').textContent]);
 
-// Kayan teknoloji şeritleri
-const tech1 = [['TypeScript', '#3178c6'], ['JavaScript', '#f7df1e'], ['Python', '#3776ab'], ['React Native', '#61dafb'], ['Expo', '#a855f7'], ['React', '#61dafb'], ['Next.js', '#888'], ['Tailwind CSS', '#38bdf8']];
-const tech2 = [['Node.js', '#3c873a'], ['PostgreSQL', '#336791'], ['Supabase', '#3ecf8e'], ['Prisma', '#5a67d8'], ['REST API', '#ff7a42'], ['Git', '#f05032'], ['Vercel', '#888'], ['Vitest', '#729b1b']];
-function fill(id, list) {
-  const html = list.map(([n, c]) => `<span class="chip"><i style="background:${c}"></i>${n}</span>`).join('');
-  document.getElementById(id).innerHTML = `<div class="track">${html}</div><div class="track" aria-hidden="true">${html}</div>`;
+function frame() {
+  // 1. Açılış: başlık büyüyüp kaybolur, yerine kısa tanıtım gelir
+  const p = progress(hero);
+  const t1 = ease(clamp(p / .45)), t2 = ease(clamp((p - .35) / .4));
+  heroTitle.style.transform = `scale(${1 + t1 * .5})`;
+  heroTitle.style.opacity = 1 - t1;
+  heroTitle.style.filter = `blur(${t1 * 8}px)`;
+  heroInfo.style.opacity = t2;
+  heroInfo.style.transform = `scale(${.94 + t2 * .06}) translateY(${(1 - t2) * 30}px)`;
+  heroInfo.style.pointerEvents = t2 > .5 ? 'auto' : 'none';
+  hint.style.opacity = 1 - clamp(p * 6);
+
+  // 2. Manifesto
+  const pm = clamp((progress(manifesto) - .05) / .8);
+  const lit = Math.round(pm * words.length);
+  words.forEach((w, i) => w.classList.toggle('on', i < lit));
+
+  // 3. Atelify: dört aşama
+  const ia = Math.min(3, Math.floor(progress(atel) * 4));
+  steps.forEach((s, i) => s.classList.toggle('active', i === ia));
+  frames.forEach((f, i) => f.classList.toggle('active', i === ia));
+  dots.forEach((d, i) => d.classList.toggle('active', i === ia));
+
+  // 4. Subtification: telefon ekranları
+  const is = Math.min(3, Math.floor(progress(sub) * 4));
+  shots.forEach((s, i) => s.classList.toggle('active', i === is));
+  feats.forEach(f => f.classList.toggle('active', +f.dataset.i === is));
+  if (caption.dataset.i != is) { caption.dataset.i = is; caption.querySelector('h4').textContent = captions[is][0]; caption.querySelector('p').textContent = captions[is][1]; }
 }
-fill('m1', tech1); fill('m2', tech2);
+addEventListener('scroll', frame, { passive: true });
+addEventListener('resize', frame);
+addEventListener('load', frame);
 
-// Saat
-const timeEl = document.getElementById('time'), greetEl = document.getElementById('greet'), sky = document.getElementById('sky');
-function tick() {
-  const now = new Date(), opt = { timeZone: 'Europe/Istanbul', hour12: false };
-  const [h, m, s] = now.toLocaleTimeString('tr-TR', opt).split(':');
-  timeEl.innerHTML = `${h}:${m}<span class="sec">:${s}</span>`;
-  const hr = +h;
-  sky.classList.toggle('night', hr < 6 || hr >= 19);
-  greetEl.textContent = hr < 6 ? 'Muhtemelen uyuyorum 😴' : hr < 12 ? 'Günaydın, kahve hazır ☕' : hr < 18 ? 'Şu an kod yazıyorum 💻' : 'İyi akşamlar 🌙';
-}
-tick(); setInterval(tick, 1000);
+// Menüde bulunulan bölümü vurgula
+const navLinks = [...document.querySelectorAll('nav .links a')];
+const navObs = new IntersectionObserver(entries => entries.forEach(en => {
+  if (en.isIntersecting) navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.dataset.nav));
+}), { rootMargin: '-45% 0px -50% 0px' });
+[['atelify', 'atelify'], ['atelify-steps', 'atelify'], ['subtification', 'subtification'], ['subtification-phone', 'subtification'], ['ranvu', 'ranvu'], ['iletisim', 'iletisim'], ['hero', ''], ['manifesto', '']]
+  .forEach(([id, nav]) => { const el = document.getElementById(id); el.dataset.nav = nav; navObs.observe(el); });
+frame();
 
-// GitHub ızgarası: gerçek katkı verisi (herkese açık katkı API'si)
-const ghColors = ['#ffd2bf', '#ffa47e', '#ff7a42', '#e14a10'];
-ghColors.forEach((c, i) => document.getElementById('l' + (i + 1)).style.background = c);
-const gh = document.getElementById('gh');
-// Katkıların çoğu son aylarda; uzun bir pencere ızgarayı boş gösteriyor
-const weeks = 26;
-function drawGrid(levels) {
-  gh.innerHTML = '';
-  levels.forEach((lvl, i) => {
-    const c = document.createElement('i'), w = Math.floor(i / 7), d = i % 7;
-    if (lvl) c.style.background = ghColors[lvl - 1];
-    c.style.animationDelay = (0.2 + w * 0.025 + d * 0.01) + 's';
-    gh.appendChild(c);
-  });
-}
-drawGrid(new Array(weeks * 7).fill(0));
-fetch('https://github-contributions-api.jogruber.de/v4/erkamaruntas?y=last')
-  .then(r => r.ok ? r.json() : Promise.reject())
-  .then(data => {
-    const days = data.contributions;
-    ghDaysAll = days;
-    // Izgara pazartesi değil pazar başlar; son haftayı tamamlayıp son N haftayı al
-    const start = days.length - (weeks - 1) * 7 - (new Date(days[days.length - 1].date).getUTCDay() + 1);
-    const shown = days.slice(Math.max(start, 0));
-    drawGrid(shown.map(d => d.level));
-    const total = shown.reduce((sum, d) => sum + d.count, 0);
-    document.getElementById('ghTotal').textContent = `Son 6 ayda ${total.toLocaleString('tr-TR')} katkı · @erkamaruntas →`;
-  })
-  .catch(() => {});
-
-// Sayaçlar
+// Görününce beliren öğeler, sayaçlar ve ilerleme çubuğu
 const io = new IntersectionObserver(entries => entries.forEach(en => {
   if (!en.isIntersecting) return;
-  const el = en.target, end = +el.dataset.count, suf = el.dataset.suffix || '', t0 = performance.now();
-  (function step(t) {
-    const p = Math.min((t - t0) / 1600, 1), v = Math.round(end * (1 - Math.pow(1 - p, 3)));
-    el.textContent = v.toLocaleString('tr-TR') + (p === 1 ? suf : '');
-    if (p < 1) requestAnimationFrame(step);
-  })(t0);
-  io.unobserve(el);
-}), { threshold: .5 });
-document.querySelectorAll('[data-count]').forEach(el => io.observe(el));
+  en.target.classList.add('in');
+  en.target.querySelectorAll('[data-count]').forEach(el => {
+    const end = +el.dataset.count, t0 = performance.now();
+    (function step(t) { const k = clamp((t - t0) / 1800); el.textContent = Math.round(end * ease(k)).toLocaleString('tr-TR'); if (k < 1) requestAnimationFrame(step); })(t0);
+  });
+  if (en.target.classList.contains('wip')) {
+    document.getElementById('meterBar').style.width = '80%';
+    const el = document.getElementById('meterNum'), t0 = performance.now();
+    (function step(t) { const k = clamp((t - t0) / 2000); el.textContent = Math.round(80 * ease(k)) + '%'; if (k < 1) requestAnimationFrame(step); })(t0);
+  }
+  io.unobserve(en.target);
+}), { threshold: .25 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-// Tüm zamanların GitHub katkı sayısı (yıllık toplamların toplamı)
-const allTime = document.getElementById('allTime');
+// Arka plan halısı: ekranın ortasındaki bölümün halısı belirir.
+// Görseller ilk gerektiğinde yüklenir; sayfa açılınca kalanlar arka planda önceden yüklenir.
+const rugLayers = Object.fromEntries([...document.querySelectorAll('#rugBg div')].map(d => [d.dataset.rug, d]));
+const loadRug = d => { if (!d.style.backgroundImage) d.style.backgroundImage = `url(${d.dataset.src})`; };
+let currentRug;
+function showRug(name) {
+  if (name === currentRug || !rugLayers[name]) return;
+  currentRug = name;
+  Object.entries(rugLayers).forEach(([k, d]) => { if (k === name) loadRug(d); d.classList.toggle('on', k === name); });
+}
+showRug('lacivert');
+const rugObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) showRug(e.target.dataset.rug); }), { rootMargin: '-50% 0px -50% 0px' });
+document.querySelectorAll('[data-rug]:not(#rugBg div)').forEach(el => rugObs.observe(el));
+addEventListener('load', () => setTimeout(() => Object.values(rugLayers).forEach(loadRug), 800));
+
+// GitHub: tüm zamanların katkı sayısı ve son 6 ayın ızgarası.
+// Kareler veri gelmeden yerleştirilir ki ızgaranın yüksekliği baştan belli olsun
+// ve veri gelince altındaki bölümler kaymasın; veri gelince yalnızca renkler değişir.
+const ghColors = ['#5a1a14', '#8f2a1a', '#c0392b', '#e0a526'];
+const ghSection = document.getElementById('gh'), ghGrid = document.getElementById('ghGrid');
+const cellCount = 25 * 7 + new Date().getDay() + 1;
+ghGrid.innerHTML = Array.from({ length: cellCount }, (_, i) => `<i style="transition-delay:${(6 - i % 7) * 160 + Math.floor(i / 7) * 10}ms"></i>`).join('');
+ghGrid.style.gridTemplateColumns = `repeat(${Math.ceil(cellCount / 7)}, 1fr)`;   // sütun sayısı belli olsun ki yarım hafta taşmasın
+const cells = ghGrid.children;
 fetch('https://github-contributions-api.jogruber.de/v4/erkamaruntas?y=all')
   .then(r => r.ok ? r.json() : Promise.reject())
-  .then(data => { allTime.dataset.count = Object.values(data.total).reduce((a, b) => a + b, 0); })
-  .catch(() => { allTime.dataset.count = 700; allTime.dataset.suffix = '+'; })
-  .finally(() => io.observe(allTime));
+  .then(data => {
+    document.getElementById('allTime').dataset.count = Object.values(data.total).reduce((a, b) => a + b, 0);
+    const today = new Date().toISOString().slice(0, 10);
+    const days = data.contributions.filter(d => d.date <= today).sort((a, b) => a.date.localeCompare(b.date));
+    const shown = days.slice(-cellCount);
+    const offset = cellCount - shown.length;
+    shown.forEach((d, i) => {
+      const c = cells[i + offset];
+      if (d.level) c.style.backgroundColor = ghColors[d.level - 1];
+      c.title = `${d.date}: ${d.count} katkı`;
+    });
+    document.getElementById('ghText').textContent = `Son 6 ayda ${shown.reduce((a, d) => a + d.count, 0).toLocaleString('tr-TR')} GitHub katkısı`;
+  })
+  .catch(() => {})
+  .finally(() => ghSection.classList.add('ready'));
 
-
-// İlerleme çubuğu
-setTimeout(() => document.querySelectorAll('[data-progress]').forEach(el => el.style.width = el.dataset.progress + '%'), 700);
-
-// Selam ver: ortak sayaç sitenin Worker'ında (/api/wave) tutuluyor
-const waveBtn = document.getElementById('waveBtn'), waveCount = document.getElementById('waveCount'),
-      waveText = document.getElementById('waveText'), waveCard = document.getElementById('waveCard');
-function renderWave({ count, waved }) {
-  waveCount.textContent = count.toLocaleString('tr-TR');
-  waveText.textContent = 'kişi selam verdi';
-  if (waved) { waveBtn.classList.add('done'); waveText.textContent = 'kişi selam verdi 🙌'; waveBtn.title = 'Selamın alındı, teşekkürler!'; }
-}
-function confetti() {
-  if (reduce) return;
-  const colors = ['#ff7a42', '#ec4899', '#7c3aed', '#06b6d4', '#4ade80', '#fde68a'];
-  const cr = waveCard.getBoundingClientRect(), br = waveBtn.getBoundingClientRect();
-  const cx = br.left - cr.left + br.width / 2, cy = br.top - cr.top + br.height / 2;
-  for (let i = 0; i < 18; i++) {
-    const c = document.createElement('i');
-    c.className = 'confetti';
-    c.style.left = cx + 'px'; c.style.top = cy + 'px';
-    c.style.background = colors[i % colors.length];
-    waveCard.appendChild(c);
-    const a = Math.random() * Math.PI * 2, d = 50 + Math.random() * 70;
-    c.animate([
-      { transform: 'translate(-50%, -50%) rotate(0)', opacity: 1 },
-      { transform: `translate(${Math.cos(a) * d}px, ${Math.sin(a) * d + 30}px) rotate(${Math.random() * 540}deg)`, opacity: 0 },
-    ], { duration: 900 + Math.random() * 400, easing: 'cubic-bezier(.2,.8,.2,1)' }).onfinish = () => c.remove();
+// Selam sayacı (sitenin /api/wave uç noktası; yoksa buton gizli kalır)
+const wave = document.getElementById('wave'), waveCount = document.getElementById('waveCount'), waveText = document.getElementById('waveText');
+const renderWave = d => { wave.hidden = false; waveCount.textContent = d.count.toLocaleString('tr-TR'); if (d.waved) { wave.classList.add('done'); waveText.textContent = 'kişi selam verdi · teşekkürler 🙌'; } };
+fetch('/api/wave').then(r => r.ok ? r.json() : Promise.reject()).then(renderWave).catch(() => {});
+wave.addEventListener('click', async () => {
+  wave.classList.remove('go'); void wave.offsetWidth; wave.classList.add('go');
+  if (!reduce) {
+    const r = wave.getBoundingClientRect(), colors = ['#ff7a42', '#ec4899', '#8b5cf6', '#2dd4bf', '#30d158', '#ffd60a'];
+    for (let i = 0; i < 22; i++) {
+      const c = document.createElement('i'); c.className = 'confetti';
+      c.style.left = r.left + r.width / 2 + 'px'; c.style.top = r.top + r.height / 2 + 'px'; c.style.background = colors[i % 6];
+      document.body.appendChild(c);
+      const a = Math.random() * Math.PI * 2, d = 60 + Math.random() * 110;
+      c.animate([{ transform: 'translate(-50%,-50%)', opacity: 1 }, { transform: `translate(${Math.cos(a) * d}px, ${Math.sin(a) * d + 50}px) rotate(${Math.random() * 600}deg)`, opacity: 0 }],
+        { duration: 1000 + Math.random() * 400, easing: 'cubic-bezier(.2,.8,.2,1)' }).onfinish = () => c.remove();
+    }
   }
-}
-fetch('/api/wave').then(r => r.json()).then(renderWave).catch(() => { waveCard.style.display = 'none'; });
-waveBtn.addEventListener('click', async () => {
-  waveBtn.classList.remove('go'); void waveBtn.offsetWidth; waveBtn.classList.add('go');
-  confetti();
-  if (waveBtn.classList.contains('done')) return;
+  if (wave.classList.contains('done')) return;
   try { renderWave(await (await fetch('/api/wave', { method: 'POST' })).json()); } catch (e) {}
 });
 
-// E-posta kopyala
-const toast = document.getElementById('toast');
-document.getElementById('copyMail').addEventListener('click', async () => {
-  try { await navigator.clipboard.writeText('erkam@aruntas.com'); } catch (e) {}
-  toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 1800);
-});
 
-// ---------- Üzerinde bekleyince büyüyen kartlar ----------
-// Yalnızca fare olan cihazlarda: kartın üstünde DWELL ms bekleyince kart
-// yerinden büyüyerek ekstra bilgileri gösterir; fare çıkınca küçülür.
-const DWELL = 1500;
-let ghDaysAll = null;
-const canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
-const dynamic = {
-  clock() {
-    const now = new Date(), tz = 'Europe/Istanbul';
-    const date = now.toLocaleDateString('tr-TR', { timeZone: tz, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-    const time = now.toLocaleTimeString('tr-TR', { timeZone: tz, hour: '2-digit', minute: '2-digit' });
-    const mine = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-    const diff = Math.round((new Date(now.toLocaleString('en-US', { timeZone: tz })) - new Date(now.toLocaleString('en-US'))) / 36e5);
-    const rel = diff === 0 ? 'Seninle aynı saat dilimindeyiz 🤝' : `Benim saatim seninkinden ${Math.abs(diff)} saat ${diff > 0 ? 'ileride' : 'geride'}.`;
-    return `<div class="ex-big">${time}</div><p>${date} · GMT+3</p>
-      <div class="ex-grid"><div class="ex-box"><div class="ex-label">🕒 Senin saatin</div><strong>${mine}</strong><span>${rel}</span></div>
-      <div class="ex-box"><div class="ex-label">🎓 Okul</div><strong>OSTİM Teknik Üniversitesi</strong><span>Ankara</span></div></div>
-`;
-  },
-  stats() {
-    return `<div class="ex-grid">
-      <div class="ex-box"><div class="ex-big">3</div><strong>Proje</strong><span>Atelify, Subtification ve geliştirilmekte olan Giderim: Ranvu</span></div>
-      <div class="ex-box"><div class="ex-big">${allTime.textContent}</div><strong>GitHub katkısı</strong><span>Commit, depo ve PR'lar dahil; gizli depolardaki çalışmalar da sayılıyor</span></div>
-      <div class="ex-box"><div class="ex-big">2</div><strong>Yayında ürün</strong><span>atelify.aruntas.com ve subtification.aruntas.com</span></div>
-      <div class="ex-box"><div class="ex-big">999+</div><strong>Çay 🍵</strong><span>Kesin sayı bilinmiyor; demlik hiç boş kalmadı</span></div></div>`;
-  },
-  gh() {
-    if (!ghDaysAll) return '<p>Katkı verisi şu an alınamadı.</p>';
-    const days = ghDaysAll, active = days.filter(d => d.count > 0);
-    const total = days.reduce((a, d) => a + d.count, 0);
-    const best = days.reduce((a, d) => (d.count > a.count ? d : a), days[0]);
-    let run = 0, longest = 0;
-    days.forEach(d => { run = d.count ? run + 1 : 0; longest = Math.max(longest, run); });
-    let current = 0;
-    for (let i = days.length - 1; i >= 0 && (days[i].count || i === days.length - 1); i--) if (days[i].count) current++;
-    const fmt = d => new Date(d + 'T12:00:00').toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' });
-    const start = days.length - 25 * 7 - (new Date(days[days.length - 1].date).getUTCDay() + 1);
-    const cells = days.slice(Math.max(start, 0))
-      .map(d => `<i title="${fmt(d.date)}: ${d.count} katkı"${d.level ? ` style="background:${ghColors[d.level - 1]}"` : ''}></i>`).join('');
-    return `<div class="ex-gh">${cells}</div>
-      <div class="ex-grid">
-        <div class="ex-box"><div class="ex-big">${total.toLocaleString('tr-TR')}</div><span>son 1 yılda katkı</span></div>
-        <div class="ex-box"><div class="ex-big">${active.length}</div><span>aktif gün</span></div>
-        <div class="ex-box"><div class="ex-big">${longest} gün</div><span>en uzun seri</span></div>
-        <div class="ex-box"><div class="ex-big">${best.count}</div><span>en yoğun gün · ${fmt(best.date)}</span></div>
-      </div>${current ? `<p>🔥 Şu an ${current} günlük serideyim.</p>` : ''}`;
-  },
-  hello() {
-    const done = waveBtn.classList.contains('done');
-    return `<div class="ex-big">${waveCount.textContent} 👋</div>
-      <p>${done ? 'Selamın alındı, teşekkürler! 🙌' : 'Henüz selam vermedin. Kartın üzerindeki 👋 butonuna tıklaman yeterli.'}</p>
-      <ul class="ex-list"><li>Sayaç bu sitenin kendi sunucusunda tutuluyor ve herkes için ortak.</li>
-      <li>Aynı kişi günde bir kez sayılıyor.</li><li>IP adresin saklanmıyor; yalnızca geri çevrilemeyen bir özeti bir günlüğüne tutuluyor.</li></ul>`;
-  },
-};
+// ================= HALI =================
 
-let openPanel = null;
-function expandCard(card) {
-  const tpl = card.querySelector('template.more');
-  if (!tpl || openPanel) return;
-  const r = card.getBoundingClientRect(), m = 16, vw = innerWidth, vh = innerHeight;
-  const panel = document.createElement('div');
-  panel.className = 'expanded' + (card.classList.contains('project') ? ' is-project' : '');
-  if (card.classList.contains('project') || card.classList.contains('contact')) {
-    panel.classList.add('is-project');
-    panel.style.background = getComputedStyle(card).backgroundImage;
-  }
-  panel.innerHTML = `<div class="ex-inner">${tpl.innerHTML}</div>`;
-  panel.querySelectorAll('[data-dynamic]').forEach(el => { el.outerHTML = `<div style="display:grid;gap:16px">${dynamic[el.dataset.dynamic]()}</div>`; });
-  // Hedef boyut: kartın yaklaşık 3-4 katı alan (kenarlar ~1.9 kat), ekrana sığacak şekilde
-  const maxW = card.classList.contains('intro') ? 920 : 720;
-  const w = Math.min(Math.max(r.width * 1.9, 420), Math.max(maxW, r.width + 60), vw - 2 * m);
-  panel.style.cssText += `left:0;top:0;width:${w}px;visibility:hidden`;
-  document.body.appendChild(panel);
-  const h = Math.min(Math.max(panel.querySelector('.ex-inner').scrollHeight + 2, r.height), vh - 2 * m);
-  const left = Math.min(Math.max(r.left + r.width / 2 - w / 2, m), vw - w - m);
-  const top = Math.min(Math.max(r.top + r.height / 2 - h / 2, m), vh - h - m);
-  panel.style.visibility = '';
-  const backdrop = document.createElement('div');
-  backdrop.className = 'ex-backdrop';
-  document.body.insertBefore(backdrop, panel);
-  card.style.visibility = 'hidden';
-  const from = { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' };
-  const to = { left: left + 'px', top: top + 'px', width: w + 'px', height: h + 'px' };
-  Object.assign(panel.style, to);
-  const dur = reduce ? 0 : 420;
-  panel.animate([from, to], { duration: dur, easing: 'cubic-bezier(.2,.8,.2,1)' });
-  backdrop.animate([{ opacity: 0 }, { opacity: 1 }], { duration: dur });
-  openPanel = { panel, backdrop, card };
+
+
+
+
+
+// Dev teknoloji şeritleri
+const t1 = ['React Native', 'TypeScript', 'Node.js', 'PostgreSQL', 'Next.js', 'Expo'];
+const t2 = ['UI/UX', 'Supabase', 'Tailwind CSS', 'Prisma', 'Python', 'iyzico'];
+// Şeridin yarısı en az ekran genişliği kadar olmalı; yoksa kayarken arkada boşluk kalır.
+// Kelimeler gerektiği kadar tekrarlanır, sonra iki eş yarı yan yana konur (-50% kaydırma dikişsiz olsun diye).
+function fill(id, list) {
+  const el = document.getElementById(id), unit = list.map(x => `<span>${x}</span>`).join('');
+  el.innerHTML = unit;
+  const unitW = el.scrollWidth || 1, reps = Math.max(1, Math.ceil((innerWidth + 100) / unitW));
+  const half = unit.repeat(reps);
+  el.innerHTML = half + half;
+  el.style.animationDuration = (el.scrollWidth / 2 / 45) + 's';   // saniyede ~45px, ekran ne olursa olsun aynı hız
 }
-function collapseCard() {
-  if (!openPanel || openPanel.closing) return;
-  const { panel, backdrop, card } = openPanel;
-  openPanel.closing = true;
-  const r = card.getBoundingClientRect(), dur = reduce ? 0 : 300;
-  panel.querySelector('.ex-inner').animate([{ opacity: 1 }, { opacity: 0 }], { duration: dur * .5, fill: 'forwards' });
-  panel.animate([{}, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' }],
-    { duration: dur, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' });
-  backdrop.animate([{ opacity: 1 }, { opacity: 0 }], { duration: dur, fill: 'forwards' }).onfinish = () => {
-    panel.remove(); backdrop.remove(); card.style.visibility = ''; openPanel = null;
-  };
-}
-if (canHover) {
-  document.documentElement.style.setProperty('--dwell', DWELL + 'ms');
-  document.querySelectorAll('.card').forEach(card => {
-    if (!card.querySelector('template.more')) return;
-    card.insertAdjacentHTML('beforeend', '<i class="dwell" aria-hidden="true"></i>');
-    let timer;
-    card.addEventListener('mouseenter', () => {
-      if (openPanel) return;
-      card.classList.add('dwelling');
-      timer = setTimeout(() => { card.classList.remove('dwelling'); expandCard(card); }, DWELL);
-    });
-    card.addEventListener('mouseleave', () => { clearTimeout(timer); card.classList.remove('dwelling'); });
-  });
-  // Fare büyümüş kartın dışına çıkınca, sayfa kayınca ya da Esc'ye basınca kapat
-  addEventListener('mousemove', e => {
-    if (!openPanel || openPanel.closing) return;
-    const r = openPanel.panel.getBoundingClientRect();
-    if (e.clientX < r.left - 8 || e.clientX > r.right + 8 || e.clientY < r.top - 8 || e.clientY > r.bottom + 8) collapseCard();
-  });
-  addEventListener('wheel', e => { if (openPanel && !openPanel.panel.contains(e.target)) collapseCard(); }, { passive: true });
-  addEventListener('scroll', () => { if (openPanel) collapseCard(); }, { passive: true });
-  addEventListener('keydown', e => { if (e.key === 'Escape') collapseCard(); });
-}
+const fillAll = () => { fill('t1', t1); fill('t2', t2); };
+fillAll();
+document.fonts && document.fonts.ready.then(fillAll);
+let fillTimer;
+addEventListener('resize', () => { clearTimeout(fillTimer); fillTimer = setTimeout(fillAll, 300); });
 </script>
 </body>
 </html>
