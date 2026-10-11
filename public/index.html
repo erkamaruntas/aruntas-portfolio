@@ -107,20 +107,6 @@
   .reveal.in { opacity: 1; transform: none; }
 
   /* ---------- 3. Atelify: 4 aşama ---------- */
-  #atelify-steps { height: 420vh; }
-  .atelify-stage { width: min(1100px, 100%); padding: 0 24px; display: grid; grid-template-columns: 1fr 1.25fr; gap: 56px; align-items: center; }
-  .steps { position: relative; height: 260px; }
-  .step { position: absolute; inset: 0; opacity: 0; transform: translateY(30px); transition: opacity .6s, transform .6s cubic-bezier(.2,.8,.2,1); }
-  .step.active { opacity: 1; transform: none; }
-  .step .num { font-size: 15px; font-weight: 700; color: var(--accent); letter-spacing: .02em; }
-  .step h3 { font-size: clamp(36px, 4.4vw, 58px); font-weight: 800; letter-spacing: -.03em; line-height: 1; margin: 12px 0 16px; }
-  .step p { font-size: 19px; color: var(--muted); line-height: 1.45; max-width: 420px; }
-  .dots { display: flex; gap: 8px; margin-top: 26px; }
-  .dots i { width: 8px; height: 8px; border-radius: 4px; background: #333; transition: width .4s, background .4s; }
-  .dots i.active { width: 28px; background: var(--text); }
-  .frame { position: relative; aspect-ratio: 1; width: min(100%, 68vh, 560px); justify-self: center; border-radius: 32px; overflow: hidden; background: #111; box-shadow: 0 50px 100px -30px rgba(255,122,66,.35); }
-  .frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.06); transition: opacity .7s, transform 1.2s cubic-bezier(.2,.8,.2,1); }
-  .frame img.active { opacity: 1; transform: none; }
 
   /* Atelify ekran görüntüsü + özellik kartları */
   .showcase { width: min(1100px, calc(100% - 48px)); margin: 0 auto; }
@@ -129,12 +115,10 @@
   .browser .bar i { width: 11px; height: 11px; border-radius: 50%; background: #3a3a3c; }
   .browser > img { width: 100%; height: auto; max-height: 72vh; object-fit: cover; object-position: top; }
   .browser .bar span { margin: 0 auto; font-size: 12px; color: var(--muted); background: #2c2c2e; padding: 4px 40px; border-radius: 6px; }
-  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
-  .tile { background: #111113; border: 1px solid var(--line); border-radius: 24px; padding: 30px; min-height: 220px; display: flex; flex-direction: column; justify-content: space-between; }
-  .tile b { font-size: clamp(36px, 4.4vw, 56px); font-weight: 800; letter-spacing: -.03em; line-height: 1; }
-  .tile p { color: var(--muted); font-size: 17px; line-height: 1.4; }
-  .tile p strong { color: var(--text); font-weight: 600; }
-  .tile.wide { grid-column: span 2; }
+  /* Atelify tanıtım videosu: ekran görüntüsünün altında, görününce sessiz başlar */
+  .video { margin: 16px 0 0; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); background: #000; box-shadow: 0 60px 120px -40px rgba(0,0,0,.9); }
+  .video video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; }
+  .video figcaption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .links-row { display: flex; justify-content: center; gap: 28px; margin-top: 44px; font-size: 19px; }
   .links-row a { color: #2997ff; } .links-row a:hover { text-decoration: underline; }
 
@@ -241,13 +225,9 @@
 
   /* ---------- Telefon ---------- */
   @media (max-width: 860px) {
-    .atelify-stage { grid-template-columns: 1fr; gap: 28px; text-align: center; }
-    .atelify-stage .frame { width: min(300px, 70vw, 42vh); margin: 0 auto; order: -1; }
-    .steps { height: 200px; } .step p { margin: 0 auto; font-size: 17px; } .dots { justify-content: center; }
     .phone-stage { grid-template-columns: 1fr; gap: 0; justify-items: center; }
     .phone-stage .left, .phone-stage .right { display: none; }
     .phone-caption { display: block !important; }
-    .tiles { grid-template-columns: 1fr; } .tile.wide { grid-column: auto; }
     .numbers { grid-template-columns: 1fr; }
   }
   .phone-caption { display: none; position: absolute; bottom: 5vh; left: 24px; right: 24px; text-align: center; }
@@ -307,33 +287,18 @@
     <div class="chips" style="justify-content:center"><span>Node.js</span><span>JavaScript</span><span>PostgreSQL</span><span>fal.ai</span><span>iyzico</span></div>
   </header>
 </section>
-<section class="scene" id="atelify-steps" data-rug="madalyon">
-  <div class="sticky">
-    <div class="atelify-stage">
-      <div>
-        <div class="steps">
-          <div class="step" data-i="0"><div class="num">01 · Taslak</div><h3>Fotoğraf,<br>gravüre dönüşür.</h3><p>Portre, logo ya da evcil hayvan. Yapay zekâ onu kazımaya hazır bir çizime çevirir.</p></div>
-          <div class="step" data-i="1"><div class="num">02 · Ürün</div><h3>Çizim,<br>yüzüğe oturur.</h3><p>Metal, şekil ve yüzey seçilir. Bu adım yapay zekâ kullanmaz; anında ve ücretsizdir.</p></div>
-          <div class="step" data-i="2"><div class="num">03 · Mockup</div><h3>Satışa hazır<br>bir stüdyo çekimi.</h3><p>Etsy, Instagram ya da katalog için profesyonel ürün fotoğrafı.</p></div>
-          <div class="step" data-i="3"><div class="num">04 · Manken</div><h3>Elde.<br>Boyunda. Gerçek.</h3><p>Mücevherin takıldığında nasıl göründüğü, tek tıkla.</p></div>
-        </div>
-        <div class="dots" id="atelifyDots"><i></i><i></i><i></i><i></i></div>
-      </div>
-      <div class="frame" id="atelifyFrame">
-        <img src="assets/atelify-step1.jpg" alt="Taslak: gravür çizimi"><img src="assets/atelify-step2.jpg" alt="Ürün: çizim yüzükte">
-        <img src="assets/atelify-step3.jpg" alt="Mockup: stüdyo çekimi"><img src="assets/atelify-step4.jpg" alt="Manken: elde görünüm">
-      </div>
-    </div>
-  </div>
-</section>
 <section style="padding: 10vh 0 6vh" data-rug="madalyon">
   <div class="showcase">
     <div class="browser reveal"><div class="bar"><i></i><i></i><i></i><span>atelify.aruntas.com</span></div><img src="assets/atelify.jpg?v=2" width="1200" height="983" alt="Atelify ana sayfası"></div>
-    <div class="tiles">
-      <div class="tile reveal"><b class="grad">0₺</b><p><strong>Sıfır maliyetli adım.</strong> Ürün aşaması görüntü işlemeyle çalışır, yapay zekâya hiç para ödemez.</p></div>
-      <div class="tile reveal"><b>1×</b><p><strong>Asla iki kez ücret yok.</strong> Tekrar denenen istekler bir kez sayılır; hata olursa kredi otomatik iade edilir.</p></div>
-      <div class="tile reveal"><b>172</b><p><strong>Birim testi.</strong> Ödeme, kredi ve üretim akışlarının her biri testlerle korunuyor.</p></div>
-    </div>
+    <figure class="video reveal">
+      <video id="atelifyVideo" controls muted playsinline preload="none" poster="assets/video/atelify-tanitim-poster.jpg" width="1920" height="1080">
+        <!-- Önce Atelify'ın kendi sunucusu: parça parça indirmeyi (Range/206) destekliyor, Safari ve iOS buna ihtiyaç duyuyor.
+             Ulaşılamazsa buradaki kopya kullanılır. -->
+        <source src="https://atelify.aruntas.com/assets/video/atelify-guncel.mp4" type="video/mp4">
+        <source src="assets/video/atelify-tanitim.mp4" type="video/mp4">
+      </video>
+      <figcaption>Atelify tanıtım videosu</figcaption>
+    </figure>
     <div class="links-row reveal"><a href="https://atelify.aruntas.com" target="_blank" rel="noopener">Siteyi ziyaret et ›</a><a href="https://github.com/erkamaruntas/atelify" target="_blank" rel="noopener">Kaynak kodu incele ›</a></div>
   </div>
 </section>
@@ -436,7 +401,6 @@ const words = [...man.querySelectorAll('span')];
 const hero = document.getElementById('hero'), heroTitle = document.getElementById('heroTitle'), heroInfo = document.getElementById('heroInfo'),
       hint = document.getElementById('scrollHint');
 const manifesto = document.getElementById('manifesto');
-const atel = document.getElementById('atelify-steps'), steps = atel.querySelectorAll('.step'), frames = atel.querySelectorAll('.frame img'), dots = atel.querySelectorAll('.dots i');
 const sub = document.getElementById('subtification-phone'), shots = sub.querySelectorAll('.screen img'), feats = sub.querySelectorAll('.feat');
 const caption = document.getElementById('phoneCaption');
 const captions = [...feats].map(f => [f.querySelector('h4').textContent, f.querySelector('p').textContent]);
@@ -458,12 +422,6 @@ function frame() {
   const lit = Math.round(pm * words.length);
   words.forEach((w, i) => w.classList.toggle('on', i < lit));
 
-  // 3. Atelify: dört aşama
-  const ia = Math.min(3, Math.floor(progress(atel) * 4));
-  steps.forEach((s, i) => s.classList.toggle('active', i === ia));
-  frames.forEach((f, i) => f.classList.toggle('active', i === ia));
-  dots.forEach((d, i) => d.classList.toggle('active', i === ia));
-
   // 4. Subtification: telefon ekranları
   const is = Math.min(3, Math.floor(progress(sub) * 4));
   shots.forEach((s, i) => s.classList.toggle('active', i === is));
@@ -479,7 +437,7 @@ const navLinks = [...document.querySelectorAll('nav .links a')];
 const navObs = new IntersectionObserver(entries => entries.forEach(en => {
   if (en.isIntersecting) navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.dataset.nav));
 }), { rootMargin: '-45% 0px -50% 0px' });
-[['atelify', 'atelify'], ['atelify-steps', 'atelify'], ['subtification', 'subtification'], ['subtification-phone', 'subtification'], ['ranvu', 'ranvu'], ['iletisim', 'iletisim'], ['hero', ''], ['manifesto', '']]
+[['atelify', 'atelify'], ['subtification', 'subtification'], ['subtification-phone', 'subtification'], ['ranvu', 'ranvu'], ['iletisim', 'iletisim'], ['hero', ''], ['manifesto', '']]
   .forEach(([id, nav]) => { const el = document.getElementById(id); el.dataset.nav = nav; navObs.observe(el); });
 frame();
 
@@ -514,6 +472,16 @@ showRug('lacivert');
 const rugObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) showRug(e.target.dataset.rug); }), { rootMargin: '-50% 0px -50% 0px' });
 document.querySelectorAll('[data-rug]:not(#rugBg div)').forEach(el => rugObs.observe(el));
 addEventListener('load', () => setTimeout(() => Object.values(rugLayers).forEach(loadRug), 800));
+
+// Atelify tanıtım videosu: ekrana gelince sessiz başlar, çıkınca durur (kullanıcı kendisi başlattıysa dokunulmaz)
+const atelifyVideo = document.getElementById('atelifyVideo');
+let videoByUser = false;
+atelifyVideo.addEventListener('play', () => { if (!atelifyVideo.dataset.auto) videoByUser = true; delete atelifyVideo.dataset.auto; });
+new IntersectionObserver(([e]) => {
+  if (videoByUser || reduce) return;
+  if (e.isIntersecting) { atelifyVideo.dataset.auto = '1'; atelifyVideo.play().catch(() => {}); }
+  else if (!atelifyVideo.paused) atelifyVideo.pause();
+}, { threshold: .5 }).observe(atelifyVideo);
 
 // GitHub: tüm zamanların katkı sayısı ve son 6 ayın ızgarası.
 // Kareler veri gelmeden yerleştirilir ki ızgaranın yüksekliği baştan belli olsun
