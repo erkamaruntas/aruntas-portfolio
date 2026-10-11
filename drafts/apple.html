@@ -164,8 +164,9 @@
 
   /* ---------- 7. Dev teknoloji şeridi ---------- */
   .marquee { overflow: hidden; padding: 6px 0; }
-  .marquee .track { display: flex; gap: 60px; width: max-content; animation: slide 40s linear infinite; font-size: clamp(48px, 8vw, 110px); font-weight: 800; letter-spacing: -.05em; white-space: nowrap; }
+  .marquee .track { display: flex; width: max-content; animation: slide 40s linear infinite; font-size: clamp(48px, 8vw, 110px); font-weight: 800; letter-spacing: -.05em; white-space: nowrap; }
   .marquee.rev .track { animation-direction: reverse; }
+  .marquee .track span { padding-right: 60px; }
   .marquee .track span:nth-child(odd) { color: rgba(255,255,255,.18); }
   @keyframes slide { to { transform: translateX(-50%); } }
 
@@ -549,8 +550,21 @@ wave.addEventListener('click', async () => {
 // Dev teknoloji şeritleri
 const t1 = ['React Native', 'TypeScript', 'Node.js', 'PostgreSQL', 'Next.js', 'Expo'];
 const t2 = ['UI/UX', 'Supabase', 'Tailwind CSS', 'Prisma', 'Python', 'iyzico'];
-const fill = (id, list) => { const h = list.map(x => `<span>${x}</span>`).join(''); document.getElementById(id).innerHTML = h + h; };
-fill('t1', t1); fill('t2', t2);
+// Şeridin yarısı en az ekran genişliği kadar olmalı; yoksa kayarken arkada boşluk kalır.
+// Kelimeler gerektiği kadar tekrarlanır, sonra iki eş yarı yan yana konur (-50% kaydırma dikişsiz olsun diye).
+function fill(id, list) {
+  const el = document.getElementById(id), unit = list.map(x => `<span>${x}</span>`).join('');
+  el.innerHTML = unit;
+  const unitW = el.scrollWidth || 1, reps = Math.max(1, Math.ceil((innerWidth + 100) / unitW));
+  const half = unit.repeat(reps);
+  el.innerHTML = half + half;
+  el.style.animationDuration = (el.scrollWidth / 2 / 45) + 's';   // saniyede ~45px, ekran ne olursa olsun aynı hız
+}
+const fillAll = () => { fill('t1', t1); fill('t2', t2); };
+fillAll();
+document.fonts && document.fonts.ready.then(fillAll);
+let fillTimer;
+addEventListener('resize', () => { clearTimeout(fillTimer); fillTimer = setTimeout(fillAll, 300); });
 </script>
 </body>
 </html>
