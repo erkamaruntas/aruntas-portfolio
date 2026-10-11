@@ -152,9 +152,10 @@
   .numbers span { display: block; color: var(--muted); font-size: 19px; margin-top: 12px; }
 
   /* ---------- GitHub ---------- */
-  .gh { width: min(1100px, calc(100% - 48px)); margin: 12vh auto 0; padding: 20px; border-radius: 24px; background: rgba(0,0,0,.55); border: 1px solid var(--line); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  .gh { width: min(1100px, calc(100% - 48px)); margin: 12vh auto 0; }
   .gh-grid { display: grid; grid-template-rows: repeat(7, 1fr); grid-auto-flow: column; gap: 4px; }
-  .gh-grid i { aspect-ratio: 1; border-radius: 4px; background-color: rgba(255,255,255,.07); opacity: 0; transform: scaleY(.2);
+  .gh-grid i { aspect-ratio: 1; border-radius: 2px; background-color: #182038; opacity: 0; transform: scaleY(.2);
+    background-image: linear-gradient(135deg, rgba(255,255,255,.09) 25%, transparent 25% 50%, rgba(255,255,255,.09) 50% 75%, transparent 75%); background-size: 5px 5px;
     transition: opacity .35s ease, transform .35s cubic-bezier(.2,.8,.2,1), background-color .4s; }
   /* Dalga, hem veri hazır hem bölüm görünür olunca başlar */
   .gh.in.ready .gh-grid i { opacity: 1; transform: none; }
@@ -196,9 +197,17 @@
   /* Sitenin arka planı: gerçek bir Yıldızlı Uşak halısının zemini (aynalanarak dikişsiz),
      ortası yazılar okunsun diye daha koyu, kenarlara doğru halı daha belirgin */
   body { background: #000; }
-  body::before, body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1; }
-  body::before { background: url(../public/assets/rugs/bg-usak.webp) repeat 0 0 / 720px auto; }
+  /* Her bölümün kendi halısı var; ekranın ortasındaki bölüm değişince desenler yavaşça birbirine geçer */
+  .rug-bg { position: fixed; inset: 0; z-index: -2; pointer-events: none; background: #000; }
+  .rug-bg div { position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s ease; background-repeat: repeat; background-position: center top; background-size: var(--s, 640px) auto; }
+  .rug-bg div.on { opacity: 1; }
+  body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1; }
   body::after { background: radial-gradient(ellipse 75% 70% at 50% 50%, rgba(0,0,0,.9) 0%, rgba(0,0,0,.82) 55%, rgba(0,0,0,.64) 100%); }
+
+  /* GitHub ızgarası gerçek bir Anadolu kiliminin bordürüyle çevrili */
+  .kilim { border: 30px solid transparent; border-image: url(../public/assets/rugs/frame-kilim.webp) 64 round; box-shadow: 0 40px 80px -30px rgba(179,54,30,.6); }
+  .kilim-in { background: #0d1220; padding: 12px; }
+  @media (max-width: 680px) { .kilim { border-width: 18px; } .kilim-in { padding: 8px; } }
 
   /* Sayfanın sonu: gerçek bir halının saçaklı ucu */
   /* Halı burada biter: saçaklar düz siyaha sarkar, altı (footer) da siyah */
@@ -223,6 +232,14 @@
 </style>
 </head>
 <body>
+<div class="rug-bg" id="rugBg" aria-hidden="true">
+  <div data-rug="usak" data-src="../public/assets/rugs/bg-usak.webp" style="--s:720px"></div>
+  <div data-rug="madalyon" data-src="../public/assets/rugs/bg-madalyon.webp" style="--s:560px"></div>
+  <div data-rug="turkuaz" data-src="../public/assets/rugs/bg-turkuaz.webp" style="--s:560px"></div>
+  <div data-rug="kazak" data-src="../public/assets/rugs/bg-kazak.webp" style="--s:600px"></div>
+  <div data-rug="kilim" data-src="../public/assets/rugs/bg-kilim.webp" style="--s:520px"></div>
+  <div data-rug="lacivert" data-src="../public/assets/rugs/bg-lacivert.webp" style="--s:560px"></div>
+</div>
 
 <nav>
   <a class="brand" href="#hero"><img src="../public/favicon.svg" alt="">Yusuf Erkam</a>
@@ -231,7 +248,7 @@
 </nav>
 
 <!-- 1. Açılış: isim büyüyüp kaybolur, yerine fotoğraf gelir -->
-<section class="scene" id="hero">
+<section class="scene" id="hero" data-rug="usak">
   <div class="sticky">
     <div class="hero-title" id="heroTitle">
       <div class="eyebrow">Ürün odaklı Web &amp; Mobil Geliştirici</div>
@@ -251,14 +268,14 @@
 </section>
 
 <!-- 2. Manifesto: kaydırdıkça kelimeler aydınlanır -->
-<section class="scene" id="manifesto">
+<section class="scene" id="manifesto" data-rug="usak">
   <div class="sticky">
     <p class="manifesto" id="manifestoText">Fikirleri, insanların gerçekten kullandığı <em class="hl">ürünlere</em> dönüştürüyorum. Bir ürünün neye ihtiyaç duyduğunu düşünüyor, <em class="hl">arayüzünü tasarlıyor</em>, kullanıcının onu nasıl hissettiğini önemsiyor ve her şeyi <em class="hl">yayına alıyorum.</em></p>
   </div>
 </section>
 
 <!-- 3. Atelify -->
-<section id="atelify">
+<section id="atelify" data-rug="madalyon">
   <header class="section-head reveal">
     <div class="tag"><i></i>Yayında · atelify.aruntas.com</div>
     <h2>Atelify.</h2>
@@ -266,7 +283,7 @@
     <div class="chips" style="justify-content:center"><span>Node.js</span><span>JavaScript</span><span>PostgreSQL</span><span>fal.ai</span><span>iyzico</span></div>
   </header>
 </section>
-<section class="scene" id="atelify-steps">
+<section class="scene" id="atelify-steps" data-rug="madalyon">
   <div class="sticky">
     <div class="atelify-stage">
       <div>
@@ -285,7 +302,7 @@
     </div>
   </div>
 </section>
-<section style="padding: 10vh 0 6vh">
+<section style="padding: 10vh 0 6vh" data-rug="madalyon">
   <div class="showcase">
     <div class="browser reveal"><div class="bar"><i></i><i></i><i></i><span>atelify.aruntas.com</span></div><img src="../public/assets/atelify.jpg" alt="Atelify ana sayfası"></div>
     <div class="tiles">
@@ -298,7 +315,7 @@
 </section>
 
 <!-- 4. Subtification -->
-<section id="subtification">
+<section id="subtification" data-rug="turkuaz">
   <header class="section-head reveal">
     <div class="tag"><i style="background:#ffd60a;box-shadow:0 0 12px #ffd60a"></i>App Store onay sürecinde</div>
     <h2>Subtification.</h2>
@@ -306,7 +323,7 @@
     <div class="chips" style="justify-content:center"><span>React Native</span><span>TypeScript</span><span>Expo</span><span>Zustand</span><span>Supabase</span></div>
   </header>
 </section>
-<section class="scene" id="subtification-phone">
+<section class="scene" id="subtification-phone" data-rug="turkuaz">
   <div class="sticky">
     <div class="phone-stage">
       <div class="left">
@@ -330,7 +347,7 @@
 <div class="links-row reveal" style="margin: 4vh 0 0"><a href="https://subtification.aruntas.com" target="_blank" rel="noopener">Tanıtım sitesi ›</a><a href="https://github.com/erkamaruntas/subtification" target="_blank" rel="noopener">Kaynak kodu incele ›</a></div>
 
 <!-- 5. Ranvu -->
-<section id="ranvu" style="padding: 14vh 0 0">
+<section id="ranvu" style="padding: 14vh 0 0" data-rug="kazak">
   <div class="wip reveal">
     <div class="tag">Şu an üzerinde çalışıyorum · 3 kişilik ekip</div>
     <h3>Giderim: <span class="grad">Ranvu.</span></h3>
@@ -341,7 +358,7 @@
 </section>
 
 <!-- 6. Sayılar -->
-<section style="padding: 14vh 0 0">
+<section style="padding: 14vh 0 0" data-rug="kazak">
   <div class="numbers">
     <div class="reveal"><b class="grad" data-count="3">0</b><span>proje</span></div>
     <div class="reveal"><b data-count="707" id="allTime">0</b><span>GitHub katkısı</span></div>
@@ -350,21 +367,21 @@
 </section>
 
 <!-- GitHub -->
-<section>
+<section data-rug="kilim">
   <div class="gh reveal" id="gh">
-    <div class="gh-grid" id="ghGrid"></div>
+    <div class="kilim"><div class="kilim-in"><div class="gh-grid" id="ghGrid"></div></div></div>
     <div class="gh-meta"><span><b style="color:var(--text)">Her gün bir ilmek.</b> <span id="ghText">Son 6 aydaki GitHub katkılarım</span></span><a href="https://github.com/erkamaruntas" target="_blank" rel="noopener">@erkamaruntas ›</a></div>
   </div>
 </section>
 
 <!-- 7. Teknolojiler -->
-<section style="padding-top: 22vh">
+<section style="padding-top: 22vh" data-rug="kilim">
   <div class="marquee"><div class="track" id="t1"></div></div>
   <div class="marquee rev"><div class="track" id="t2"></div></div>
 </section>
 
 <!-- 8. İletişim -->
-<section class="contact" id="iletisim">
+<section class="contact" id="iletisim" data-rug="lacivert">
   <h2 class="reveal">Merhaba <span class="grad">de.</span></h2>
   <p class="reveal">Staj ve junior pozisyonlara açığım. Bir fikrin, bir projen ya da sadece bir sorun varsa yaz.</p>
   <div class="btn-row reveal">
@@ -459,10 +476,25 @@ const io = new IntersectionObserver(entries => entries.forEach(en => {
 }), { threshold: .25 });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
+// Arka plan halısı: ekranın ortasındaki bölümün halısı belirir.
+// Görseller ilk gerektiğinde yüklenir; sayfa açılınca kalanlar arka planda önceden yüklenir.
+const rugLayers = Object.fromEntries([...document.querySelectorAll('#rugBg div')].map(d => [d.dataset.rug, d]));
+const loadRug = d => { if (!d.style.backgroundImage) d.style.backgroundImage = `url(${d.dataset.src})`; };
+let currentRug;
+function showRug(name) {
+  if (name === currentRug || !rugLayers[name]) return;
+  currentRug = name;
+  Object.entries(rugLayers).forEach(([k, d]) => { if (k === name) loadRug(d); d.classList.toggle('on', k === name); });
+}
+showRug('usak');
+const rugObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) showRug(e.target.dataset.rug); }), { rootMargin: '-50% 0px -50% 0px' });
+document.querySelectorAll('[data-rug]:not(#rugBg div)').forEach(el => rugObs.observe(el));
+addEventListener('load', () => setTimeout(() => Object.values(rugLayers).forEach(loadRug), 800));
+
 // GitHub: tüm zamanların katkı sayısı ve son 6 ayın ızgarası.
 // Kareler veri gelmeden yerleştirilir ki ızgaranın yüksekliği baştan belli olsun
 // ve veri gelince altındaki bölümler kaymasın; veri gelince yalnızca renkler değişir.
-const ghColors = ['#4a2414', '#7a3517', '#c2501d', '#ff7a42'];
+const ghColors = ['#5a1a14', '#8f2a1a', '#c0392b', '#e0a526'];
 const ghSection = document.getElementById('gh'), ghGrid = document.getElementById('ghGrid');
 const cellCount = 25 * 7 + new Date().getDay() + 1;
 ghGrid.innerHTML = Array.from({ length: cellCount }, (_, i) => `<i style="transition-delay:${(6 - i % 7) * 160 + Math.floor(i / 7) * 10}ms"></i>`).join('');
