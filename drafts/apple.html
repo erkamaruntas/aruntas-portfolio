@@ -261,7 +261,7 @@
 </nav>
 
 <!-- 1. Açılış: isim büyüyüp kaybolur, yerine fotoğraf gelir -->
-<section class="scene" id="hero" data-rug="usak">
+<section class="scene" id="hero" data-rug="lacivert">
   <div class="sticky">
     <div class="hero-title" id="heroTitle">
       <div class="eyebrow">Ürün odaklı Web &amp; Mobil Geliştirici</div>
@@ -281,7 +281,7 @@
 </section>
 
 <!-- 2. Manifesto: kaydırdıkça kelimeler aydınlanır -->
-<section class="scene" id="manifesto" data-rug="usak">
+<section class="scene" id="manifesto" data-rug="lacivert">
   <div class="sticky">
     <p class="manifesto" id="manifestoText">Fikirleri, insanların gerçekten kullandığı <em class="hl">ürünlere</em> dönüştürüyorum. Bir ürünün neye ihtiyaç duyduğunu düşünüyor, <em class="hl">arayüzünü tasarlıyor</em>, kullanıcının onu nasıl hissettiğini önemsiyor ve her şeyi <em class="hl">yayına alıyorum.</em></p>
   </div>
@@ -394,7 +394,7 @@
 </section>
 
 <!-- 8. İletişim -->
-<section class="contact" id="iletisim" data-rug="lacivert">
+<section class="contact" id="iletisim" data-rug="usak">
   <h2 class="reveal">Merhaba <span class="grad">de.</span></h2>
   <p class="reveal">Staj ve junior pozisyonlara açığım. Bir fikrin, bir projen ya da sadece bir sorun varsa yaz.</p>
   <div class="btn-row reveal">
@@ -499,7 +499,7 @@ function showRug(name) {
   currentRug = name;
   Object.entries(rugLayers).forEach(([k, d]) => { if (k === name) loadRug(d); d.classList.toggle('on', k === name); });
 }
-showRug('usak');
+showRug('lacivert');
 const rugObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) showRug(e.target.dataset.rug); }), { rootMargin: '-50% 0px -50% 0px' });
 document.querySelectorAll('[data-rug]:not(#rugBg div)').forEach(el => rugObs.observe(el));
 addEventListener('load', () => setTimeout(() => Object.values(rugLayers).forEach(loadRug), 800));
