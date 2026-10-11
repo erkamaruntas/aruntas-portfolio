@@ -64,8 +64,12 @@
     background: radial-gradient(closest-side, rgba(0,0,0,.92), rgba(0,0,0,.75) 55%, transparent); }
   /* "Erkam." harflerinin içi gerçek bir Yıldızlı Uşak halısından; desen yavaşça kayar */
   .rug-text { background: url(../public/assets/rugs/text-usak.webp) 0 50% / auto 120%; -webkit-background-clip: text; background-clip: text; color: transparent;
-    -webkit-text-stroke: clamp(1.5px, .28vw, 3.5px) rgba(255,240,220,.9);
     animation: rugDrift 18s ease-in-out infinite alternate; }
+  /* Kontur harf harf değil, kelimenin dış çevresine çizilir: sıkı harf aralığında üst üste binen
+     harflerin (k-a, a-m) içinde çizgi kalmasın diye text-stroke yerine dış katmanda drop-shadow.
+     Filtre ayrı katmanda, çünkü Safari desenle doldurulmuş yazıya doğrudan filtreyi düzgün çizmiyor. */
+  .rug-outline { display: inline-block; filter: drop-shadow(2px 0 0 rgba(255,240,220,.85)) drop-shadow(-2px 0 0 rgba(255,240,220,.85))
+    drop-shadow(0 2px 0 rgba(255,240,220,.85)) drop-shadow(0 -2px 0 rgba(255,240,220,.85)); }
   @keyframes rugDrift { to { background-position: 100% 50%; } }
   .hero-title p { font-size: clamp(20px, 2.6vw, 32px); font-weight: 600; letter-spacing: -.02em; margin-top: 22px; color: var(--muted); }
   #hero { height: 230vh; }
@@ -265,7 +269,7 @@
   <div class="sticky">
     <div class="hero-title" id="heroTitle">
       <div class="eyebrow">Ürün odaklı Web &amp; Mobil Geliştirici</div>
-      <h1>Yusuf <span class="rug-text">Erkam.</span></h1>
+      <h1>Yusuf <span class="rug-outline"><span class="rug-text">Erkam.</span></span></h1>
       <p>Fikirden yayına. Uçtan uca.</p>
     </div>
     <div class="hero-info" id="heroInfo">
