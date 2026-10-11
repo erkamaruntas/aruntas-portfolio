@@ -499,6 +499,7 @@ const ghColors = ['#5a1a14', '#8f2a1a', '#c0392b', '#e0a526'];
 const ghSection = document.getElementById('gh'), ghGrid = document.getElementById('ghGrid');
 const cellCount = 25 * 7 + new Date().getDay() + 1;
 ghGrid.innerHTML = Array.from({ length: cellCount }, (_, i) => `<i style="transition-delay:${(6 - i % 7) * 160 + Math.floor(i / 7) * 10}ms"></i>`).join('');
+ghGrid.style.gridTemplateColumns = `repeat(${Math.ceil(cellCount / 7)}, 1fr)`;   // sütun sayısı belli olsun ki yarım hafta taşmasın
 const cells = ghGrid.children;
 fetch('https://github-contributions-api.jogruber.de/v4/erkamaruntas?y=all')
   .then(r => r.ok ? r.json() : Promise.reject())
