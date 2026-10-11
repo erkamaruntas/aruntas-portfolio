@@ -244,8 +244,23 @@
   }
   .phone-caption { display: none; position: absolute; bottom: 5vh; left: 24px; right: 24px; text-align: center; }
   .phone-caption h4 { font-size: 22px; font-weight: 700; } .phone-caption p { color: var(--muted); font-size: 15px; margin-top: 4px; }
+  /* İlk açılış: halı aydınlık gelir, koyulaşınca başlık çıkış hareketinin tersiyle açılır. */
+  .intro .rug-bg { animation: introCarpet .7s both; }
+  .intro body::after { animation: introShade .8s 1s both; }
+  .intro .hero-title::before { animation: introShade .8s 1s both; }
+  .intro .hero-entrance h1 { animation: introName .85s 1.75s cubic-bezier(.22,.7,.3,1) both; }
+  .intro .hero-entrance .eyebrow { animation: introCopy .5s 2s both; }
+  .intro .hero-entrance p { animation: introCopy .5s 2.2s both; }
+  .intro body > nav, .intro .scroll-hint { animation: introCopy .5s 2.1s both; }
+  @keyframes introCarpet { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes introShade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes introName { from { opacity: 0; transform: scale(1.5); filter: blur(8px); } to { opacity: 1; transform: scale(1); filter: blur(0); } }
+  @keyframes introCopy { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
+<script>
+  if (!location.hash && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('intro');
+</script>
 </head>
 <body>
 <div class="rug-bg" id="rugBg" aria-hidden="true">
@@ -268,9 +283,11 @@
 <section class="scene" id="hero" data-rug="lacivert">
   <div class="sticky">
     <div class="hero-title" id="heroTitle">
+      <div class="hero-entrance">
       <div class="eyebrow">Ürün ve kullanıcı deneyimi odaklı Web &amp; Mobil Geliştirici</div>
       <h1>Yusuf <span class="rug-outline"><span class="rug-text">Erkam.</span></span></h1>
       <p>Fikirden yayına. Uçtan uca.</p>
+      </div>
     </div>
     <div class="hero-info" id="heroInfo">
       <h2 class="grad">Kullanması kolay ve keyifli<br class="wide"> ürünler geliştiriyorum.</h2>
@@ -405,6 +422,9 @@
 
 <script>
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const finishIntro = () => document.documentElement.classList.remove('intro');
+setTimeout(finishIntro, 2800);
+addEventListener('scroll', () => { if (scrollY > 0) finishIntro(); }, { passive: true });
 const clamp = (v, a = 0, b = 1) => Math.min(Math.max(v, a), b);
 const ease = t => 1 - Math.pow(1 - t, 3);
 // Yapışkan sahnenin ilerlemesi: 0 (sahne başı) → 1 (sahne sonu)
