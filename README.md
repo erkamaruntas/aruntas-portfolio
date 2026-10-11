@@ -6,6 +6,8 @@ Kaydırdıkça hikâye anlatan, Apple ürün sayfası tarzında tek dosyalık (f
 
 Halı görselleri [The Met](https://www.metmuseum.org/about-the-met/policies-and-documents/open-access) ve [Cleveland Museum of Art](https://www.clevelandart.org/open-access) açık erişim (public domain) koleksiyonlarındaki Anadolu halılarından üretildi.
 
+Sayılar, GitHub ve teknolojiler bölümlerindeki `bg-lotto.jpg`: [Classical Turkish Carpet with the Lotto Pattern](https://www.clevelandart.org/art/2015.61), Uşak, 1600–1650, Cleveland Museum of Art, envanter 2015.61 (public domain).
+
 ## Projeler
 
 - **[Atelify](https://atelify.aruntas.com)**: Fotoğrafları yapay zekâ ile kişiye özel mücevher tasarımlarına dönüştüren platform.
