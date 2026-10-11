@@ -116,8 +116,14 @@
   .browser > img { width: 100%; height: auto; max-height: 72vh; object-fit: cover; object-position: top; }
   .browser .bar span { margin: 0 auto; font-size: 12px; color: var(--muted); background: #2c2c2e; padding: 4px 40px; border-radius: 6px; }
   /* Atelify tanıtım videosu: ekran görüntüsünün altında, görününce sessiz başlar */
-  .video { margin: 16px 0 0; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); background: #000; box-shadow: 0 60px 120px -40px rgba(0,0,0,.9); }
+  .video { margin: 0; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); background: #000; box-shadow: 0 60px 120px -40px rgba(0,0,0,.9); }
   .video video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; }
+  #atelify-show { height: 300vh; }
+  /* İki kart aynı yerde üst üste durur; hangisinin görüneceğini ve kaymayı kaydırma ilerlemesi belirler */
+  .show-stage { position: relative; width: min(1100px, calc(100% - 48px), 150vh); height: 82vh; }
+  .show-card { position: absolute; left: 0; right: 0; top: 50%; translate: 0 -50%; will-change: transform, opacity; }
+  #showShot > img { max-height: calc(82vh - 38px); }
+  #showVideo { opacity: 0; visibility: hidden; }
   .video figcaption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .links-row { display: flex; justify-content: center; gap: 28px; margin-top: 44px; font-size: 19px; }
   .links-row a { color: #2997ff; } .links-row a:hover { text-decoration: underline; }
@@ -287,20 +293,25 @@
     <div class="chips" style="justify-content:center"><span>Node.js</span><span>JavaScript</span><span>PostgreSQL</span><span>fal.ai</span><span>iyzico</span></div>
   </header>
 </section>
-<section style="padding: 10vh 0 6vh" data-rug="madalyon">
-  <div class="showcase">
-    <div class="browser reveal"><div class="bar"><i></i><i></i><i></i><span>atelify.aruntas.com</span></div><img src="assets/atelify.jpg?v=2" width="1200" height="983" alt="Atelify ana sayfası"></div>
-    <figure class="video reveal">
-      <video id="atelifyVideo" controls muted playsinline preload="none" poster="assets/video/atelify-tanitim-poster.jpg" width="1920" height="1080">
-        <!-- Önce Atelify'ın kendi sunucusu: parça parça indirmeyi (Range/206) destekliyor, Safari ve iOS buna ihtiyaç duyuyor.
-             Ulaşılamazsa buradaki kopya kullanılır. -->
-        <source src="https://atelify.aruntas.com/assets/video/atelify-guncel.mp4" type="video/mp4">
-        <source src="assets/video/atelify-tanitim.mp4" type="video/mp4">
-      </video>
-      <figcaption>Atelify tanıtım videosu</figcaption>
-    </figure>
-    <div class="links-row reveal"><a href="https://atelify.aruntas.com" target="_blank" rel="noopener">Siteyi ziyaret et ›</a><a href="https://github.com/erkamaruntas/atelify" target="_blank" rel="noopener">Kaynak kodu incele ›</a></div>
+<!-- Önce sitenin ekran görüntüsü, kaydırınca o yukarı çıkar, ardından video aşağıdan gelir (ikisi aynı anda görünmez) -->
+<section class="scene" id="atelify-show" data-rug="madalyon">
+  <div class="sticky">
+    <div class="show-stage">
+      <div class="browser show-card" id="showShot"><div class="bar"><i></i><i></i><i></i><span>atelify.aruntas.com</span></div><img src="assets/atelify.jpg?v=2" width="1200" height="983" alt="Atelify ana sayfası"></div>
+      <figure class="video show-card" id="showVideo">
+        <video id="atelifyVideo" controls muted playsinline preload="metadata" poster="assets/video/atelify-tanitim-poster.jpg" width="1920" height="1080">
+          <!-- Önce Atelify'ın kendi sunucusu: parça parça indirmeyi (Range/206) destekliyor, Safari ve iOS buna ihtiyaç duyuyor.
+               Ulaşılamazsa buradaki kopya kullanılır. -->
+          <source src="https://atelify.aruntas.com/assets/video/atelify-guncel.mp4" type="video/mp4">
+          <source src="assets/video/atelify-tanitim.mp4" type="video/mp4">
+        </video>
+        <figcaption>Atelify tanıtım videosu</figcaption>
+      </figure>
+    </div>
   </div>
+</section>
+<section style="padding: 4vh 0 6vh" data-rug="madalyon">
+  <div class="links-row reveal"><a href="https://atelify.aruntas.com" target="_blank" rel="noopener">Siteyi ziyaret et ›</a><a href="https://github.com/erkamaruntas/atelify" target="_blank" rel="noopener">Kaynak kodu incele ›</a></div>
 </section>
 
 <!-- 4. Subtification -->
@@ -401,6 +412,17 @@ const words = [...man.querySelectorAll('span')];
 const hero = document.getElementById('hero'), heroTitle = document.getElementById('heroTitle'), heroInfo = document.getElementById('heroInfo'),
       hint = document.getElementById('scrollHint');
 const manifesto = document.getElementById('manifesto');
+const showScene = document.getElementById('atelify-show'), showShot = document.getElementById('showShot'), showVideo = document.getElementById('showVideo');
+// Atelify tanıtım videosu: sahnede tam yerine oturunca sessiz başlar, sahneden çıkınca durur.
+// Ziyaretçi kendisi başlatırsa ona dokunulmaz.
+const atelifyVideo = document.getElementById('atelifyVideo');
+let videoByUser = false;
+atelifyVideo.addEventListener('play', () => { if (!atelifyVideo.dataset.auto) videoByUser = true; delete atelifyVideo.dataset.auto; });
+function videoWanted(on) {
+  if (videoByUser || reduce) return;
+  if (on && atelifyVideo.paused) { atelifyVideo.dataset.auto = '1'; atelifyVideo.play().catch(() => {}); }
+  else if (!on && !atelifyVideo.paused) atelifyVideo.pause();
+}
 const sub = document.getElementById('subtification-phone'), shots = sub.querySelectorAll('.screen img'), feats = sub.querySelectorAll('.feat');
 const caption = document.getElementById('phoneCaption');
 const captions = [...feats].map(f => [f.querySelector('h4').textContent, f.querySelector('p').textContent]);
@@ -421,6 +443,17 @@ function frame() {
   const pm = clamp((progress(manifesto) - .05) / .8);
   const lit = Math.round(pm * words.length);
   words.forEach((w, i) => w.classList.toggle('on', i < lit));
+
+  // 3. Atelify: önce ekran görüntüsü yukarı çıkar, tamamen gidince video aşağıdan gelir
+  const ps = progress(showScene), inView = showScene.getBoundingClientRect();
+  const out = ease(clamp((ps - .3) / .18)), inn = ease(clamp((ps - .5) / .18));
+  showShot.style.transform = `translateY(${-out * 70}vh) scale(${1 - out * .06})`;
+  showShot.style.opacity = 1 - out;
+  showShot.style.visibility = out >= 1 ? 'hidden' : 'visible';
+  showVideo.style.transform = `translateY(${(1 - inn) * 70}vh) scale(${.94 + inn * .06})`;
+  showVideo.style.opacity = inn;
+  showVideo.style.visibility = inn <= 0 ? 'hidden' : 'visible';
+  videoWanted(inn > .95 && inView.top < innerHeight && inView.bottom > 0);
 
   // 4. Subtification: telefon ekranları
   const is = Math.min(3, Math.floor(progress(sub) * 4));
@@ -473,15 +506,6 @@ const rugObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersec
 document.querySelectorAll('[data-rug]:not(#rugBg div)').forEach(el => rugObs.observe(el));
 addEventListener('load', () => setTimeout(() => Object.values(rugLayers).forEach(loadRug), 800));
 
-// Atelify tanıtım videosu: ekrana gelince sessiz başlar, çıkınca durur (kullanıcı kendisi başlattıysa dokunulmaz)
-const atelifyVideo = document.getElementById('atelifyVideo');
-let videoByUser = false;
-atelifyVideo.addEventListener('play', () => { if (!atelifyVideo.dataset.auto) videoByUser = true; delete atelifyVideo.dataset.auto; });
-new IntersectionObserver(([e]) => {
-  if (videoByUser || reduce) return;
-  if (e.isIntersecting) { atelifyVideo.dataset.auto = '1'; atelifyVideo.play().catch(() => {}); }
-  else if (!atelifyVideo.paused) atelifyVideo.pause();
-}, { threshold: .5 }).observe(atelifyVideo);
 
 // GitHub: tüm zamanların katkı sayısı ve son 6 ayın ızgarası.
 // Kareler veri gelmeden yerleştirilir ki ızgaranın yüksekliği baştan belli olsun
