@@ -59,14 +59,15 @@
   /* ---------- 1. Açılış ---------- */
   .hero-title { text-align: center; will-change: transform, opacity; }
   .hero-title .eyebrow { font-size: clamp(17px, 2vw, 24px); font-weight: 600; color: var(--muted); margin-bottom: 10px; }
-  .hero-title h1 { font-size: clamp(64px, 14vw, 200px); font-weight: 800; letter-spacing: -.055em; line-height: .9; }
+  .hero-title h1 { font-size: clamp(60px, 13vw, 190px); font-weight: 800; letter-spacing: -.025em; line-height: .9; }   /* daha sıkı aralıkta r-k ve f-u birbirine giriyordu */
   .hero-title h1 { filter: drop-shadow(0 6px 28px rgba(0,0,0,.85)); color: #e8e4dc; }
   /* İsmin arkasında yumuşak koyu hale: halı kenarlarda kalır, "Erkam." koyu zemine oturur */
   .hero-title { position: relative; }
   .hero-title::before { content: ""; position: absolute; inset: -12% -8%; z-index: -1; pointer-events: none;
     background: radial-gradient(closest-side, rgba(0,0,0,.92), rgba(0,0,0,.75) 55%, transparent); }
   /* "Erkam." harflerinin içi gerçek bir Yıldızlı Uşak halısından; desen yavaşça kayar */
-  .rug-text { background: url(../public/assets/rugs/text-usak.webp) 0 50% / auto 120%; -webkit-background-clip: text; background-clip: text; color: transparent;
+  /* Desen yalnızca kutunun içine boyanır; sondaki noktanın kutudan taşan kısmı boyanmasın diye yanlara pay (negatif margin ile yer değişmez) */
+  .rug-text { padding: 0 .12em; margin: 0 -.12em; background: url(../public/assets/rugs/text-usak.webp) 0 50% / auto 120%; -webkit-background-clip: text; background-clip: text; color: transparent;
     animation: rugDrift 18s ease-in-out infinite alternate; }
   /* Kontur harf harf değil, kelimenin dış çevresine çizilir: sıkı harf aralığında üst üste binen
      harflerin (k-a, a-m) içinde çizgi kalmasın diye text-stroke yerine dış katmanda drop-shadow.
@@ -273,7 +274,7 @@
 <section class="scene" id="hero" data-rug="lacivert">
   <div class="sticky">
     <div class="hero-title" id="heroTitle">
-      <div class="eyebrow">Ürün odaklı Web &amp; Mobil Geliştirici</div>
+      <div class="eyebrow">Ürün ve kullanıcı deneyimi odaklı Web &amp; Mobil Geliştirici</div>
       <h1>Yusuf <span class="rug-outline"><span class="rug-text">Erkam.</span></span></h1>
       <p>Fikirden yayına. Uçtan uca.</p>
     </div>
