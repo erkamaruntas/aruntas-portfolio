@@ -50,6 +50,9 @@
   nav .links a.active { font-weight: 600; }
   nav .cta { background: #f5f5f7; color: #000; padding: 5px 12px; border-radius: 999px; font-weight: 600; transition: transform .2s; }
   nav .cta:hover { transform: scale(1.05); }
+  /* Kaydırma ilerledikçe halı bordürü soldan sağa dokunur. */
+  .rug-progress { position: absolute; left: 0; top: 100%; width: var(--rug-progress, 0%); height: 4px; pointer-events: none;
+    background: url(assets/rugs/frame-kilim.webp?v=2) repeat-x left -22px / 650px 900px; }
   @media (max-width: 680px) { nav .links { display: none; } }
 
   /* ---------- Yapışkan sahneler ---------- */
@@ -257,6 +260,7 @@
   <a class="brand" href="#hero"><img src="logo-hali-64.png" alt="">Yusuf Erkam</a>
   <div class="links"><a href="#atelify">Atelify</a><a href="#subtification">Subtification</a><a href="#ranvu">Ranvu</a><a href="#iletisim">İletişim</a></div>
   <a class="cta" href="mailto:erkam@aruntas.com">Merhaba de</a>
+  <span class="rug-progress" id="rugProgress" aria-hidden="true"></span>
 </nav>
 
 <!-- 1. Açılış: isim büyüyüp kaybolur, yerine fotoğraf gelir -->
@@ -428,8 +432,11 @@ function videoWanted(on) {
 const sub = document.getElementById('subtification-phone'), shots = sub.querySelectorAll('.screen img'), feats = sub.querySelectorAll('.feat');
 const caption = document.getElementById('phoneCaption');
 const captions = [...feats].map(f => [f.querySelector('h4').textContent, f.querySelector('p').textContent]);
+const rugProgress = document.getElementById('rugProgress');
 
 function frame() {
+  const scrollRange = document.documentElement.scrollHeight - innerHeight;
+  rugProgress.style.setProperty('--rug-progress', `${scrollRange > 0 ? clamp(scrollY / scrollRange) * 100 : 0}%`);
   // 1. Açılış: başlık büyüyüp kaybolur, yerine kısa tanıtım gelir
   const p = progress(hero);
   const t1 = ease(clamp(p / .45)), t2 = ease(clamp((p - .35) / .4));
