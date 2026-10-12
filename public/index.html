@@ -254,7 +254,19 @@
     .phone-caption { display: block !important; }
     .numbers { grid-template-columns: 1fr; }
   }
-  .phone-caption { display: none; position: absolute; bottom: 5vh; left: 24px; right: 24px; text-align: center; }
+  .phone-caption { display: none; margin-top: 20px; text-align: center; }
+  /* Telefonda: telefon, açıklama ve linkler alt alta; hepsi Safari çubukları açıkken de ekrana sığar */
+  @media (max-width: 860px) {
+    #subtification-phone .sticky { height: 100svh; padding-top: 64px; box-sizing: border-box; }
+    .phone-col { justify-self: stretch; }
+    .phone { width: min(300px, 62vw, calc(46svh - 110px)); }
+    .sub-links { margin-top: 14px; }
+  }
+  @media (max-width: 680px) {
+    .links-row { gap: 8px 22px; flex-wrap: wrap; font-size: 16px; }
+    .links-row a { white-space: nowrap; }
+    #showVideo .links-row { margin-top: 20px; }
+  }
   .phone-caption h4 { font-size: 22px; font-weight: 700; } .phone-caption p { color: var(--muted); font-size: 15px; margin-top: 4px; }
   /* İlk açılış: halı aydınlık gelir, koyulaşınca başlık çıkış hareketinin tersiyle açılır. */
   .intro .rug-bg { animation: introCarpet .7s both; }
@@ -378,13 +390,13 @@
         <img src="assets/subtification-installments.webp" alt="Taksitler">
         <img src="assets/subtification-notifications.webp" alt="Hatırlatmalar">
       </div></div>
+      <div class="phone-caption" id="phoneCaption"><h4></h4><p></p></div>
       <div class="links-row sub-links" id="subLinks"><a href="https://subtification.aruntas.com" target="_blank" rel="noopener">Tanıtım sitesi ›</a><a href="https://github.com/erkamaruntas/subtification" target="_blank" rel="noopener">Kaynak kodu incele ›</a></div>
       </div>
       <div class="right">
         <div class="feat" data-i="2"><h4>Taksitler, çözüldü.</h4><p>Kaç taksit ödendi, kaç ay kaldı. 31 Ocak'tan 28 Şubat'a doğru hesap.</p></div>
         <div class="feat" data-i="3"><h4>Ödemeden önce haber verir.</h4><p>Gün ve saati sen seç; hatırlatma tam zamanında gelsin.</p></div>
       </div>
-      <div class="phone-caption" id="phoneCaption"><h4></h4><p></p></div>
     </div>
   </div>
 </section>
