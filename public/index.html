@@ -264,6 +264,11 @@
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 <script>
+  // Yenilemede tarayıcı kaldığı yere dönmesin; sayfa en baştan, giriş animasyonuyla açılsın.
+  // Başka bir yerden #bölüm linkiyle gelen ziyaretçi yine doğrudan o bölüme gider.
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  var navEntry = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+  if (navEntry && navEntry.type === 'reload' && location.hash) history.replaceState(null, '', location.pathname + location.search);
   if (!location.hash && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('intro');
 </script>
 </head>
