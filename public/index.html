@@ -131,14 +131,15 @@
   .video video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; }
   #atelify-show { height: 240vh; }
   /* İki kart aynı yerde üst üste durur; hangisinin görüneceğini ve kaymayı kaydırma ilerlemesi belirler */
-  .show-stage { position: relative; width: min(1100px, calc(100% - 48px), 150vh); height: 82vh; }
+  .show-stage { position: relative; width: min(1100px, calc(100% - 48px), 150vh, calc((82vh - 90px) * 16 / 9)); height: 82vh; }
+  #showVideo .links-row { margin-top: 28px; }
   /* Geçiş Subtification ekranlarıyla aynı: aynı yerde solarak ve hafifçe küçülerek yer değiştirir */
   .show-card { position: absolute; left: 0; right: 0; top: 50%; translate: 0 -50%; opacity: 0; transform: scale(1.04); pointer-events: none;
     transition: opacity .6s, transform .8s cubic-bezier(.2,.8,.2,1); }
   .show-card.active { opacity: 1; transform: none; pointer-events: auto; }
   #showShot > img { max-height: calc(82vh - 38px); }
   .video figcaption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-  .links-row { display: flex; justify-content: center; gap: 28px; margin-top: 44px; font-size: 19px; }
+  .links-row { position: relative; z-index: 2; display: flex; justify-content: center; gap: 28px; margin-top: 44px; font-size: 19px; }
   .links-row a { color: #2997ff; } .links-row a:hover { text-decoration: underline; }
 
   /* ---------- 4. Subtification: telefon ---------- */
@@ -334,7 +335,8 @@
   <div class="sticky">
     <div class="show-stage">
       <div class="browser show-card" id="showShot"><div class="bar"><i></i><i></i><i></i><span>atelify.aruntas.com</span></div><img src="assets/atelify.jpg?v=2" width="1200" height="983" alt="Atelify ana sayfası"></div>
-      <figure class="video show-card" id="showVideo">
+      <div class="show-card" id="showVideo">
+      <figure class="video">
         <video id="atelifyVideo" controls muted playsinline preload="metadata" poster="assets/video/atelify-tanitim-poster.jpg" width="1920" height="1080">
           <!-- Önce Atelify'ın kendi sunucusu: parça parça indirmeyi (Range/206) destekliyor, Safari ve iOS buna ihtiyaç duyuyor.
                Ulaşılamazsa buradaki kopya kullanılır. -->
@@ -343,11 +345,10 @@
         </video>
         <figcaption>Atelify tanıtım videosu</figcaption>
       </figure>
+      <div class="links-row" id="atelifyLinks"><a href="https://atelify.aruntas.com" target="_blank" rel="noopener">Siteyi ziyaret et ›</a><a href="https://github.com/erkamaruntas/atelify" target="_blank" rel="noopener">Kaynak kodu incele ›</a></div>
+      </div>
     </div>
   </div>
-</section>
-<section style="padding: 0 0 6vh" data-rug="madalyon">
-  <div class="links-row reveal" id="atelifyLinks"><a href="https://atelify.aruntas.com" target="_blank" rel="noopener">Siteyi ziyaret et ›</a><a href="https://github.com/erkamaruntas/atelify" target="_blank" rel="noopener">Kaynak kodu incele ›</a></div>
 </section>
 
 <!-- 4. Subtification -->
@@ -575,7 +576,6 @@ function pullLinks(scene, links, parts) {
   links.style.marginTop = `${Math.min(44, 32 - (sticky.offsetHeight - contentBottom))}px`;
 }
 function placeLinks() {
-  pullLinks(showScene, document.getElementById('atelifyLinks'), [showVideo]);
   pullLinks(sub, document.getElementById('subLinks'), [sub.querySelector('.phone'), document.getElementById('phoneCaption')]);
 }
 placeLinks();
