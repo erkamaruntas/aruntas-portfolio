@@ -155,9 +155,10 @@
   .feat p { color: var(--muted); font-size: 16.5px; line-height: 1.45; }
   .left .feat { text-align: right; }
   /* Telefon çerçevesi subtification.aruntas.com'dakinin aynısı (koyu tema hali) */
-  .phone { position: relative; width: min(300px, 62vw, 34vh); padding: 9px; border-radius: 48px; background: #0f1113;
+  /* Çerçeve, köşe ve kenar oranları genişliğe bağlı: telefonda küçülse de bilgisayardaki 300px'lik halin birebir küçüğü olur */
+  .phone { --pw: min(300px, 62vw, 34vh); position: relative; width: var(--pw); padding: calc(var(--pw) * .03); border-radius: calc(var(--pw) * .16); background: #0f1113;
     box-shadow: 0 0 0 1.5px #3a4147 inset, 0 30px 70px rgba(0, 0, 0, 0.5); }
-  .screen { position: relative; width: 100%; aspect-ratio: 1170 / 2532; border-radius: 39px; overflow: hidden; background: #fff; }
+  .screen { position: relative; width: 100%; aspect-ratio: 1170 / 2532; border-radius: calc(var(--pw) * .13); overflow: hidden; background: #fff; }
   .screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.04); transition: opacity .6s, transform .8s cubic-bezier(.2,.8,.2,1); }
   .screen img.active { opacity: 1; transform: none; }
 
@@ -259,7 +260,7 @@
   @media (max-width: 860px) {
     #subtification-phone .sticky { height: 100svh; padding-top: 64px; box-sizing: border-box; }
     .phone-col { justify-self: stretch; }
-    .phone { width: min(300px, 62vw, calc(46svh - 110px)); }
+    .phone { --pw: min(300px, 62vw, calc(46svh - 110px)); }
     .sub-links { margin-top: 14px; }
   }
   @media (max-width: 680px) {
