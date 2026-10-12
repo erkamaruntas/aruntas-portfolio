@@ -95,7 +95,8 @@
   @media (max-width: 680px) { .hero-info br.wide { display: none; } }
   .hero-info .facts { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px 40px; font-size: clamp(16px, 1.6vw, 19px); color: var(--muted); }
   .hero-info .facts b { display: block; color: var(--text); font-weight: 600; font-size: clamp(18px, 1.9vw, 22px); margin-bottom: 2px; }
-  .scroll-hint { position: absolute; bottom: 30px; left: 50%; translate: -50% 0; color: var(--muted); font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  /* Ekrana sabit: açılış ve manifesto boyunca görünür, Atelify bölümü gelince kaybolur */
+  .scroll-hint { position: fixed; z-index: 5; pointer-events: none; transition: opacity .4s; bottom: 30px; left: 50%; translate: -50% 0; color: var(--muted); font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
   .scroll-hint i { width: 22px; height: 36px; border: 2px solid var(--muted); border-radius: 12px; position: relative; }
   .scroll-hint i::after { content: ""; position: absolute; left: 50%; top: 6px; width: 4px; height: 8px; margin-left: -2px; border-radius: 2px; background: var(--muted); animation: wheel 1.6s infinite; }
   @keyframes wheel { 60% { transform: translateY(10px); opacity: 0; } 100% { opacity: 0; } }
@@ -448,7 +449,7 @@ man.innerHTML = man.innerHTML.replace(/<em class="hl">(.*?)<\/em>|([^<\s]+)/g, (
 const words = [...man.querySelectorAll('span')];
 
 const hero = document.getElementById('hero'), heroTitle = document.getElementById('heroTitle'), heroInfo = document.getElementById('heroInfo'),
-      hint = document.getElementById('scrollHint');
+      hint = document.getElementById('scrollHint'), atelifyHead = document.getElementById('atelify');
 const manifesto = document.getElementById('manifesto');
 const showScene = document.getElementById('atelify-show'), showShot = document.getElementById('showShot'), showVideo = document.getElementById('showVideo');
 // Atelify tanıtım videosu: sahnede tam yerine oturunca sessiz başlar, sahneden çıkınca durur.
@@ -481,7 +482,9 @@ function frame() {
   heroInfo.style.opacity = t2;
   heroInfo.style.transform = `scale(${.94 + t2 * .06}) translateY(${(1 - t2) * 30}px)`;
   heroInfo.style.pointerEvents = t2 > .5 ? 'auto' : 'none';
-  hint.style.opacity = 1 - clamp(p * 6);
+  // Kaydır ipucu: Atelify başlığı ekranın alt kısmına gelene kadar görünür, sonra yumuşakça kaybolur
+  const atelifyTop = atelifyHead.getBoundingClientRect().top;
+  hint.style.opacity = clamp((atelifyTop - innerHeight * .55) / (innerHeight * .3));
 
   // 2. Manifesto
   const pm = clamp((progress(manifesto) - .05) / .8);
