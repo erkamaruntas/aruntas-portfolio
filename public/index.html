@@ -346,8 +346,8 @@
     </div>
   </div>
 </section>
-<section style="padding: 4vh 0 6vh" data-rug="madalyon">
-  <div class="links-row reveal"><a href="https://atelify.aruntas.com" target="_blank" rel="noopener">Siteyi ziyaret et ›</a><a href="https://github.com/erkamaruntas/atelify" target="_blank" rel="noopener">Kaynak kodu incele ›</a></div>
+<section style="padding: 0 0 6vh" data-rug="madalyon">
+  <div class="links-row reveal" id="atelifyLinks"><a href="https://atelify.aruntas.com" target="_blank" rel="noopener">Siteyi ziyaret et ›</a><a href="https://github.com/erkamaruntas/atelify" target="_blank" rel="noopener">Kaynak kodu incele ›</a></div>
 </section>
 
 <!-- 4. Subtification -->
@@ -380,7 +380,7 @@
     </div>
   </div>
 </section>
-<div class="links-row reveal" style="margin: 4vh 0 0"><a href="https://subtification.aruntas.com" target="_blank" rel="noopener">Tanıtım sitesi ›</a><a href="https://github.com/erkamaruntas/subtification" target="_blank" rel="noopener">Kaynak kodu incele ›</a></div>
+<div class="links-row reveal" id="subLinks"><a href="https://subtification.aruntas.com" target="_blank" rel="noopener">Tanıtım sitesi ›</a><a href="https://github.com/erkamaruntas/subtification" target="_blank" rel="noopener">Kaynak kodu incele ›</a></div>
 
 <!-- 5. Ranvu -->
 <section id="ranvu" style="padding: 14vh 0 0" data-rug="kazak">
@@ -565,6 +565,24 @@ addEventListener('load', () => setTimeout(async () => {
 // Halı desenli yazıların kayan deseni yalnızca yazı ekrandayken oynasın (boşuna sürekli yeniden çizilmesin)
 const rugTextObs = new IntersectionObserver(es => es.forEach(e => { e.target.style.animationPlayState = e.isIntersecting ? 'running' : 'paused'; }));
 document.querySelectorAll('.rug-text').forEach(el => rugTextObs.observe(el));
+
+// Proje linkleri sabitlenen sahnenin bitişinden sonra geliyordu; video/telefon ekranın ortasında durduğu için
+// altlarında yarım ekrana yakın boşluk kalıyordu. Linkleri, sahnenin son halindeki içeriğin 32px altına çek.
+function pullLinks(scene, links, parts) {
+  const sticky = scene.querySelector('.sticky'), top = sticky.getBoundingClientRect().top;
+  const shown = parts.filter(el => el && getComputedStyle(el).display !== 'none');
+  const contentBottom = Math.max(...shown.map(el => el.getBoundingClientRect().bottom)) - top;
+  links.style.marginTop = `${Math.min(44, 32 - (sticky.offsetHeight - contentBottom))}px`;
+}
+function placeLinks() {
+  pullLinks(showScene, document.getElementById('atelifyLinks'), [showVideo]);
+  pullLinks(sub, document.getElementById('subLinks'), [sub.querySelector('.phone'), document.getElementById('phoneCaption')]);
+}
+placeLinks();
+addEventListener('load', placeLinks);
+document.fonts && document.fonts.ready.then(placeLinks);
+let linksTimer;
+addEventListener('resize', () => { clearTimeout(linksTimer); linksTimer = setTimeout(placeLinks, 200); });
 
 // GitHub: tüm zamanların katkı sayısı ve son 6 ayın ızgarası.
 // Kareler veri gelmeden yerleştirilir ki ızgaranın yüksekliği baştan belli olsun
