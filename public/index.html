@@ -133,6 +133,10 @@
   /* İki kart aynı yerde üst üste durur; hangisinin görüneceğini ve kaymayı kaydırma ilerlemesi belirler */
   .show-stage { position: relative; width: min(1100px, calc(100% - 48px), 150vh, calc((82vh - 90px) * 16 / 9)); height: 82vh; }
   #showVideo .links-row { margin-top: 28px; }
+  .phone-col { display: flex; flex-direction: column; align-items: center; }
+  /* Subtification linkleri son ekran (hatırlatmalar) gelince, ekranlarla aynı geçişle görünür */
+  .sub-links { margin-top: 24px; opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity .6s, transform .8s cubic-bezier(.2,.8,.2,1); }
+  .sub-links.active { opacity: 1; transform: none; pointer-events: auto; }
   /* Geçiş Subtification ekranlarıyla aynı: aynı yerde solarak ve hafifçe küçülerek yer değiştirir */
   .show-card { position: absolute; left: 0; right: 0; top: 50%; translate: 0 -50%; opacity: 0; transform: scale(1.04); pointer-events: none;
     transition: opacity .6s, transform .8s cubic-bezier(.2,.8,.2,1); }
@@ -367,12 +371,15 @@
         <div class="feat" data-i="0"><h4>Her şey bir bakışta.</h4><p>Aylık toplam, takvim şeridi ve yaklaşan ödemeler ana ekranda.</p></div>
         <div class="feat" data-i="1"><h4>Paran nereye gidiyor?</h4><p>Kategori dağılımı, en pahalılar ve bütçe limiti.</p></div>
       </div>
+      <div class="phone-col">
       <div class="phone"><div class="screen" id="phoneScreen">
         <img src="assets/subtification.webp" alt="Ana ekran">
         <img src="assets/subtification-analytics.webp" alt="Analizler">
         <img src="assets/subtification-installments.webp" alt="Taksitler">
         <img src="assets/subtification-notifications.webp" alt="Hatırlatmalar">
       </div></div>
+      <div class="links-row sub-links" id="subLinks"><a href="https://subtification.aruntas.com" target="_blank" rel="noopener">Tanıtım sitesi ›</a><a href="https://github.com/erkamaruntas/subtification" target="_blank" rel="noopener">Kaynak kodu incele ›</a></div>
+      </div>
       <div class="right">
         <div class="feat" data-i="2"><h4>Taksitler, çözüldü.</h4><p>Kaç taksit ödendi, kaç ay kaldı. 31 Ocak'tan 28 Şubat'a doğru hesap.</p></div>
         <div class="feat" data-i="3"><h4>Ödemeden önce haber verir.</h4><p>Gün ve saati sen seç; hatırlatma tam zamanında gelsin.</p></div>
@@ -381,7 +388,6 @@
     </div>
   </div>
 </section>
-<div class="links-row reveal" id="subLinks"><a href="https://subtification.aruntas.com" target="_blank" rel="noopener">Tanıtım sitesi ›</a><a href="https://github.com/erkamaruntas/subtification" target="_blank" rel="noopener">Kaynak kodu incele ›</a></div>
 
 <!-- 5. Ranvu -->
 <section id="ranvu" style="padding: 14vh 0 0" data-rug="kazak">
@@ -463,6 +469,7 @@ function videoWanted(on) {
   if (on && atelifyVideo.paused) { atelifyVideo.dataset.auto = '1'; atelifyVideo.play().catch(() => {}); }
   else if (!on && !atelifyVideo.paused) atelifyVideo.pause();
 }
+const subLinks = document.getElementById('subLinks');
 const sub = document.getElementById('subtification-phone'), shots = sub.querySelectorAll('.screen img'), feats = sub.querySelectorAll('.feat');
 const caption = document.getElementById('phoneCaption');
 const captions = [...feats].map(f => [f.querySelector('h4').textContent, f.querySelector('p').textContent]);
@@ -502,6 +509,7 @@ function frame() {
   const is = Math.min(3, Math.floor(progress(sub) * 4));
   shots.forEach((s, i) => s.classList.toggle('active', i === is));
   feats.forEach(f => f.classList.toggle('active', +f.dataset.i === is));
+  subLinks.classList.toggle('active', is === 3);
   if (caption.dataset.i != is) { caption.dataset.i = is; caption.querySelector('h4').textContent = captions[is][0]; caption.querySelector('p').textContent = captions[is][1]; }
 }
 addEventListener('scroll', frame, { passive: true });
@@ -567,22 +575,6 @@ addEventListener('load', () => setTimeout(async () => {
 const rugTextObs = new IntersectionObserver(es => es.forEach(e => { e.target.style.animationPlayState = e.isIntersecting ? 'running' : 'paused'; }));
 document.querySelectorAll('.rug-text').forEach(el => rugTextObs.observe(el));
 
-// Proje linkleri sabitlenen sahnenin bitişinden sonra geliyordu; video/telefon ekranın ortasında durduğu için
-// altlarında yarım ekrana yakın boşluk kalıyordu. Linkleri, sahnenin son halindeki içeriğin 32px altına çek.
-function pullLinks(scene, links, parts) {
-  const sticky = scene.querySelector('.sticky'), top = sticky.getBoundingClientRect().top;
-  const shown = parts.filter(el => el && getComputedStyle(el).display !== 'none');
-  const contentBottom = Math.max(...shown.map(el => el.getBoundingClientRect().bottom)) - top;
-  links.style.marginTop = `${Math.min(44, 32 - (sticky.offsetHeight - contentBottom))}px`;
-}
-function placeLinks() {
-  pullLinks(sub, document.getElementById('subLinks'), [sub.querySelector('.phone'), document.getElementById('phoneCaption')]);
-}
-placeLinks();
-addEventListener('load', placeLinks);
-document.fonts && document.fonts.ready.then(placeLinks);
-let linksTimer;
-addEventListener('resize', () => { clearTimeout(linksTimer); linksTimer = setTimeout(placeLinks, 200); });
 
 // GitHub: tüm zamanların katkı sayısı ve son 6 ayın ızgarası.
 // Kareler veri gelmeden yerleştirilir ki ızgaranın yüksekliği baştan belli olsun
