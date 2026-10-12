@@ -465,6 +465,8 @@ const sub = document.getElementById('subtification-phone'), shots = sub.querySel
 const caption = document.getElementById('phoneCaption');
 const captions = [...feats].map(f => [f.querySelector('h4').textContent, f.querySelector('p').textContent]);
 const rugProgress = document.getElementById('rugProgress'), heroRugText = document.querySelector('.hero-title .rug-text');
+// Başlık kaybolurken bulanıklaşma yalnızca fareli cihazlarda (bilgisayar): telefonda her karede yeniden çizilip kasıyor
+const heroBlur = matchMedia('(hover: hover) and (pointer: fine)').matches && !reduce;
 
 function frame() {
   const scrollRange = document.documentElement.scrollHeight - innerHeight;
@@ -474,6 +476,7 @@ function frame() {
   const t1 = ease(clamp(p / .45)), t2 = ease(clamp((p - .35) / .4));
   heroTitle.style.transform = `scale(${1 + t1 * .5})`;
   heroTitle.style.opacity = 1 - t1;
+  if (heroBlur) heroTitle.style.filter = `blur(${t1 * 8}px)`;
   heroRugText.style.animationPlayState = t1 > .95 ? 'paused' : 'running';   // isim kaybolunca deseni boşuna kaydırma
   heroInfo.style.opacity = t2;
   heroInfo.style.transform = `scale(${.94 + t2 * .06}) translateY(${(1 - t2) * 30}px)`;
