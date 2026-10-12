@@ -163,17 +163,31 @@
   .screen img.active { opacity: 1; transform: none; }
 
   /* ---------- 5. Ranvu ---------- */
-  .wip { width: min(1100px, calc(100% - 48px)); margin: 0 auto; border-radius: 32px; padding: clamp(32px, 6vw, 72px); position: relative; overflow: hidden;
-    background: radial-gradient(120% 140% at 100% 0%, rgba(139,92,246,.35), transparent 50%), radial-gradient(100% 120% at 0% 100%, rgba(255,122,66,.25), transparent 55%), #0b0b0d;
-    border: 1px solid var(--line); }
-  .wip .tag { font-size: 14px; font-weight: 600; color: var(--muted); }
-  .wip h3 { font-size: clamp(40px, 6vw, 76px); font-weight: 800; letter-spacing: -.03em; line-height: 1; margin: 14px 0 18px; }
-  .wip p { font-size: clamp(18px, 2vw, 22px); color: var(--muted); max-width: 640px; line-height: 1.45; }
-  .meter { margin-top: 40px; max-width: 640px; }
-  .meter-head { display: flex; justify-content: space-between; font-size: 15px; color: var(--muted); margin-bottom: 10px; }
-  .meter-head b { color: var(--text); font-size: 17px; font-variant-numeric: tabular-nums; }
-  .meter-bar { height: 8px; border-radius: 4px; background: #1f1f22; overflow: hidden; }
-  .meter-bar i { display: block; height: 100%; width: 0; border-radius: 4px; background: linear-gradient(90deg, var(--accent), var(--pink), var(--violet)); transition: width 2s cubic-bezier(.2,.8,.2,1); }
+  /* Kart: solda proje, sağda WhatsApp'tan randevu alınan bir sohbet; mesajlar sırayla gelir */
+  .wip { width: min(1100px, calc(100% - 48px)); margin: 0 auto; display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(28px, 5vw, 64px); align-items: center;
+    padding: clamp(28px, 5vw, 60px); border-radius: 28px; background: rgba(9,12,24,.92); border: 1px solid rgba(243,230,207,.14); box-shadow: 0 40px 80px -30px rgba(0,0,0,.7); }
+  .wip .tag { font-size: 14px; font-weight: 600; color: rgba(243,230,207,.75); }
+  .wip h3 { font-size: clamp(40px, 6vw, 72px); font-weight: 800; letter-spacing: -.03em; line-height: 1.05; margin: 14px 0 18px; }
+  .wip h3 span { color: #e8553b; }
+  .wip p { font-size: clamp(17px, 1.8vw, 20px); color: rgba(245,245,247,.78); line-height: 1.45; max-width: 560px; }
+  .meter { margin-top: 30px; max-width: 460px; }
+  .meter-head { display: flex; justify-content: space-between; font-size: 14px; color: rgba(243,230,207,.7); margin-bottom: 8px; }
+  .meter-head b { color: #f3e6cf; font-size: 16px; font-variant-numeric: tabular-nums; }
+  .meter-bar { height: 6px; border-radius: 3px; background: rgba(243,230,207,.14); overflow: hidden; }
+  .meter-bar i { display: block; height: 100%; width: 0; border-radius: 3px; background: linear-gradient(90deg, #b3361e, #e8553b 60%, #2a9d8f); transition: width 2.4s cubic-bezier(.2,.8,.2,1); }
+  .wip .chips { margin-top: 26px; }
+  .chat { background: #0f1a1f; border-radius: 22px; padding: 16px; display: flex; flex-direction: column; gap: 10px; border: 1px solid rgba(243,230,207,.1);
+    background-image: radial-gradient(rgba(255,255,255,.035) 1px, transparent 1px); background-size: 14px 14px; }
+  .chat-head { display: flex; gap: 10px; align-items: center; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .chat-head i { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-weight: 800; background: #e8553b; color: #fff; }
+  .chat-head b { display: block; font-size: 15px; } .chat-head span { font-size: 12px; color: #7fd6a4; }
+  .msg { max-width: 82%; padding: 9px 13px; border-radius: 16px; font-size: 15px; line-height: 1.35; opacity: 0; translate: 0 8px; transition: opacity .4s, translate .4s; }
+  .msg.me { align-self: flex-end; background: #1f5f4a; color: #eafff4; border-bottom-right-radius: 4px; }
+  .msg.bot { align-self: flex-start; background: #232a35; color: #f2f2f2; border-bottom-left-radius: 4px; }
+  .msg.ok { background: #f3e6cf; color: #1f2333; } .msg small { display: block; font-size: 12px; color: #6b5a44; margin-top: 3px; }
+  .chat.in .msg { opacity: 1; translate: 0 0; }
+  .chat.in .msg:nth-of-type(2) { transition-delay: .5s; } .chat.in .msg:nth-of-type(3) { transition-delay: 1.3s; } .chat.in .msg:nth-of-type(4) { transition-delay: 2s; } .chat.in .msg:nth-of-type(5) { transition-delay: 2.8s; }
+  @media (max-width: 860px) { .wip { grid-template-columns: 1fr; } }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 30px; }
   .chips span { font-size: 14px; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line); color: rgba(245,245,247,.85); }
 
@@ -405,11 +419,20 @@
 <!-- 5. Ranvu -->
 <section id="ranvu" style="padding: 14vh 0 0" data-rug="kazak">
   <div class="wip reveal">
-    <div class="tag">Şu an üzerinde çalışıyorum · 3 kişilik ekip</div>
-    <h3>Giderim: <span class="grad">Ranvu.</span></h3>
-    <p>Berber, kuaför ve veterinerler için randevu platformu. Müşteriler WhatsApp'tan ya da telefondaki yapay zekâ asistanından randevu alıyor. Ben işletme ve yönetici panellerini geliştiriyorum.</p>
-    <div class="meter"><div class="meter-head"><span>İlerleme</span><b id="meterNum">0%</b></div><div class="meter-bar"><i id="meterBar"></i></div></div>
-    <div class="chips"><span>Next.js</span><span>TypeScript</span><span>Tailwind CSS</span><span>Prisma</span><span>PostgreSQL</span></div>
+    <div>
+      <div class="tag">Şu an üzerinde çalışıyorum · 3 kişilik ekip</div>
+      <h3>Giderim: <span>Ranvu.</span></h3>
+      <p>Berber, kuaför ve veterinerler için randevu platformu. Müşteriler WhatsApp'tan ya da telefondaki yapay zekâ asistanından randevu alıyor. Ben işletme ve yönetici panellerini geliştiriyorum.</p>
+      <div class="meter"><div class="meter-head"><span>İlerleme</span><b id="meterNum">%0</b></div><div class="meter-bar"><i id="meterBar"></i></div></div>
+      <div class="chips"><span>Next.js</span><span>TypeScript</span><span>Tailwind CSS</span><span>Prisma</span><span>PostgreSQL</span></div>
+    </div>
+    <div class="chat" aria-label="Örnek randevu sohbeti">
+      <div class="chat-head"><i>M</i><div><b>Mert Berber</b><span>çevrimiçi</span></div></div>
+      <div class="msg me">Yarın öğleden sonra saç kesimi için yer var mı?</div>
+      <div class="msg bot">Yarın 15:00'te Mert Usta boş. Ayırayım mı?</div>
+      <div class="msg me">Olur, ayır lütfen.</div>
+      <div class="msg bot ok">Tamamdır ✓ Randevun oluşturuldu.<small>Perşembe 15:00 · Saç kesimi · Mert Usta</small></div>
+    </div>
   </div>
 </section>
 
@@ -549,11 +572,13 @@ const io = new IntersectionObserver(entries => entries.forEach(en => {
   if (en.target.classList.contains('wip')) {
     document.getElementById('meterBar').style.width = '80%';
     const el = document.getElementById('meterNum'), t0 = performance.now();
-    (function step(t) { const k = clamp((t - t0) / 2000); el.textContent = Math.round(80 * ease(k)) + '%'; if (k < 1) requestAnimationFrame(step); })(t0);
+    (function step(t) { const k = clamp((t - t0) / 2000); el.textContent = '%' + Math.round(80 * ease(k)); if (k < 1) requestAnimationFrame(step); })(t0);
   }
   io.unobserve(en.target);
 }), { threshold: .25 });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+// Ranvu sohbeti: telefonda kart uzun, mesajlar sohbetin kendisi görününce akmaya başlar
+io.observe(document.querySelector('.chat'));
 
 // Arka plan halısı: ekranın ortasındaki bölümün halısı belirir.
 // Görseller ilk gerektiğinde yüklenir; sayfa açılınca kalanlar arka planda önceden yüklenir.
