@@ -118,6 +118,8 @@
   @media (max-width: 680px) {
     .hero-info .facts { flex-direction: column; gap: 26px; }
     .hero-info .facts > div + div::before { left: 50%; top: -13px; }
+    /* Bilgisayarda Ankara simetri için ortada; telefonda alt alta okunurken en sonda */
+    .hero-info .facts > div:nth-child(2) { order: 1; }
   }
   .hero-info .facts b { display: block; color: var(--text); font-weight: 600; font-size: clamp(18px, 1.9vw, 22px); margin-bottom: 2px; }
   /* Ekrana sabit: açılış ve manifesto boyunca görünür, Atelify bölümü gelince kaybolur */
@@ -373,8 +375,8 @@
       </svg>
       <div class="facts">
         <div><b>OSTİM Teknik Üniversitesi</b>Yazılım Mühendisliği · 4. sınıf</div>
-        <div><b>Barikat Siber Güvenlik</b>Security Operations stajı · 2025</div>
         <div><b>Ankara</b>Türkiye</div>
+        <div><b>Barikat Siber Güvenlik</b>Security Operations stajı · 2025</div>
       </div>
     </div>
     <div class="scroll-hint" id="scrollHint"><i></i>Kaydır</div>
