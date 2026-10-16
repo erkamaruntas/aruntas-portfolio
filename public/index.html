@@ -97,7 +97,21 @@
   @media (max-width: 680px) { .hero-info br.wide { display: none; } }
   .hero-info .facts { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px 40px; font-size: clamp(16px, 1.6vw, 19px); color: var(--muted); }
   /* Başlıkla bilgiler arasında kilim ayracı; bilgilerin arasında kırmızı kilim baklavaları */
-  .kilim-rule { width: min(340px, 72vw); height: auto; justify-self: center; }
+  .kilim-rule { width: min(340px, 72vw); height: auto; justify-self: center; overflow: visible; }
+  /* Ayraç kaydırdıkça dokunur (JS: weaveRule); parçalar kendi ortalarından ölçeklenir */
+  .kilim-rule path, .kilim-rule rect { transform-box: fill-box; }
+  .kr-line.l { transform-origin: right center; } .kr-line.r { transform-origin: left center; }
+  .kr-dot, .kr-core, .kr-stub { transform-origin: center; }
+  .kr-frame { stroke-dasharray: 100; }
+  /* Dokuma bitince ara sıra simli iplik parıltısı ortadan iki uca akar */
+  .kr-glint { opacity: 0; }
+  .kilim-rule.woven .kr-glint.l { animation: glintL 5.5s ease-in-out 1s infinite; }
+  .kilim-rule.woven .kr-glint.r { animation: glintR 5.5s ease-in-out 1s infinite; }
+  .kilim-rule.woven .kr-frame { animation: glintFrame 5.5s ease-in-out 1s infinite; }
+  @keyframes glintL { 0% { opacity: 0; transform: translateX(0); } 6% { opacity: 1; } 30% { opacity: .9; } 38%, 100% { opacity: 0; transform: translateX(-84px); } }
+  @keyframes glintR { 0% { opacity: 0; transform: translateX(0); } 6% { opacity: 1; } 30% { opacity: .9; } 38%, 100% { opacity: 0; transform: translateX(84px); } }
+  @keyframes glintFrame { 0%, 100% { stroke-opacity: .8; } 4% { stroke-opacity: 1; stroke: #fff6dc; } 14% { stroke-opacity: .8; } }
+  @media (prefers-reduced-motion: reduce) { .kilim-rule.woven .kr-glint, .kilim-rule.woven .kr-frame { animation: none; } }
   .hero-info .facts > div { position: relative; }
   .hero-info .facts > div + div::before { content: ""; position: absolute; left: -20px; top: 50%; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; rotate: 45deg;
     background: #c2412a; box-shadow: 0 0 0 1.5px rgba(243,230,207,.55); }
@@ -346,14 +360,16 @@
     </div>
     <div class="hero-info" id="heroInfo">
       <h2>Kullanması kolay ve keyifli<br class="wide"> <span>ürünler geliştiriyorum.</span></h2>
-      <svg class="kilim-rule" viewBox="0 0 240 20" aria-hidden="true">
+      <svg class="kilim-rule" id="kilimRule" viewBox="0 0 240 20" aria-hidden="true">
         <defs><linearGradient id="ruleL" gradientUnits="userSpaceOnUse" x1="0" x2="92"><stop offset="0" stop-color="#f3e6cf" stop-opacity="0"/><stop offset="1" stop-color="#f3e6cf" stop-opacity=".85"/></linearGradient>
-        <linearGradient id="ruleR" gradientUnits="userSpaceOnUse" x1="240" x2="148"><stop offset="0" stop-color="#f3e6cf" stop-opacity="0"/><stop offset="1" stop-color="#f3e6cf" stop-opacity=".85"/></linearGradient></defs>
-        <path d="M0 10 H92" stroke="url(#ruleL)" stroke-width="1.2"/><path d="M148 10 H240" stroke="url(#ruleR)" stroke-width="1.2"/>
-        <path d="M100 10 l4 -4 l4 4 l-4 4 Z M132 10 l4 -4 l4 4 l-4 4 Z" fill="#c2412a"/>
-        <path d="M120 1 l9 9 l-9 9 l-9 -9 Z" fill="none" stroke="#f3e6cf" stroke-opacity=".8" stroke-width="1.3"/>
-        <path d="M120 5 l5 5 l-5 5 l-5 -5 Z" fill="#c2412a"/>
-        <path d="M110 10 h-3 M130 10 h3" stroke="#f3e6cf" stroke-opacity=".8" stroke-width="1.3"/>
+        <linearGradient id="ruleR" gradientUnits="userSpaceOnUse" x1="240" x2="148"><stop offset="0" stop-color="#f3e6cf" stop-opacity="0"/><stop offset="1" stop-color="#f3e6cf" stop-opacity=".85"/></linearGradient>
+        <linearGradient id="ruleGlint"><stop offset="0" stop-color="#fff6dc" stop-opacity="0"/><stop offset=".5" stop-color="#fff6dc"/><stop offset="1" stop-color="#fff6dc" stop-opacity="0"/></linearGradient></defs>
+        <path class="kr-line l" d="M0 10 H92" stroke="url(#ruleL)" stroke-width="1.2"/><path class="kr-line r" d="M148 10 H240" stroke="url(#ruleR)" stroke-width="1.2"/>
+        <rect class="kr-glint l" x="80" y="8.6" width="16" height="2.8" rx="1.4" fill="url(#ruleGlint)"/><rect class="kr-glint r" x="144" y="8.6" width="16" height="2.8" rx="1.4" fill="url(#ruleGlint)"/>
+        <path class="kr-dot l" d="M100 10 l4 -4 l4 4 l-4 4 Z" fill="#c2412a"/><path class="kr-dot r" d="M132 10 l4 -4 l4 4 l-4 4 Z" fill="#c2412a"/>
+        <path class="kr-frame" d="M120 1 l9 9 l-9 9 l-9 -9 Z" pathLength="100" fill="none" stroke="#f3e6cf" stroke-opacity=".8" stroke-width="1.3"/>
+        <path class="kr-core" d="M120 5 l5 5 l-5 5 l-5 -5 Z" fill="#c2412a"/>
+        <path class="kr-stub" d="M110 10 h-3 M130 10 h3" stroke="#f3e6cf" stroke-opacity=".8" stroke-width="1.3"/>
       </svg>
       <div class="facts">
         <div><b>OSTİM Teknik Üniversitesi</b>Yazılım Mühendisliği · 4. sınıf</div>
@@ -533,6 +549,20 @@ const rugProgress = document.getElementById('rugProgress'), heroRugText = docume
 // Başlık kaybolurken bulanıklaşma yalnızca fareli cihazlarda (bilgisayar): telefonda her karede yeniden çizilip kasıyor
 const heroBlur = matchMedia('(hover: hover) and (pointer: fine)').matches && !reduce;
 
+// Kilim ayracı: önce ortadaki baklava çizilir, içi dolar, çizgiler ortadan dışa uzar, en son küçük baklavalar oturur
+const kilimRule = document.getElementById('kilimRule'), kr = sel => kilimRule.querySelectorAll(sel);
+const krLines = kr('.kr-line'), krDots = kr('.kr-dot'), krFrame = kr('.kr-frame')[0], krInner = kr('.kr-core, .kr-stub');
+let krLast = -1;
+function weaveRule(w, visible) {
+  kilimRule.classList.toggle('woven', w >= 1 && visible);
+  if (w === krLast) return; krLast = w;
+  const seg = (a, b) => ease(clamp((w - a) / (b - a)));
+  krFrame.style.strokeDashoffset = 100 * (1 - seg(0, .3));
+  krInner.forEach(e => e.style.transform = `scale(${seg(.2, .4)})`);
+  krLines.forEach(e => e.style.transform = `scaleX(${seg(.32, .78)})`);
+  krDots.forEach(e => { const k = seg(.72, .95); e.style.transform = `scale(${k})`; e.style.opacity = k; });
+}
+
 function frame() {
   const scrollRange = document.documentElement.scrollHeight - innerHeight;
   rugProgress.style.setProperty('--rug-progress', `${scrollRange > 0 ? clamp(scrollY / scrollRange) * 100 : 0}%`);
@@ -546,6 +576,7 @@ function frame() {
   heroInfo.style.opacity = t2;
   heroInfo.style.transform = `scale(${.94 + t2 * .06}) translateY(${(1 - t2) * 30}px)`;
   heroInfo.style.pointerEvents = t2 > .5 ? 'auto' : 'none';
+  weaveRule(reduce ? 1 : clamp((p - .52) / .34), t2 > .5 && p < 1);
   // Kaydır ipucu: Atelify başlığı ekranın alt kısmına gelene kadar görünür, sonra yumuşakça kaybolur
   const atelifyTop = atelifyHead.getBoundingClientRect().top;
   hint.style.opacity = clamp((atelifyTop - innerHeight * .55) / (innerHeight * .3));
