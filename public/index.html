@@ -69,26 +69,28 @@
   .hero-title { text-align: center; will-change: transform, opacity; }
   .hero-title .eyebrow { font-size: clamp(17px, 2vw, 24px); font-weight: 600; color: var(--muted); margin-bottom: 10px; }
   .hero-title h1 { font-size: clamp(60px, 13vw, 190px); font-weight: 800; letter-spacing: -.025em; line-height: .9; }   /* daha sıkı aralıkta r-k ve f-u birbirine giriyordu */
-  .hero-title h1 { filter: drop-shadow(0 6px 28px rgba(0,0,0,.85)); color: #e8e4dc; }
+  .hero-title h1 { text-shadow: 0 6px 28px rgba(0,0,0,.85); color: #e8e4dc; }
   /* İsmin arkasında yumuşak koyu hale: halı kenarlarda kalır, "Erkam." koyu zemine oturur */
   .hero-title { position: relative; }
   .hero-title::before { content: ""; position: absolute; inset: -12% -8%; z-index: -1; pointer-events: none;
     background: radial-gradient(closest-side, rgba(0,0,0,.92), rgba(0,0,0,.75) 55%, transparent); }
   /* "Erkam." harflerinin içi gerçek bir Yıldızlı Uşak halısından; desen yavaşça kayar */
   /* Desen yalnızca kutunun içine boyanır; sondaki noktanın kutudan taşan kısmı boyanmasın diye yanlara pay (negatif margin ile yer değişmez) */
-  .rug-text { padding: 0 .12em; margin: 0 -.12em; background: url(assets/rugs/text-usak.webp) 0 50% / auto 120%; -webkit-background-clip: text; background-clip: text; color: transparent;
-    animation: rugDrift 18s ease-in-out infinite alternate; }
-  /* Kontur harf harf değil, kelimenin dış çevresine çizilir: sıkı harf aralığında üst üste binen
-     harflerin (k-a, a-m) içinde çizgi kalmasın diye text-stroke yerine dış katmanda drop-shadow.
-     Filtre ayrı katmanda, çünkü Safari desenle doldurulmuş yazıya doğrudan filtreyi düzgün çizmiyor. */
-  .rug-outline { display: inline-block; filter: drop-shadow(2px 0 0 rgba(255,240,220,.85)) drop-shadow(-2px 0 0 rgba(255,240,220,.85))
-    drop-shadow(0 2px 0 rgba(255,240,220,.85)) drop-shadow(0 -2px 0 rgba(255,240,220,.85)); }
+  /* Desen kendi katmanında kayar (will-change), böylece her karede yalnızca desen yeniden çizilir */
+  .rug-text { display: inline-block; padding: 0 .12em; margin: 0 -.12em; background: url(assets/rugs/text-usak.webp) 0 50% / auto 120%; -webkit-background-clip: text; background-clip: text; color: transparent;
+    text-shadow: none; will-change: transform; animation: rugDrift 18s ease-in-out infinite alternate; }
+  /* Kontur, yazının arkasında duran sabit bir kopyaya kalın text-stroke ile çizilir. Desenli yazı üstte olduğu için
+     çizginin harflerin içine düşen yarısı ve üst üste binen harflerdeki (k-a, a-m) çizgiler görünmez; dışta 2px kalır.
+     Filtre kullanılmaz: desen kayarken filtrelerin her karede yeniden hesaplanması telefonda kasma yapıyordu. */
+  .rug-outline { position: relative; display: inline-block; isolation: isolate; }
+  .rug-outline::before { content: attr(data-text); position: absolute; left: 0; top: 0; z-index: -1; white-space: nowrap; pointer-events: none;
+    color: transparent; -webkit-text-stroke: 4px rgba(255,240,220,.85); }
+  .hero-title .rug-outline::before { text-shadow: 0 6px 28px rgba(0,0,0,.85); }
   /* İletişimdeki "Merhaba": arka plan Uşak olduğu için harflerin içi madalyonlu halıdan */
   .rug-text.madalyon { background-image: url(assets/rugs/text-madalyon.webp); background-size: auto 65%; background-repeat: repeat; }
   @media (max-width: 680px) {
-    .rug-text { letter-spacing: .025em; }
-    .rug-outline { filter: drop-shadow(1px 0 0 rgba(255,240,220,.9)) drop-shadow(-1px 0 0 rgba(255,240,220,.9))
-      drop-shadow(0 1px 0 rgba(255,240,220,.9)) drop-shadow(0 -1px 0 rgba(255,240,220,.9)); }
+    .rug-text, .rug-outline::before { letter-spacing: .025em; }
+    .rug-outline::before { -webkit-text-stroke: 2px rgba(255,240,220,.9); }
   }
   @keyframes rugDrift { to { background-position: 100% 50%; } }
   .hero-title p { font-size: clamp(20px, 2.6vw, 32px); font-weight: 600; letter-spacing: -.02em; margin-top: 22px; color: var(--muted); }
@@ -359,7 +361,7 @@
     <div class="hero-title" id="heroTitle">
       <div class="hero-entrance">
       <div class="eyebrow">Ürün ve kullanıcı deneyimi odaklı Web &amp; Mobil Geliştirici</div>
-      <h1>Yusuf <span class="rug-outline"><span class="rug-text">Erkam.</span></span></h1>
+      <h1>Yusuf <span class="rug-outline" data-text="Erkam."><span class="rug-text">Erkam.</span></span></h1>
       <p>Fikirden yayına. Uçtan uca.</p>
       </div>
     </div>
@@ -502,7 +504,7 @@
 
 <!-- 8. İletişim -->
 <section class="contact" id="iletisim" data-rug="usak">
-  <h2 class="reveal"><span class="rug-outline"><span class="rug-text madalyon">Merhaba</span></span> de.</h2>
+  <h2 class="reveal"><span class="rug-outline" data-text="Merhaba"><span class="rug-text madalyon">Merhaba</span></span> de.</h2>
   <p class="reveal">Bir fikrin, bir projen ya da sadece bir sorun varsa yaz.</p>
   <div class="btn-row reveal">
     <a class="btn primary" href="mailto:erkam@aruntas.com">erkam@aruntas.com</a>
