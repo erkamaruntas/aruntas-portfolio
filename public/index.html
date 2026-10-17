@@ -319,7 +319,8 @@
   .intro .rug-bg { animation: introCarpet .7s both; }
   .intro body::after { animation: introShade .8s 1s both; }
   .intro .hero-title::before { animation: introShade .8s 1s both; }
-  .intro .hero-entrance h1 { animation: introName .85s 1.75s cubic-bezier(.22,.7,.3,1) both; }
+  /* will-change: büyüme ve bulanıklık her karede yeniden çizilmek yerine ekran kartında uygulanır (açılış ağır çekim gibi görünmesin) */
+  .intro .hero-entrance h1 { animation: introName .85s 1.75s cubic-bezier(.22,.7,.3,1) both; will-change: transform, filter, opacity; }
   .intro .hero-entrance .eyebrow { animation: introCopy .5s 2s both; }
   .intro .hero-entrance p { animation: introCopy .5s 2.2s both; }
   .intro body > nav, .intro .scroll-hint { animation: introCopy .5s 2.1s both; }
@@ -408,10 +409,10 @@
 <section class="scene" id="atelify-show" data-rug="madalyon">
   <div class="sticky">
     <div class="show-stage">
-      <div class="browser show-card" id="showShot"><div class="bar"><i></i><i></i><i></i><span>atelify.aruntas.com</span></div><img src="assets/atelify.jpg?v=2" width="1200" height="983" alt="Atelify ana sayfası"></div>
+      <div class="browser show-card" id="showShot"><div class="bar"><i></i><i></i><i></i><span>atelify.aruntas.com</span></div><img loading="lazy" decoding="async" src="assets/atelify.jpg?v=2" width="1200" height="983" alt="Atelify ana sayfası"></div>
       <div class="show-card" id="showVideo">
       <figure class="video">
-        <video id="atelifyVideo" controls muted playsinline preload="metadata" poster="assets/video/atelify-tanitim-poster.jpg" width="1920" height="1080">
+        <video id="atelifyVideo" controls muted playsinline preload="none" poster="assets/video/atelify-tanitim-poster.jpg" width="1920" height="1080">
           <!-- Önce Atelify'ın kendi sunucusu: parça parça indirmeyi (Range/206) destekliyor, Safari ve iOS buna ihtiyaç duyuyor.
                Ulaşılamazsa buradaki kopya kullanılır. -->
           <source src="https://atelify.aruntas.com/assets/video/atelify-guncel.mp4" type="video/mp4">
@@ -443,10 +444,10 @@
       </div>
       <div class="phone-col">
       <div class="phone"><div class="screen" id="phoneScreen">
-        <img src="assets/subtification.webp" alt="Ana ekran">
-        <img src="assets/subtification-analytics.webp" alt="Analizler">
-        <img src="assets/subtification-installments.webp" alt="Taksitler">
-        <img src="assets/subtification-notifications.webp" alt="Hatırlatmalar">
+        <img loading="lazy" decoding="async" src="assets/subtification.webp" alt="Ana ekran">
+        <img loading="lazy" decoding="async" src="assets/subtification-analytics.webp" alt="Analizler">
+        <img loading="lazy" decoding="async" src="assets/subtification-installments.webp" alt="Taksitler">
+        <img loading="lazy" decoding="async" src="assets/subtification-notifications.webp" alt="Hatırlatmalar">
       </div></div>
       <div class="phone-caption" id="phoneCaption"><h4></h4><p></p></div>
       <div class="links-row sub-links" id="subLinks"><a href="https://subtification.aruntas.com" target="_blank" rel="noopener">Tanıtım sitesi ›</a><a href="https://github.com/erkamaruntas/subtification" target="_blank" rel="noopener">Kaynak kodu incele ›</a></div>
@@ -520,7 +521,8 @@
 
 <script>
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const finishIntro = () => document.documentElement.classList.remove('intro');
+// Açılış bitince video ön yüklemesi başlar; açılış sırasında indirme animasyonla yarışmasın
+const finishIntro = () => { document.documentElement.classList.remove('intro'); const v = document.getElementById('atelifyVideo'); if (v.preload === 'none') v.preload = 'metadata'; };
 setTimeout(finishIntro, 2800);
 addEventListener('scroll', () => { if (scrollY > 0) finishIntro(); }, { passive: true });
 const clamp = (v, a = 0, b = 1) => Math.min(Math.max(v, a), b);
