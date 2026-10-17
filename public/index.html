@@ -348,7 +348,7 @@
 
 <nav>
   <a class="brand active" href="#hero"><img src="logo-hali-64.png" alt=""><span data-t="Yusuf Erkam">Yusuf Erkam</span></a>
-  <div class="links"><a href="#atelify" data-t="Atelify">Atelify</a><a href="#subtification" data-t="Subtification">Subtification</a><a href="#ranvu" data-t="Ranvu">Ranvu</a><a href="#iletisim" data-t="İletişim">İletişim</a></div>
+  <div class="links"><a href="#atelify" data-t="Atelify">Atelify</a><a href="#subtification" data-t="Subtification">Subtification</a><a href="#ranvu" data-t="Ranvu">Ranvu</a><a href="#github" data-t="GitHub">GitHub</a><a href="#iletisim" data-t="İletişim">İletişim</a></div>
   <a class="cta" href="mailto:erkam@aruntas.com">Merhaba de</a>
   <span class="rug-progress" id="rugProgress" aria-hidden="true"></span>
 </nav>
@@ -478,7 +478,7 @@
 </section>
 
 <!-- 6. Sayılar -->
-<section style="padding: 14vh 0 0" data-rug="lotto">
+<section id="github" style="padding: 14vh 0 0" data-rug="lotto">
   <div class="numbers">
     <div class="reveal"><b class="grad" data-count="3">0</b><span>proje</span></div>
     <div class="reveal"><b data-count="707" id="allTime">0</b><span>GitHub katkısı</span></div>
@@ -487,7 +487,7 @@
 </section>
 
 <!-- GitHub -->
-<section data-rug="lotto">
+<section id="katkilar" data-rug="lotto">
   <div class="gh reveal" id="gh">
     <div class="kilim"><div class="kilim-in"><div class="gh-grid" id="ghGrid"></div></div></div>
     <div class="gh-meta"><span><b style="color:var(--text)">Her gün bir ilmek.</b> <span id="ghText">Son 6 aydaki GitHub katkılarım</span></span><a href="https://github.com/erkamaruntas" target="_blank" rel="noopener">@erkamaruntas ›</a></div>
@@ -495,7 +495,7 @@
 </section>
 
 <!-- 7. Teknolojiler -->
-<section style="padding-top: 22vh" data-rug="lotto">
+<section id="teknolojiler" style="padding-top: 22vh" data-rug="lotto">
   <div class="marquee"><div class="track" id="t1"></div></div>
   <div class="marquee rev"><div class="track" id="t2"></div></div>
 </section>
@@ -616,7 +616,7 @@ const navObs = new IntersectionObserver(entries => entries.forEach(en => {
   navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.dataset.nav));
   navBrand.classList.toggle('active', en.target.dataset.nav === '');   // girişte kalınlık isimde, bölümlere inince menüdeki yazıya geçer
 }), { rootMargin: '-45% 0px -50% 0px' });
-[['atelify', 'atelify'], ['subtification', 'subtification'], ['subtification-phone', 'subtification'], ['ranvu', 'ranvu'], ['iletisim', 'iletisim'], ['hero', ''], ['manifesto', '']]
+[['atelify', 'atelify'], ['subtification', 'subtification'], ['subtification-phone', 'subtification'], ['ranvu', 'ranvu'], ['github', 'github'], ['katkilar', 'github'], ['teknolojiler', 'github'], ['iletisim', 'iletisim'], ['hero', ''], ['manifesto', '']]
   .forEach(([id, nav]) => { const el = document.getElementById(id); el.dataset.nav = nav; navObs.observe(el); });
 frame();
 
