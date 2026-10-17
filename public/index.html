@@ -78,7 +78,7 @@
   /* Desen yalnızca kutunun içine boyanır; sondaki noktanın kutudan taşan kısmı boyanmasın diye yanlara pay (negatif margin ile yer değişmez) */
   /* Desen kendi katmanında kayar (will-change), böylece her karede yalnızca desen yeniden çizilir */
   .rug-text { display: inline-block; padding: 0 .12em; margin: 0 -.12em; background: url(assets/rugs/text-usak.webp) 0 50% / auto 120%; -webkit-background-clip: text; background-clip: text; color: transparent;
-    text-shadow: none; will-change: transform; animation: rugDrift 18s ease-in-out infinite alternate; }
+    text-shadow: none; will-change: transform; animation: rugDrift 10.5s linear infinite alternate; }   /* sabit hız: uçlarda yavaşlayıp takılıyormuş gibi görünmesin */
   /* Kontur, yazının arkasında duran sabit bir kopyaya kalın text-stroke ile çizilir. Desenli yazı üstte olduğu için
      çizginin harflerin içine düşen yarısı ve üst üste binen harflerdeki (k-a, a-m) çizgiler görünmez; dışta 2px kalır.
      Filtre kullanılmaz: desen kayarken filtrelerin her karede yeniden hesaplanması telefonda kasma yapıyordu. */
