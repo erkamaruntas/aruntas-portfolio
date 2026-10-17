@@ -42,12 +42,16 @@
   nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 48px; display: flex; align-items: center; justify-content: space-between;
     padding: 0 max(16px, calc((100vw - 1000px) / 2)); background: rgba(0,0,0,.6); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
     border-bottom: 1px solid var(--line); font-size: 12.5px; }
-  nav .brand { font-weight: 700; font-size: 14px; letter-spacing: -.01em; display: flex; align-items: center; gap: 8px; }
+  nav .brand { font-weight: 400; font-size: 14px; letter-spacing: -.01em; display: flex; align-items: center; gap: 8px; color: rgba(245,245,247,.8); transition: color .3s, font-weight .3s; }
+  nav .brand.active { font-weight: 700; color: #fff; }
+  /* Kalınlık bölümden bölüme geçerken yazılar kaymasın: her yazının kalın hali kadar yer baştan ayrılır */
+  nav .brand span, nav .links a { display: inline-grid; }
+  nav .brand span::after, nav .links a::after { content: attr(data-t); font-weight: 700; height: 0; overflow: hidden; visibility: hidden; }
   nav .brand img { width: 20px; height: 20px; border-radius: 6px; }
   nav .links { display: flex; gap: 26px; color: rgba(245,245,247,.8); }
-  nav .links a { transition: color .2s; }
+  nav .links a { justify-items: center; transition: color .3s, font-weight .3s; }
   nav .links a:hover, nav .links a.active { color: #fff; }
-  nav .links a.active { font-weight: 600; }
+  nav .links a.active { font-weight: 700; }
   nav .cta { background: #f5f5f7; color: #000; padding: 5px 12px; border-radius: 999px; font-weight: 600; transition: transform .2s; }
   nav .cta:hover { transform: scale(1.05); }
   /* Kaydırma ilerledikçe üst menünün altındaki gerçek halı saçakları açılır. */
@@ -55,18 +59,7 @@
     clip-path: inset(0 calc(100% - var(--rug-progress, 0%)) 0 0);
     background: url(assets/rugs/nav-fringe.webp?v=3) repeat-x left top / auto 100%;
     filter: drop-shadow(0 2px 2px rgba(0,0,0,.35)); }
-  @media (max-width: 680px) { nav .links { display: none; } .rug-progress { height: 28px; } }
-  /* Sağdaki bölüm göstergesi */
-  .side-index { position: fixed; right: 18px; top: 50%; translate: 0 -50%; z-index: 90; display: flex; flex-direction: column; align-items: flex-end;
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,.7)); }
-  .side-index a { position: relative; display: flex; align-items: center; justify-content: flex-end; padding: 5px 8px; }
-  .side-index a::after { content: ""; width: 2px; height: 14px; border-radius: 1px; background: rgba(243,230,207,.5); transition: height .45s cubic-bezier(.2,.8,.2,1), background .3s; }
-  .side-index a.active::after { height: 38px; background: #f3e6cf; }
-  .side-index a:hover::after { background: #f3e6cf; }
-  .side-index span { position: absolute; right: 24px; white-space: nowrap; font-size: 13px; font-weight: 600; color: #f3e6cf; opacity: 0; translate: 6px 0;
-    transition: opacity .25s, translate .25s; pointer-events: none; }
-  .side-index a:hover span, .side-index a:focus-visible span { opacity: 1; translate: 0 0; }
-  @media (max-width: 680px) { .side-index { right: 4px; } .side-index a { padding: 4px 6px; } .side-index a::after { height: 10px; } .side-index a.active::after { height: 28px; } }
+  @media (max-width: 680px) { nav .links { display: none; } .rug-progress { height: 28px; } nav .brand { font-weight: 700; color: #fff; } }
 
   /* ---------- Yapışkan sahneler ---------- */
   .scene { position: relative; }
@@ -354,20 +347,11 @@
 </div>
 
 <nav>
-  <a class="brand" href="#hero"><img src="logo-hali-64.png" alt="">Yusuf Erkam</a>
-  <div class="links"><a href="#atelify">Atelify</a><a href="#subtification">Subtification</a><a href="#ranvu">Ranvu</a><a href="#iletisim">İletişim</a></div>
+  <a class="brand active" href="#hero"><img src="logo-hali-64.png" alt=""><span data-t="Yusuf Erkam">Yusuf Erkam</span></a>
+  <div class="links"><a href="#atelify" data-t="Atelify">Atelify</a><a href="#subtification" data-t="Subtification">Subtification</a><a href="#ranvu" data-t="Ranvu">Ranvu</a><a href="#iletisim" data-t="İletişim">İletişim</a></div>
   <a class="cta" href="mailto:erkam@aruntas.com">Merhaba de</a>
   <span class="rug-progress" id="rugProgress" aria-hidden="true"></span>
 </nav>
-<!-- Sağdaki bölüm göstergesi (Rolex tarzı): her bölüm kısa bir çizgi, bulunulan bölüm uzun -->
-<div class="side-index" id="sideIndex" role="navigation" aria-label="Bölümler">
-  <a href="#hero" data-sec="hero"><span>Giriş</span></a>
-  <a href="#atelify" data-sec="atelify"><span>Atelify</span></a>
-  <a href="#subtification" data-sec="subtification"><span>Subtification</span></a>
-  <a href="#ranvu" data-sec="ranvu"><span>Ranvu</span></a>
-  <a href="#sayilar" data-sec="sayilar"><span>GitHub</span></a>
-  <a href="#iletisim" data-sec="iletisim"><span>İletişim</span></a>
-</div>
 
 <!-- 1. Açılış: isim büyüyüp kaybolur, yerine fotoğraf gelir -->
 <section class="scene" id="hero" data-rug="lacivert">
@@ -494,7 +478,7 @@
 </section>
 
 <!-- 6. Sayılar -->
-<section id="sayilar" style="padding: 14vh 0 0" data-rug="lotto">
+<section style="padding: 14vh 0 0" data-rug="lotto">
   <div class="numbers">
     <div class="reveal"><b class="grad" data-count="3">0</b><span>proje</span></div>
     <div class="reveal"><b data-count="707" id="allTime">0</b><span>GitHub katkısı</span></div>
@@ -584,17 +568,7 @@ function weaveRule(w, visible) {
   krDots.forEach(e => { const k = seg(.72, .95); e.style.transform = `scale(${k})`; e.style.opacity = k; });
 }
 
-// Sağdaki gösterge: üst kenarı ekranın ortasını geçmiş son bölüm etkin sayılır
-const sideLinks = [...document.querySelectorAll('#sideIndex a')], sideSecs = sideLinks.map(a => document.getElementById(a.dataset.sec));
-let sideActive = -1;
-function updateSideIndex() {
-  let i = 0;
-  sideSecs.forEach((el, k) => { if (el.getBoundingClientRect().top <= innerHeight * .5) i = k; });
-  if (i !== sideActive) { sideActive = i; sideLinks.forEach((a, k) => a.classList.toggle('active', k === i)); }
-}
-
 function frame() {
-  updateSideIndex();
   const scrollRange = document.documentElement.scrollHeight - innerHeight;
   rugProgress.style.setProperty('--rug-progress', `${scrollRange > 0 ? clamp(scrollY / scrollRange) * 100 : 0}%`);
   // 1. Açılış: başlık büyüyüp kaybolur, yerine kısa tanıtım gelir
@@ -636,8 +610,11 @@ addEventListener('load', frame);
 
 // Menüde bulunulan bölümü vurgula
 const navLinks = [...document.querySelectorAll('nav .links a')];
+const navBrand = document.querySelector('nav .brand');
 const navObs = new IntersectionObserver(entries => entries.forEach(en => {
-  if (en.isIntersecting) navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.dataset.nav));
+  if (!en.isIntersecting) return;
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.dataset.nav));
+  navBrand.classList.toggle('active', en.target.dataset.nav === '');   // girişte kalınlık isimde, bölümlere inince menüdeki yazıya geçer
 }), { rootMargin: '-45% 0px -50% 0px' });
 [['atelify', 'atelify'], ['subtification', 'subtification'], ['subtification-phone', 'subtification'], ['ranvu', 'ranvu'], ['iletisim', 'iletisim'], ['hero', ''], ['manifesto', '']]
   .forEach(([id, nav]) => { const el = document.getElementById(id); el.dataset.nav = nav; navObs.observe(el); });
